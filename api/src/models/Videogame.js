@@ -10,8 +10,13 @@ module.exports = (sequelize) => {
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
       },
       name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      image:{
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -19,16 +24,21 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      reliceDate: {
+      released: {
         type: DataTypes.DATEONLY,
       },
       rating: {
-        type: DataTypes.STRING,
+        type: DataTypes.DOUBLE,
       },
-      platform: {
+      platforms: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      createdInDB:{
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        default: true,
+      }
     },
     { timestamps: false }
   );
