@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
         type: DataTypes.DATEONLY,
       },
       rating: {
-        type: DataTypes.ENUM,
+        type: DataTypes.STRING,
       },
       platform: {
         type: DataTypes.STRING,
