@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      image:{
+      image: {
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -36,11 +36,11 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      createdInDB:{
+      createdInDB: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         default: true,
-      }
+      },
     },
     { timestamps: false }
   );
