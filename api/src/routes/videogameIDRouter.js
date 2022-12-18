@@ -1,7 +1,5 @@
 const { Router } = require("express");
-const {
-  get_videogameID,
-} = require("../controllers/videogameControllers");
+const { get_videogameID } = require("../controllers/videogamesControllers");
 
 const videogameRouter = Router();
 

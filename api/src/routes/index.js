@@ -9,7 +9,8 @@ const router = Router();
 // Configurar los routers
 
 router.use("/videogames", videogamesRouter);
-router.use("/genres", genresRouter);
 router.use("/videogame", videogameIDRouter);
+router.use("/genres", genresRouter);
+
 
 module.exports = router;

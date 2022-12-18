@@ -2,7 +2,7 @@ const { Router } = require("express");
 const {
   create_videogame,
   get_videogames,
-} = require("../controllers/videogameControllers");
+} = require("../controllers/videogamesControllers");
 const { validatorMiddleware } = require("../middlewares");
 
 const videogamesRouter = Router();
