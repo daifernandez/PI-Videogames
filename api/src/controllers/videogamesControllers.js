@@ -1,4 +1,4 @@
-const { Videogame } = require("../db");
+const get_videogame_db = require("../helpers/indexHelpers.js");
 
 //POST
 const create_videogame = async (req, res) => {
@@ -12,7 +12,7 @@ const get_videogames = async (req, res) => {
   if (name) {
     return res.send(`Buscar por nombre: ${name}`);
   } else {
-    res.send("Buscar todos los videogames");
+    res.status(200).json(await get_videogame_db());
   }
 };
 
