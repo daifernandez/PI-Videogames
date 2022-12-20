@@ -10,7 +10,7 @@ const videogamesRouter = Router();
 //GET -> me responda con todos los videogames o busque
 videogamesRouter.get("/", get_videogames);
 
-//POST /videogames -> me cree un videogame nuevo
+//POST 
 // videogamesRouter.post("/", validatorMiddleware, create_videogame);
 videogamesRouter.post("/", create_videogame);
 
