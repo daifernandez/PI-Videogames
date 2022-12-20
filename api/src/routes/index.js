@@ -12,5 +12,4 @@ router.use("/videogames", videogamesRouter);
 router.use("/videogame", videogameIDRouter);
 router.use("/genres", genresRouter);
 
-
 module.exports = router;

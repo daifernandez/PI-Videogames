@@ -3,7 +3,7 @@ const {
   create_videogame,
   get_videogames,
 } = require("../controllers/videogamesControllers");
-const { validatorMiddleware } = require("../middlewares");
+// const { validatorMiddleware } = require("../middlewares");
 
 const videogamesRouter = Router();
 
@@ -11,6 +11,7 @@ const videogamesRouter = Router();
 videogamesRouter.get("/", get_videogames);
 
 //POST /videogames -> me cree un videogame nuevo
-videogamesRouter.post("/", validatorMiddleware, create_videogame);
+// videogamesRouter.post("/", validatorMiddleware, create_videogame);
+videogamesRouter.post("/", create_videogame);
 
-module.exports = recipesRouter;
+module.exports = videogamesRouter;
