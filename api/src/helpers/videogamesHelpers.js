@@ -28,26 +28,26 @@ const get_videogame_api = async () => {
   const urlApi = await axios.get(
     `https://api.rawg.io/api/games?key=${process.env.API_KEY}`
   );
-  const videogamesApi = await urlApi.data.results.map(apiDataToVideogame);
+
+  const videogamesApi = await urlApi.data.results.map((apiObject) => {
+    return {
+      id: apiObject.id,
+      name: apiObject.name,
+      image: apiObject.background_image,
+      rating: apiObject.rating,
+      // platforms:,
+      // genres:,
+    };
+  });
+
   return videogamesApi;
 };
 
-const apiDataToVideogame = (apiObject) => {
-  return {
-    id: apiObject.id,
-    name: apiObject.name,
-    image: apiObject.background_image,
-    rating: apiObject.rating,
-    // platforms:,
-    // genres:,
-  };
-};
-
 const get_allVideogames = async () => {
-  const infoApi = await get_videogame_api();
-  const infoDB = await get_videogame_db();
-  const infoTotal = infoApi.concat(infoDB);
-  return infoTotal;
+  const apiInfo = await get_videogame_api();
+  const dbInfo = await get_videogame_db();
+  const totalInfo = apiInfo.concat(dbInfo);
+  return totalInfo;
 };
 
 module.exports = { get_videogame_db, get_videogame_api, get_allVideogames };

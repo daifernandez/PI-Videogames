@@ -1,4 +1,4 @@
-const { get_videogame_api } = require("../helpers/indexHelpers.js");
+const { get_videogame_api } = require("../helpers/videogamesHelpers.js");
 
 
 //GET -> me responda con todos los videogames o busque
