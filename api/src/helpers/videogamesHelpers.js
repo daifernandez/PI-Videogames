@@ -46,8 +46,8 @@ const get_videogame_api = async () => {
 const get_allVideogames = async () => {
   const apiVideogames = await get_videogame_api();
   const dbVideogames = await get_videogame_db();
-  const allVidegames = [...apiVideogames, ...dbVideogames];
-  return allVidegames;
+  const allVideogames = [...apiVideogames, ...dbVideogames];
+  return allVideogames;
 };
 
 
