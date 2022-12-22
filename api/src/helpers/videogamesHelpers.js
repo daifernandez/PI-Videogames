@@ -44,10 +44,11 @@ const get_videogame_api = async () => {
 };
 
 const get_allVideogames = async () => {
-  const apiInfo = await get_videogame_api();
-  const dbInfo = await get_videogame_db();
-  const totalInfo = apiInfo.concat(dbInfo);
-  return totalInfo;
+  const apiVideogames = await get_videogame_api();
+  const dbVideogames = await get_videogame_db();
+  const allVidegames = [...apiVideogames, ...dbVideogames];
+  return allVidegames;
 };
+
 
 module.exports = { get_videogame_db, get_videogame_api, get_allVideogames };

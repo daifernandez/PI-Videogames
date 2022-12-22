@@ -1,9 +1,15 @@
 const { Router } = require("express");
-const { get_videogame } = require("../controllers/videogamesControllers");
+const {
+  delete_videogame,
+  put_videogame,
+  get_videogameDetail,
+} = require("../controllers/videogamesControllers");
 
 const videogameRouter = Router();
 
-//GET 
-videogameRouter.get("/:id", get_videogame);
+//GET
+videogameRouter.get("/:id", get_videogameDetail);
+videogameRouter.delete("/:id", delete_videogame);
+videogameRouter.put("/:id", put_videogame);
 
 module.exports = videogameRouter;
