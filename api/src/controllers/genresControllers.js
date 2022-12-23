@@ -1,5 +1,5 @@
 const { Genre } = require("../db");
-const { get_all_genres_helper } = require("../helpers/videogamesHelpers");
+const { get_all_genres_helper } = require("../helpers/genresHelpers");
 
 const get_genres = async (req, res) => {
   try {
