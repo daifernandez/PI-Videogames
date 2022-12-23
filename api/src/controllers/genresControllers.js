@@ -1,16 +1,13 @@
 const { Genre } = require("../db");
-const {get_genres}=  require("../helpers/genresHelpers.js")
+const { get_all_genres_helper } = require("../helpers/videogamesHelpers");
 
 const get_genres = async (req, res) => {
-  const genres = await Genre.findAll();
-  if (genres.length > 0) {
-    res.send(200).send(genres);
-  } else {
-   
+  try {
+    const genres = await get_all_genres_helper();
+    return res.status(200).json(genres);
+  } catch (error) {
+    return res.status(400).send(error.messenge);
   }
-
 };
 
 module.exports = { get_genres };
-
-

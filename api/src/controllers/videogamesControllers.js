@@ -24,7 +24,6 @@ const get_videogames = async (req, res) => {
 const get_videogameDetail = async (req, res) => {
   const { id } = req.params;
   const totalVideogames = await get_allVideogames();
-
   if (id) {
     let videogameID = totalVideogames.filter((el) => el.id == id);
     videogameID.length
