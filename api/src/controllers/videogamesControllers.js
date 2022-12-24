@@ -1,55 +1,63 @@
-const { get_allVideogames } = require("../helpers/videogamesHelpers.js");
+const {
+  get_allVideogames,
+  get_videogame_byName,
+  get_videogame_detail,
+} = require("../helpers/videogamesHelpers.js");
 const { Videogame, Genre } = require("../db");
 
 //GET -> me responda con todos los videogames o busque
 const get_videogames = async (req, res) => {
   const { name } = req.query;
-  let videogamesTotal = await get_allVideogames();
-
   if (name) {
-    let videogameName = videogamesTotal.filter((el) =>
-      el.name.toLowerCase().includes(name.toLowerCase())
-    );
-    videogameName.length
-      ? res.status(200).send(videogameName)
-      : res.status(404).send("Videogame not found");
+    try {
+      const videogamesByName = await get_videogame_byName(name);
+      res.status(200).json(videogamesByName);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
   } else {
+    let videogamesTotal = await get_allVideogames();
     res.status(200).json(videogamesTotal);
   }
-
-  // hara falta un try/catch????
 };
 
 //GET ID -> /videogame/{idvideogame} -> me traiga el detalle de un videogame por id
 const get_videogameDetail = async (req, res) => {
   const { id } = req.params;
-  const totalVideogames = await get_allVideogames();
-  if (id) {
-    let videogameID = totalVideogames.filter((el) => el.id == id);
-    videogameID.length
-      ? res.status(200).json(videogameID)
-      : res.status(404).send("Videogame not found");
+
+  try {
+    const videogame = await get_videogame_detail(id);
+    res.status(200).send(videogame);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
 //POST
 const create_videogame = async (req, res) => {
-  const { name, image, description, realeased, rating, platforms } = req.body;
+  const { name, image, description, released, rating, platforms, genres } =
+    req.body;
   if (name && description) {
+    const platformsArray = platforms.split(",");
     const videogameCreated = await Videogame.create({
-      name,
-      image,
-      description,
-      realeased,
-      rating,
-      platforms,
-      createdInDB,
+      name: name,
+      image: image,
+      description: description,
+      released: released,
+      rating: rating,
+      platforms: platformsArray,
+      createdInDB: true,
     });
 
-    let genreDb = await Genre.findAll({
-      where: { name: Genre },
+    const genresArray = genres.split(",");
+    let genresDb = await Genre.findAll({
+      where: { name: genresArray },
     });
-    videogameCreated.addGenre(genreDb);
+
+    for (const genre of genresDb) {
+      videogameCreated.addGenre(genre);
+    }
+
     res.status(200).send(videogameCreated);
   } else {
     return res.status(400).json({ error: "missing info" });
