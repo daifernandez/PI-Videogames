@@ -8,6 +8,7 @@ export default function CreateVideogame() {
         <button> Return</button>
       </NavLink>
       <h1>Formulario de creacion de videojuego</h1>
+      
     </div>
   );
 }
