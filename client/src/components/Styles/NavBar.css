@@ -1,6 +1,6 @@
 .contenedor {
-  background-image: url("../../img/Icon.jpeg");
-  height: 56px;
+  background-color: #1e1a15;
+  height: 80px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -10,7 +10,6 @@
 }
 
 .img {
-  padding-top: 20px;
-  width:150px;
-  height:150px;
+  width: 75px;
+  height: 75px;
 }
