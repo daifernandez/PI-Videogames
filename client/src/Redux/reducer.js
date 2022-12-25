@@ -1,4 +1,4 @@
-import { GET_GENRES, GET_VIDEOGAMES } from "./actions";
+import { GET_GENRES, GET_VIDEOGAMES, SELECT_GENRE } from "./actions";
 
 const initialState = {
   videogames: [],
@@ -19,7 +19,14 @@ function rootReducer(state = initialState, action) {
         ...state,
         genres: action.payload,
       };
-
+    case SELECT_GENRE:
+      const filterGenre = [...state.videogames].filter((videogame) =>
+        videogame.genres.includes(action.payload)
+      );
+      return {
+        ...state,
+        videogamesOnScreen: filterGenre,
+      };
     default:
       return { ...state };
   }
