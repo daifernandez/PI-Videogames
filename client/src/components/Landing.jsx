@@ -11,7 +11,7 @@ export default function Landing() {
         <h4>PI - Henry Videogames</h4>
       </div>
 
-     <img id="logo" src={Logo} className="img" alt=""/>
+      <img id="logo" src={Logo} className="logo" alt="" />
 
       <Link to="/home">
         <button>Home</button>

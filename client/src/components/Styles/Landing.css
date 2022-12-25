@@ -13,3 +13,8 @@
 .text {
   color: white;
 }
+
+.logo {
+  width: 500px;
+  height: 500px;
+}
