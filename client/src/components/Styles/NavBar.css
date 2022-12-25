@@ -1,4 +1,5 @@
 .contenedor {
+  background-image: url("../../img/Icon.jpeg");
   height: 56px;
   width: 100%;
   display: flex;
@@ -6,4 +7,10 @@
   align-items: center;
   padding: 0 30px;
   box-sizing: border-box;
+}
+
+.img {
+  padding-top: 20px;
+  width:150px;
+  height:150px;
 }
