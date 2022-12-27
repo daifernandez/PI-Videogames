@@ -1,7 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getGenres, selectGenre } from "../Redux/actions";
+import {
+  getGenres,
+  selectGenre,
+  alphOrder,
+  ratingOrder,
+  clear,
+  getCreated,
+} from "../Redux/actions";
 
 export default function Filter() {
   const dispatch = useDispatch();
@@ -15,7 +22,25 @@ export default function Filter() {
     e.preventDefault();
     dispatch(selectGenre(e.target.value));
   }
+  function handleSelectFrom(e) {
+    e.preventDefault();
+    dispatch(getCreated(e.target.value));
+  }
 
+  function handleSelectOrderAlph(e) {
+    e.preventDefault();
+    dispatch(alphOrder(e.target.value));
+  }
+
+  function handleSelectRating(e) {
+    e.preventDefault();
+    dispatch(ratingOrder(e.target.value));
+  }
+
+  function handleClearFilters(e) {
+    e.preventDefault();
+    dispatch(clear());
+  }
   return (
     <>
       <h3>Filtros y Ordenamiento</h3>
@@ -36,7 +61,11 @@ export default function Filter() {
       </>
       <>
         <label>From:</label>
-        <select name="dropdown" id="comesFrom">
+        <select
+          name="dropdown"
+          id="comesFrom"
+          onChange={(e) => handleSelectFrom(e)}
+        >
           <option value="all"> All Videogames</option>
           <option value="createdInDB"> Videogames Created </option>
           <option value="ApiCreated"> Existing Videogames</option>
@@ -45,7 +74,11 @@ export default function Filter() {
 
       <>
         <label>Alphabetical:</label>
-        <select className="dropdown" id="alphabOrder">
+        <select
+          className="dropdown"
+          id="alphabOrder"
+          onChange={(e) => handleSelectOrderAlph(e)}
+        >
           <option value="-">-</option>
           <option value="ASC">A-Z</option>
           <option value="DESC">Z-A</option>
@@ -53,13 +86,24 @@ export default function Filter() {
       </>
       <>
         <label>Rating:</label>
-        <select className="dropdown" id="healthScoreOrder">
+        <select
+          className="dropdown"
+          id="healthScoreOrder"
+          onChange={(e) => handleSelectRating(e)}
+        >
           <option value="Higher">Higher</option>
           <option value="Lower">Lower</option>
         </select>
       </>
       <div>
-        <button className="button-reload">Clear Filters</button>
+        <button
+          className="button-reload"
+          onClick={(e) => {
+            handleClearFilters(e);
+          }}
+        >
+          Clear Filters
+        </button>
       </div>
     </>
   );
