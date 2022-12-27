@@ -38,8 +38,8 @@ export default function Filter() {
         <label>From:</label>
         <select name="dropdown" id="comesFrom">
           <option value="all"> All Videogames</option>
-          <option value="createdInDB"> Created by me</option>
-          <option value="ApiCreated"> from Api</option>
+          <option value="createdInDB"> Videogames Created </option>
+          <option value="ApiCreated"> Existing Videogames</option>
         </select>
       </>
 
