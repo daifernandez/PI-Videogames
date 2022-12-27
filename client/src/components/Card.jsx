@@ -12,11 +12,12 @@ export default function Card({ videogame }) {
           alt="img not found"
         />
       </div>
-      <div className="title">
-        <Link to={`videogame/${videogame.id}`}>{videogame.name}</Link>
-        <div>
-          <p>{videogame.genres.join(", ")}</p>
+      <div>
+        <div className="title">
+          <Link to={`videogame/${videogame.id}`}>{videogame.name}</Link>
         </div>
+        <h6>{videogame.rating}</h6>
+        <p>{videogame.genres.join(", ")}</p>
       </div>
     </div>
   );

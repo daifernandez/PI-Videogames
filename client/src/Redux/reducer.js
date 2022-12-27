@@ -80,7 +80,6 @@ function rootReducer(state = initialState, action) {
       if (action.payload === "-") {
         hsSorted = [...state.videogames];
       }
-
       return {
         ...state,
         videogamesOnScreen: hsSorted,
