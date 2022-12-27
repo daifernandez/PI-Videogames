@@ -91,6 +91,7 @@ export default function Filter() {
           id="healthScoreOrder"
           onChange={(e) => handleSelectRating(e)}
         >
+          <option value="-">-</option>
           <option value="Higher">Higher</option>
           <option value="Lower">Lower</option>
         </select>

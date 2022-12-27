@@ -34,9 +34,12 @@ function rootReducer(state = initialState, action) {
         videogamesOnScreen: action.payload,
       };
     case SELECT_GENRE:
-      const filterGenre = [...state.videogames].filter((videogame) =>
+      var filterGenre = [...state.videogames].filter((videogame) =>
         videogame.genres.includes(action.payload)
       );
+      if (action.payload === "-") {
+        filterGenre = [...state.videogames];
+      }
       return {
         ...state,
         videogamesOnScreen: filterGenre,
@@ -74,9 +77,13 @@ function rootReducer(state = initialState, action) {
       if (action.payload === "Higher") {
         hsSorted = hsSorted.reverse();
       }
+      if (action.payload === "-") {
+        hsSorted = [...state.videogames];
+      }
+
       return {
         ...state,
-        recipesOnScreen: hsSorted,
+        videogamesOnScreen: hsSorted,
       };
     case CLEAR:
       return {
