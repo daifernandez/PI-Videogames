@@ -74,26 +74,26 @@ export default function CreateVideogame() {
   };
 
   const handleSelectPlatform = (e) => {
-    setForm({
-      ...form,
-      platforms: [...form.platforms, e.target.value],
-    });
-  };
-
-  const handleDeletePlatform = (e) => {
-    const deletePlatform = form.platforms.filter(
-      (platform) => platform !== e.target.value
-    );
-    setForm({
-      ...form,
-      platforms: deletePlatform,
-    });
+    if (e.target.checked) {
+      setForm({
+        ...form,
+        platforms: [...form.platforms, e.target.value],
+      });
+    } else {
+      const deletePlatform = form.platforms.filter(
+        (platform) => platform !== e.target.value
+      );
+      setForm({
+        ...form,
+        platforms: deletePlatform,
+      });
+    }
   };
 
   return (
     <div>
       <NavLink exact to="/home">
-        <button>Return</button>
+        <button>Return to Home</button>
       </NavLink>
       <h1>Formulario de creacion de videojuego</h1>
       <form onSubmit={handleSubmit}>
@@ -138,34 +138,37 @@ export default function CreateVideogame() {
           />
         </div>
         <div>
-          <label>Genres:</label>
-          <select
-            key="genreName"
-            name="genreName"
-            id=""
-            onChange={handleSelect}
-          >
-            {genres.map((genre) => (
-              <option>{genre.name}</option>
-            ))}
-          </select>
-          <div>
-            <>
-              {form.genres.map((genre) => (
-                <ul key={genre.name} value={genre.name}>
-                  {genre}
-                  <button
-                    type="button"
-                    value={genre}
-                    onClick={(e) => handleDeleteGenre(e)}
-                  >
-                    x
-                  </button>
-                </ul>
+          <fieldset>
+            <legend>Choose Genres:</legend>
+            <select
+              key="genreName"
+              name="genreName"
+              id=""
+              onChange={handleSelect}
+            >
+              {genres.map((genre) => (
+                <option>{genre.name}</option>
               ))}
-            </>
-          </div>
+            </select>
+            <div>
+              <>
+                {form.genres.map((genre) => (
+                  <ul key={genre.name} value={genre.name}>
+                    {genre}
+                    <button
+                      type="button"
+                      value={genre}
+                      onClick={(e) => handleDeleteGenre(e)}
+                    >
+                      x
+                    </button>
+                  </ul>
+                ))}
+              </>
+            </div>
+          </fieldset>
         </div>
+
         <br />
 
         <fieldset>
@@ -180,7 +183,6 @@ export default function CreateVideogame() {
                 onChange={handleSelectPlatform}
               />
               {platform}
-
               <br />
             </label>
           ))}
