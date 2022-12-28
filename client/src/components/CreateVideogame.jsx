@@ -4,6 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { postVideogame, getGenres } from "../Redux/actions";
 
+const platforms = [
+  "Game Boy Advance",
+  "Nintendo Switch",
+  "Nintendo 64",
+  "PS4",
+  "PS5",
+  "PC",
+  "Wii",
+];
+
 export default function CreateVideogame() {
   const dispatch = useDispatch();
   const redirection = useHistory();
@@ -63,6 +73,23 @@ export default function CreateVideogame() {
     });
   };
 
+  const handleSelectPlatform = (e) => {
+    setForm({
+      ...form,
+      platforms: [...form.platforms, e.target.value],
+    });
+  };
+
+  const handleDeletePlatform = (e) => {
+    const deletePlatform = form.platforms.filter(
+      (platform) => platform !== e.target.value
+    );
+    setForm({
+      ...form,
+      platforms: deletePlatform,
+    });
+  };
+
   return (
     <div>
       <NavLink exact to="/home">
@@ -118,9 +145,8 @@ export default function CreateVideogame() {
             id=""
             onChange={handleSelect}
           >
-            <option value="-" />
             {genres.map((genre) => (
-              <option value={genre.name}>{genre.name}</option>
+              <option>{genre.name}</option>
             ))}
           </select>
           <div>
@@ -140,11 +166,27 @@ export default function CreateVideogame() {
             </>
           </div>
         </div>
+        <br />
 
-        <div>
-          <label>Platforms:</label>
-          <input type="checkbox" />
-        </div>
+        <fieldset>
+          <legend>Choose Platforms:</legend>
+          <br />
+          {platforms.map((platform) => (
+            <label>
+              <input
+                type="checkbox"
+                name={platform}
+                value={platform}
+                onChange={handleSelectPlatform}
+              />
+              {platform}
+
+              <br />
+            </label>
+          ))}
+        </fieldset>
+
+        <br />
         <div>
           <label>Image:</label>
           <input
