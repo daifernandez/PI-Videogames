@@ -114,9 +114,8 @@ export default function CreateVideogame() {
           <label>Genres:</label>
           <select
             key="genreName"
-            name="genretName"
+            name="genreName"
             id=""
-            value={form.genres}
             onChange={handleSelect}
           >
             <option value="-" />
@@ -127,7 +126,7 @@ export default function CreateVideogame() {
           <div>
             <>
               {form.genres.map((genre) => (
-                <ul key={genre} value={genre}>
+                <ul key={genre.name} value={genre.name}>
                   {genre}
                   <button
                     type="button"
