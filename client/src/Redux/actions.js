@@ -3,6 +3,7 @@ import axios from "axios";
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
 export const GET_GENRES = "GET_GENRES";
 export const GET_VIDEOGAME_BY_NAME = "GET_VIDEOGAME_BY_NAME";
+export const POST_VIDEOGAME = "POST_VIDEOGAME";
 export const SELECT_GENRE = "SELECT_GENRE";
 export const GET_CREATED = "GET_CREATED";
 export const ALPH_ORDER = "ALPH_ORDER";
@@ -38,6 +39,17 @@ export function getVideogameByName(name) {
       );
   };
 }
+
+export function postVideogame(videogame) {
+  return async function (dispatch) {
+    await axios
+      .post("http://localhost:3001/videogames", videogame)
+      .then((response) =>
+        dispatch({ type: POST_VIDEOGAME, payload: response.data })
+      );
+  };
+}
+
 export function selectGenre(genre) {
   return function (dispatch) {
     dispatch({ type: SELECT_GENRE, payload: genre });

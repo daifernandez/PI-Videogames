@@ -7,6 +7,7 @@ import {
   GET_CREATED,
   GET_VIDEOGAME_BY_NAME,
   CLEAR,
+  POST_VIDEOGAME,
 } from "./actions";
 
 const initialState = {
@@ -43,6 +44,10 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogamesOnScreen: filterGenre,
+      };
+    case POST_VIDEOGAME:
+      return {
+        ...state,
       };
     case GET_CREATED:
       const createdFilter =
