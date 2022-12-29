@@ -11,6 +11,7 @@ const get_videogame_db = async () => {
   });
 
   return videogames.map((videogame) => {
+    console.log(videogame.genres);
     return {
       id: videogame.id,
       name: videogame.name,
@@ -20,6 +21,7 @@ const get_videogame_db = async () => {
       rating: videogame.rating,
       platforms: videogame.platforms,
       genres: videogame.genres.map((genres) => genres.name),
+      createdInDB: videogame.createdInDB,
     };
   });
 };

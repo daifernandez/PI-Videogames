@@ -38,20 +38,18 @@ const create_videogame = async (req, res) => {
   const { name, image, description, released, rating, platforms, genres } =
     req.body;
   if (name && description) {
-    const platformsArray = platforms.split(",");
     const videogameCreated = await Videogame.create({
       name: name,
       image: image,
       description: description,
       released: released,
       rating: rating,
-      platforms: platformsArray,
+      platforms: platforms,
       createdInDB: true,
     });
 
-    const genresArray = genres.split(",");
     let genresDb = await Genre.findAll({
-      where: { name: genresArray },
+      where: { name: genres },
     });
 
     for (const genre of genresDb) {

@@ -130,7 +130,10 @@ export default function CreateVideogame() {
         <div>
           <label>Rating:</label>
           <input
-            type="range"
+            type="number"
+            step="0.1"
+            min="0"
+            max="5"
             key="rating"
             name="rating"
             value={form.rating}

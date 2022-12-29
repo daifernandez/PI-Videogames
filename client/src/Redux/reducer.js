@@ -50,6 +50,7 @@ function rootReducer(state = initialState, action) {
         ...state,
       };
     case GET_CREATED:
+      console.log(action.payload);
       const createdFilter =
         action.payload === "createdInDB"
           ? state.videogames.filter((e) => e.createdInDB)
