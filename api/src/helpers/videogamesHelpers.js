@@ -40,6 +40,7 @@ const api_videogameParse = (apiObject) => {
     name: apiObject.name,
     image: apiObject.background_image,
     rating: apiObject.rating,
+    released: apiObject.released,
     platforms: platformNames,
     genres: genresApi,
     description: apiObject.description,
