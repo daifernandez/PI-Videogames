@@ -26,10 +26,11 @@ export default function Detail() {
         />
 
         <h1>{detail.name}</h1>
-        <h5>{detail.released}</h5>
         <h4>{detail.rating}</h4>
-        {/* <p>{detail.description}</p> */}
+        <h6>Released: {detail.released}</h6>
+        
         <div dangerouslySetInnerHTML={{ __html: detail.description }} />
+        <h5>{detail.genres.join(" - ")}</h5>
         <h4>{detail.platforms.join(", ")}</h4>
       </div>
     );

@@ -3,6 +3,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { postVideogame, getGenres } from "../Redux/actions";
+// import { convertErrorToString } from "@11ty/eleventy/src/EleventyErrorUtil";
 
 const platforms = [
   "Game Boy Advance",
@@ -13,6 +14,31 @@ const platforms = [
   "PC",
   "Wii",
 ];
+
+//VALIDACION
+export function validate(input) {
+  let errors = {};
+
+  //Name
+  if (!input.name) {
+    errors.name = "Name is required";
+  }
+  //Description
+  if (!input.description) {
+    errors.description = "Description is required";
+  } else if (!/(?=.*[0-9])/.test(input.description)) {
+    errors.description = "Description is invalid";
+  }
+  //rating
+  if (input.rating > 5) {
+    errors.rating = "The rating cannot be higher than 5";
+  }
+  if (!input.platforms) {
+    errors.description = "Platforms is required";
+  }
+
+  return errors;
+}
 
 export default function CreateVideogame() {
   const dispatch = useDispatch();
@@ -32,6 +58,9 @@ export default function CreateVideogame() {
     genres: [],
     platforms: [],
   });
+
+  //estado de los errores
+  const [error, setError] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,6 +85,12 @@ export default function CreateVideogame() {
       ...form,
       [property]: value,
     });
+    setError(
+      validate({
+        ...form,
+        [property]: value,
+      })
+    );
   };
 
   const handleSelect = (e) => {
@@ -106,6 +141,7 @@ export default function CreateVideogame() {
             value={form.name}
             onChange={handleChange}
           />
+          {error.name && <p>{error.name}</p>}
         </div>
         <div>
           <label>Description:</label>
@@ -116,6 +152,7 @@ export default function CreateVideogame() {
             value={form.description}
             onChange={handleChange}
           />
+          {error.description && <p>{error.description}</p>}
         </div>
         <div>
           <label>Released:</label>
@@ -139,6 +176,7 @@ export default function CreateVideogame() {
             value={form.rating}
             onChange={handleChange}
           />
+          {error.rating && <p>{error.rating}</p>}
         </div>
         <div>
           <fieldset>
@@ -187,6 +225,7 @@ export default function CreateVideogame() {
               />
               {platform}
               <br />
+              {error.platform && <p>{error.platform}</p>}
             </label>
           ))}
         </fieldset>
@@ -202,7 +241,12 @@ export default function CreateVideogame() {
             onChange={handleChange}
           />
         </div>
-        <button key="submit" type="submit" value="submit">
+        <button
+          key="submit"
+          type="submit"
+          value="submit"
+          disabled={!form.name && !form.description && !form.platforms}
+        >
           Create Videogame
         </button>
       </form>
