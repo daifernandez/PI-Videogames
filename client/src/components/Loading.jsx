@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function Loading() {
-  return <h1>LOADING</h1>;
+  return <h1>Loading Videogames</h1>;
 }
