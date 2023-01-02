@@ -10,6 +10,7 @@ export const GET_CREATED = "GET_CREATED";
 export const ALPH_ORDER = "ALPH_ORDER";
 export const RATING_ORDER = "RATING_ORDER";
 export const CLEAR = "CLEAR";
+export const GO_TO_PAGE = "GO_TO_PAGE";
 
 export function getvideogames() {
   return async function (dispatch) {
@@ -87,5 +88,11 @@ export function ratingOrder(order) {
 export function clear() {
   return function (dispatch) {
     dispatch({ type: CLEAR });
+  };
+}
+
+export function goToPage(page) {
+  return function (dispatch) {
+    dispatch({ type: GO_TO_PAGE, payload: page });
   };
 }

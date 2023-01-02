@@ -48,11 +48,18 @@ const api_videogameParse = (apiObject) => {
 };
 
 const get_videogame_api = async () => {
-  const urlApi = await axios.get(
-    `https://api.rawg.io/api/games?key=${process.env.API_KEY}&page_size=100`
-  );
+  const pagesToFetch = [1, 2, 3];
+  var allVideogames = [];
+  for (pageNumber of pagesToFetch) {
+    console.log(pageNumber);
+    const urlApi = await axios.get(
+      `https://api.rawg.io/api/games?key=${process.env.API_KEY}&page_size=40&page=${pageNumber}`
+    );
 
-  const videogamesApi = urlApi.data.results.map((apiObject) => {
+    allVideogames = allVideogames.concat(urlApi.data.results);
+  }
+
+  const videogamesApi = allVideogames.map((apiObject) => {
     return api_videogameParse(apiObject);
   });
 
@@ -85,14 +92,37 @@ const get_videogame_byName = async (name) => {
 };
 
 const get_videogame_detail = async (id) => {
-  const videogameDetail = await axios
-    .get(`https://api.rawg.io/api/games/${id}?key=${process.env.API_KEY}`)
-    .catch(function (error) {
-      throw new Error(error.message);
-    });
+  if (parseInt(id)) {
+    const videogameDetail = await axios
+      .get(`https://api.rawg.io/api/games/${id}?key=${process.env.API_KEY}`)
+      .catch(function (error) {
+        throw new Error(error.message);
+      });
 
-  const result = api_videogameParse(videogameDetail.data);
-  return result;
+    const result = api_videogameParse(videogameDetail.data);
+    return result;
+  } else {
+    const videogameDBFind = await Videogame.findByPk(id, {
+      include: {
+        model: Genre,
+        attributes: ["name"],
+        through: { attributes: [] },
+      },
+    });
+    if (videogameDBFind) {
+      return {
+        id: videogameDBFind.id,
+        name: videogameDBFind.name,
+        image: videogameDBFind.image,
+        description: videogameDBFind.description,
+        released: videogameDBFind.released,
+        rating: videogameDBFind.rating,
+        platforms: videogameDBFind.platforms,
+        genres: videogameDBFind.genres.map((genres) => genres.name),
+        createdInDB: videogameDBFind.createdInDB,
+      };
+    }
+  }
 };
 
 const delete_videogameDB = async (id) => {

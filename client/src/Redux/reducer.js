@@ -9,7 +9,10 @@ import {
   GET_VIDEOGAME_BY_NAME,
   CLEAR,
   POST_VIDEOGAME,
+  GO_TO_PAGE,
 } from "./actions";
+
+const VIDEO_GAMES_PER_PAGE = 15;
 
 const initialState = {
   videogames: [],
@@ -24,7 +27,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogames: action.payload,
-        videogamesOnScreen: action.payload,
+        videogamesOnScreen: action.payload.slice(0, VIDEO_GAMES_PER_PAGE),
       };
     case GET_GENRES:
       return {
@@ -101,6 +104,23 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogamesOnScreen: [...state.videogames],
+      };
+    case GO_TO_PAGE:
+      // Pagina que quiero mostrar
+      const page = action.payload;
+      // Indice del primer video game de esta pagina
+      const indexFirstVideogame = page * VIDEO_GAMES_PER_PAGE;
+      // Indice del ultimo video game de esta pagina
+      const indexLastVideogame = indexFirstVideogame + VIDEO_GAMES_PER_PAGE;
+      // TODO: Considerar filtros y busquedas con videogames on screen.
+      // Generar un nuevo array solo con los elementos entre el primer y ultimo indice.
+      const videoGamesToShow = state.videogames.slice(
+        indexFirstVideogame,
+        indexLastVideogame
+      );
+      return {
+        ...state,
+        videogamesOnScreen: videoGamesToShow,
       };
     default:
       return { ...state };
