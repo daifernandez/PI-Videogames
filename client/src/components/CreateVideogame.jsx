@@ -26,8 +26,6 @@ export function validate(input) {
   //Description
   if (!input.description) {
     errors.description = "Description is required";
-  } else if (!/(?=.*[0-9])/.test(input.description)) {
-    errors.description = "Description is invalid";
   }
   //rating
   if (input.rating > 5) {
@@ -36,7 +34,6 @@ export function validate(input) {
   if (!input.platforms) {
     errors.description = "Platforms is required";
   }
-
   return errors;
 }
 
