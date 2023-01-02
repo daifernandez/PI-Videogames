@@ -245,7 +245,7 @@ export default function CreateVideogame() {
           key="submit"
           type="submit"
           value="submit"
-          disabled={!form.name && !form.description && !form.platforms}
+          disabled={!form.name || !form.description}
         >
           Create Videogame
         </button>
