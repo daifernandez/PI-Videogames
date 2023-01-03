@@ -99,7 +99,7 @@ export default function Filter() {
       </>
 
       <button
-        className="custom-button"
+        className="secondary-button"
         onClick={(e) => {
           handleClearFilters(e);
         }}
