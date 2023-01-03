@@ -1,0 +1,24 @@
+.contenedor-filters {
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(128, 128, 128, 0.068);
+  border-radius: 10px;
+  transition: 0.5s;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropdown {
+  font-size: 15px;
+  height: 20px;
+  width: auto;
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-left: 5px;
+  margin-right: 20px;
+  margin-bottom: 30px;
+
+}
+
+

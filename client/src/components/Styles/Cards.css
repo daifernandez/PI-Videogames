@@ -1,11 +1,10 @@
 .cont {
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin: 1rem;
-    padding: 7rem;
-    gap: 2rem;
-    align-items: center;
-  }
-  
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 1rem;
+  padding: 2rem;
+  gap: 3rem;
+  align-items: center;
+}

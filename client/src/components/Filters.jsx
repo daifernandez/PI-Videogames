@@ -9,6 +9,8 @@ import {
   clear,
   getCreated,
 } from "../Redux/actions";
+import "./Styles/Button.css";
+import "./Styles/Filters.css";
 
 export default function Filter() {
   const dispatch = useDispatch();
@@ -42,8 +44,7 @@ export default function Filter() {
     dispatch(clear());
   }
   return (
-    <>
-      <h3>Filtros y Ordenamiento</h3>
+    <div className="contenedor-filters">
       <>
         <label>Genre:</label>
         <select
@@ -62,6 +63,7 @@ export default function Filter() {
       <>
         <label>From:</label>
         <select
+          className="dropdown"
           name="dropdown"
           id="comesFrom"
           onChange={(e) => handleSelectFrom(e)}
@@ -71,7 +73,6 @@ export default function Filter() {
           <option value="ApiCreated"> Existing Videogames</option>
         </select>
       </>
-
       <>
         <label>Alphabetical:</label>
         <select
@@ -96,16 +97,15 @@ export default function Filter() {
           <option value="Lower">Lower</option>
         </select>
       </>
-      <div>
-        <button
-          className="button-reload"
-          onClick={(e) => {
-            handleClearFilters(e);
-          }}
-        >
-          Clear Filters
-        </button>
-      </div>
-    </>
+
+      <button
+        className="custom-button"
+        onClick={(e) => {
+          handleClearFilters(e);
+        }}
+      >
+        Clear Filters
+      </button>
+    </div>
   );
 }

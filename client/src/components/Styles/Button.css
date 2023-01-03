@@ -1,0 +1,16 @@
+.custom-button {
+    background-color: var(--primary-button-color);
+    border-radius: 8px;
+    padding: 12px 32px;
+    height: 44px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    border: 0;
+    font-weight: 600;
+  }
+  
+  .custom-button:hover {
+    background-color: var(--secondary-color);
+    color: white;
+  }

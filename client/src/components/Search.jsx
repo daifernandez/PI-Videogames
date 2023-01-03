@@ -1,8 +1,9 @@
 import React from "react";
 import "./Styles/Search.css";
+import "./Styles/Button.css";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { getVideogameByName, clear } from "../Redux/actions";
+import { getVideogameByName } from "../Redux/actions";
 
 export default function Search() {
   const dispatch = useDispatch();
@@ -18,25 +19,19 @@ export default function Search() {
     dispatch(getVideogameByName(search));
     setSearch("");
   }
-  function handleClearSearch(e) {
-    e.preventDefault();
-    dispatch(clear(e.target.value));
-  }
 
   return (
     <div>
       <input
         className="search-contenedor"
-        type="text"
+        type="search"
         placeholder="Videogame Name..."
         value={search}
         onChange={(e) => handleTextChange(e)}
       />
-      <button className="search-button" onClick={(e) => handleSubmit(e)}>
+
+      <button className="custom-button" onClick={(e) => handleSubmit(e)}>
         Search
-      </button>
-      <button className="search-button" onClick={(e) => handleClearSearch(e)}>
-        Clear Search
       </button>
     </div>
   );
