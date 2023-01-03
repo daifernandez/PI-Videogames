@@ -10,6 +10,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Route exact path="/" component={Landing} />
+        
         <Route exact path="/home" component={Home} />
         <Route exact path="/createVideogame" component={CreateVideogame} />
         <Route extact path="/videogame/:id" component={VideogameDetail} />

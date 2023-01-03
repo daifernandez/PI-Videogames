@@ -11,9 +11,6 @@ export default function NavBar() {
         <img id="logo" src={Logo} className="img" alt="" />
       </div>
 
-      <NavLink to="/createVideogame">
-        <button className="custom-button"> + Create Videogame</button>
-      </NavLink>
       <NavLink exact to="/home">
         <svg
           className="home-button"
