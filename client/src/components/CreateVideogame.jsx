@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { postVideogame, getGenres } from "../Redux/actions";
@@ -125,25 +125,8 @@ export default function CreateVideogame() {
 
   return (
     <div className="contenedor-create">
-      <div className="contendor-titulo">
-        <NavLink exact to="/home">
-          <svg
-            className="home-button"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="black"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-            />
-          </svg>
-        </NavLink>{" "}
-        <h1>You cant add your own Videogame!!</h1>
-      </div>
+      <h1>You cant add your own Videogame!!</h1>
+
       <div className="contenedor-create">
         <form onSubmit={handleSubmit}>
           <div>
@@ -215,18 +198,17 @@ export default function CreateVideogame() {
               <div>
                 <>
                   {form.genres.map((genre) => (
-                    <button
-                    >
-                    <ul key={genre.name} value={genre.name}>
-                      {genre}
-                      <button
-                        type="button"
-                        value={genre}
-                        onClick={(e) => handleDeleteGenre(e)}
-                      >
-                        x
-                      </button>
-                    </ul>
+                    <button>
+                      <ul key={genre.name} value={genre.name}>
+                        {genre}
+                        <button
+                          type="button"
+                          value={genre}
+                          onClick={(e) => handleDeleteGenre(e)}
+                        >
+                          x
+                        </button>
+                      </ul>
                     </button>
                   ))}
                 </>
