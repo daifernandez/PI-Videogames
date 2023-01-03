@@ -19,4 +19,12 @@
 .detail-text-info {
   margin-top: 25%;
   padding: 32px;
+  text-align: justify;
+}
+
+.star-rating {
+  margin: 0;
+  padding: 0px;
+  text-align: left;
+  padding-top: 12px;
 }
