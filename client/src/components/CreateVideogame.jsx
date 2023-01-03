@@ -20,15 +20,12 @@ const platforms = [
 export function validate(input) {
   let errors = {};
 
-  //Name
   if (!input.name) {
     errors.name = "Name is required";
   }
-  //Description
   if (!input.description) {
     errors.description = "Description is required";
   }
-  //rating
   if (input.rating > 5) {
     errors.rating = "The rating cannot be higher than 5";
   }
@@ -57,7 +54,6 @@ export default function CreateVideogame() {
     platforms: [],
   });
 
-  //estado de los errores
   const [error, setError] = useState({});
 
   const handleSubmit = (e) => {
@@ -125,14 +121,14 @@ export default function CreateVideogame() {
 
   return (
     <div className="contenedor-create">
-      <h1>You cant add your own Videogame!!</h1>
+      <h1 className="input-title">You cant add your own Videogame!!</h1>
 
       <div className="contenedor-create">
         <form onSubmit={handleSubmit}>
           <div>
-            <label className="input-title">Name:</label>
+            <label className="input-title2">Name:</label>
             <input
-              className="input-create"
+              className="barra"
               type="text"
               key="name"
               name="name"
@@ -142,23 +138,9 @@ export default function CreateVideogame() {
             {error.name && <p className="input-validation">{error.name}</p>}
           </div>
           <div>
-            <label className="input-title">Description:</label>
+            <label className="input-title2">Released:</label>
             <input
-              className="input-create"
-              type="text"
-              key="description"
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-            />
-            {error.description && (
-              <p className="input-validation">{error.description}</p>
-            )}
-          </div>
-          <div>
-            <label className="input-title">Released:</label>
-            <input
-              className="input-create"
+              className="barra"
               type="date"
               key="released"
               name="released"
@@ -167,9 +149,9 @@ export default function CreateVideogame() {
             />
           </div>
           <div>
-            <label className="input-title">Rating:</label>
+            <label className="input-title2">Rating:</label>
             <input
-              className="input-create"
+              className="barra"
               type="number"
               step="0.1"
               min="0"
@@ -182,10 +164,24 @@ export default function CreateVideogame() {
             {error.rating && <p className="input-validation">{error.rating}</p>}
           </div>
           <div>
+            <label className="input-title2">Description:</label>
+            <input
+              className="description"
+              type="text"
+              key="description"
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+            />
+            {error.description && (
+              <p className="input-validation">{error.description}</p>
+            )}
+          </div>
+          <div>
             <fieldset>
-              <legend className="input-title">Choose Genres:</legend>
+              <legend className="input-title2">Choose Genres:</legend>
               <select
-                className="input-create"
+                className="barra"
                 key="genreName"
                 name="genreName"
                 id=""
@@ -198,10 +194,11 @@ export default function CreateVideogame() {
               <div>
                 <>
                   {form.genres.map((genre) => (
-                    <button>
-                      <ul key={genre.name} value={genre.name}>
+                  
+                      <ul key={genre.name} value={genre.name} className="genres">
                         {genre}
                         <button
+                          className="x"
                           type="button"
                           value={genre}
                           onClick={(e) => handleDeleteGenre(e)}
@@ -209,7 +206,7 @@ export default function CreateVideogame() {
                           x
                         </button>
                       </ul>
-                    </button>
+                  
                   ))}
                 </>
               </div>
@@ -219,7 +216,7 @@ export default function CreateVideogame() {
           <br />
 
           <fieldset>
-            <legend className="input-title">Choose Platforms:</legend>
+            <legend className="input-title2">Choose Platforms:</legend>
             <br />
             {platforms.map((platform) => (
               <label>
@@ -238,7 +235,7 @@ export default function CreateVideogame() {
 
           <br />
           <div>
-            <label className="input-title">Image:</label>
+            <label className="input-title2">Image:</label>
             <input
               type="file"
               key="image"
@@ -248,7 +245,7 @@ export default function CreateVideogame() {
             />
           </div>
           <button
-            className="custom-button"
+            className="form-button"
             key="submit"
             type="submit"
             value="submit"
