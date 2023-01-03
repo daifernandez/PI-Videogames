@@ -14,3 +14,25 @@
     background-color: var(--secondary-color);
     color: white;
   }
+
+  .secondary-button {
+    background-color: var(--primary-button-color);
+    border-radius: 8px;
+    padding: 12px 32px;
+    height: 44px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    border: 0;
+    font-weight: 600;
+  }
+  .secondary-button:hover {
+    background-color: var(--secondary-color);
+    color: white;
+  }
+
+  .home-button {
+    width: 24px;
+    height: 24px;
+    margin-left: 20px;
+  }
