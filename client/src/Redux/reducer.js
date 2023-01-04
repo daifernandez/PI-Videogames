@@ -19,6 +19,7 @@ const initialState = {
   genres: [],
   videogamesOnScreen: [],
   videogameDetail: null,
+  currentPage: 0,
 };
 
 function rootReducer(state = initialState, action) {
@@ -28,6 +29,7 @@ function rootReducer(state = initialState, action) {
         ...state,
         videogames: action.payload,
         videogamesOnScreen: action.payload.slice(0, VIDEO_GAMES_PER_PAGE),
+        currentPage: 0,
       };
     case GET_GENRES:
       return {
@@ -104,6 +106,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogamesOnScreen: [...state.videogames],
+        currentPage: 0,
       };
     case GO_TO_PAGE:
       // Pagina que quiero mostrar
@@ -121,6 +124,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogamesOnScreen: videoGamesToShow,
+        currentPage: page,
       };
     default:
       return { ...state };

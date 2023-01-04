@@ -123,10 +123,10 @@ export default function CreateVideogame() {
     <div className="contenedor-create">
       <h1 className="input-title">You cant add your own Videogame!!</h1>
 
-      <div className="contenedor-create">
+      <div className="contenedor-create2">
         <form onSubmit={handleSubmit}>
           <div>
-            <label className="input-title2">Name:</label>
+            <label className="input-label">Name:</label>
             <input
               className="barra"
               type="text"
@@ -135,10 +135,10 @@ export default function CreateVideogame() {
               value={form.name}
               onChange={handleChange}
             />
-            {error.name && <p className="input-validation">{error.name}</p>}
+            {error.name && <p className="input-forgot">{error.name}</p>}
           </div>
           <div>
-            <label className="input-title2">Released:</label>
+            <label className="input-label">Released:</label>
             <input
               className="barra"
               type="date"
@@ -149,7 +149,7 @@ export default function CreateVideogame() {
             />
           </div>
           <div>
-            <label className="input-title2">Rating:</label>
+            <label className="input-label">Rating:</label>
             <input
               className="barra"
               type="number"
@@ -161,25 +161,35 @@ export default function CreateVideogame() {
               value={form.rating}
               onChange={handleChange}
             />
-            {error.rating && <p className="input-validation">{error.rating}</p>}
+            {error.rating && <p className="input-forgot">{error.rating}</p>}
           </div>
           <div>
-            <label className="input-title2">Description:</label>
-            <input
+            <label className="input-label">Description:</label>
+            {/* <input
               className="description"
               type="text"
               key="description"
               name="description"
               value={form.description}
               onChange={handleChange}
-            />
+            /> */}
+            <textarea
+              className="description"
+              type="text"
+              key="description"
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              rows="4"
+              cols="50"
+            ></textarea>
             {error.description && (
-              <p className="input-validation">{error.description}</p>
+              <p className="input-forgot">{error.description}</p>
             )}
           </div>
           <div>
             <fieldset>
-              <legend className="input-title2">Choose Genres:</legend>
+              <legend className="input-label">Choose Genres</legend>
               <select
                 className="barra"
                 key="genreName"
@@ -194,19 +204,15 @@ export default function CreateVideogame() {
               <div>
                 <>
                   {form.genres.map((genre) => (
-                  
-                      <ul key={genre.name} value={genre.name} className="genres">
-                        {genre}
-                        <button
-                          className="x"
-                          type="button"
-                          value={genre}
-                          onClick={(e) => handleDeleteGenre(e)}
-                        >
-                          x
-                        </button>
-                      </ul>
-                  
+                    <button
+                      className="genres"
+                      key={genre}
+                      type="button"
+                      value={genre}
+                      onClick={(e) => handleDeleteGenre(e)}
+                    >
+                      {genre} x
+                    </button>
                   ))}
                 </>
               </div>
@@ -216,7 +222,7 @@ export default function CreateVideogame() {
           <br />
 
           <fieldset>
-            <legend className="input-title2">Choose Platforms:</legend>
+            <legend className="input-label">Choose Platforms</legend>
             <br />
             {platforms.map((platform) => (
               <label>
@@ -235,7 +241,7 @@ export default function CreateVideogame() {
 
           <br />
           <div>
-            <label className="input-title2">Image:</label>
+            <label className="input-label">Image:</label>
             <input
               type="file"
               key="image"

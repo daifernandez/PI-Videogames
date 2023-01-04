@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { goToPage } from "../Redux/actions";
+import "./Styles/Paginado.css";
 
 export default function Paginado() {
   const VIDEO_GAMES_PER_PAGE = 15;
@@ -8,6 +9,7 @@ export default function Paginado() {
   const numberOfPages = useSelector((state) => [
     ...Array(Math.ceil(state.videogames.length / VIDEO_GAMES_PER_PAGE)).keys(),
   ]);
+  const currentPage = useSelector((state) => state.currentPage);
 
   const handlePageSelection = (page) => {
     dispatch(goToPage(page));
@@ -17,16 +19,22 @@ export default function Paginado() {
 
   return (
     <nav>
-      <div className="div.center ">
-        <div className="pagination">
-          <ul className="ul.pagination li a.active">
-            {numberOfPages &&
-              numberOfPages.map((number) => (
-                <li key={number} onClick={() => handlePageSelection(number)}>
-                  {number + 1}
-                </li>
-              ))}
-          </ul>
+      <div className="pagination">
+        <div>
+          {numberOfPages &&
+            numberOfPages.map((number) => (
+              <button
+                className={
+                  currentPage === number
+                    ? "pagination-button-current"
+                    : "pagination-button"
+                }
+                key={number}
+                onClick={() => handlePageSelection(number)}
+              >
+                {number + 1}
+              </button>
+            ))}
         </div>
       </div>
     </nav>

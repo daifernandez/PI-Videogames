@@ -1,0 +1,36 @@
+.pagination {
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 50px;
+}
+
+.pagination-button {
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  margin-left: 1px;
+  margin-right: 1px;
+  border-radius: 3px;
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.pagination-button-current {
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  margin-left: 1px;
+  margin-right: 1px;
+  border-radius: 3px;
+  background-color: var(--primary-button-color);
+  color: white;
+}
+
+.pagination-button:active,
+.pagination-button:hover {
+  background-color:  var(--primary-button-color);
+}
