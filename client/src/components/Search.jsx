@@ -36,7 +36,7 @@ export default function Search() {
         </button>
       </div>
       <NavLink to="/createVideogame">
-        <button className="custom-button">
+        <button className="custom-buttonIcon">
           <div className="icon-text">
             <svg
               xmlns="http://www.w3.org/2000/svg"
