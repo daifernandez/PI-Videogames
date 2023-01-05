@@ -10,6 +10,7 @@ import {
   CLEAR,
   POST_VIDEOGAME,
   GO_TO_PAGE,
+  DELETE_DB_VIDEOGAME,
 } from "./actions";
 
 const VIDEO_GAMES_PER_PAGE = 15;
@@ -45,6 +46,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogameDetail: action.payload,
+      };
+    case DELETE_DB_VIDEOGAME:
+      return {
+        ...state,
+        videogameDetail: null,
       };
     case SELECT_GENRE:
       var filterGenre = [...state.videogames].filter((videogame) =>

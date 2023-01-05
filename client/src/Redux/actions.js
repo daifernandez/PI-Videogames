@@ -11,6 +11,7 @@ export const ALPH_ORDER = "ALPH_ORDER";
 export const RATING_ORDER = "RATING_ORDER";
 export const CLEAR = "CLEAR";
 export const GO_TO_PAGE = "GO_TO_PAGE";
+export const DELETE_DB_VIDEOGAME = "DELETE_DB_VIDEOGAME";
 
 export function getvideogames() {
   return async function (dispatch) {
@@ -94,5 +95,15 @@ export function clear() {
 export function goToPage(page) {
   return function (dispatch) {
     dispatch({ type: GO_TO_PAGE, payload: page });
+  };
+}
+
+export function deleteVideogameDB(id, completion) {
+  return async function (dispatch) {
+    await axios
+      .delete(`http://localhost:3001/videogame/${id}`)
+      .then(function (response) {
+        dispatch({ type: DELETE_DB_VIDEOGAME, payload: response.data });
+      });
   };
 }

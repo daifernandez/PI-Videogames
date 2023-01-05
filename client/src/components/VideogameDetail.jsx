@@ -2,17 +2,26 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getVideogameDetail } from "../Redux/actions";
+import { deleteVideogameDB, getVideogameDetail } from "../Redux/actions";
 import "./Styles/VideogameDetail.css";
+import { useHistory } from "react-router-dom";
 
 export default function Detail() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.videogameDetail);
+  const redirection = useHistory();
 
   useEffect(() => {
     dispatch(getVideogameDetail(id));
   }, [dispatch, id]);
+
+  const handleDeleteVideogame = (e) => {
+    e.preventDefault();
+    dispatch(deleteVideogameDB(id));
+    alert("Videogame successfully deleted!!");
+    redirection.push("/home");
+  };
 
   if (detail) {
     return (
@@ -23,8 +32,15 @@ export default function Detail() {
             src={detail.image ? detail.image : "https://google.com"}
             alt="img not found"
           />
+
           <div className="detail-content">
             <div className="detail-text-info">
+              <button
+                onClick={handleDeleteVideogame}
+                hidden={!detail.createdInDB}
+              >
+                Delete Videogame
+              </button>
               <h1>{detail.name}</h1>
               <h5>{detail.genres.join(" - ")}</h5>
               <h4 className="star-rating">⭐️ {detail.rating}</h4>

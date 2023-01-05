@@ -2,6 +2,7 @@ const {
   get_allVideogames,
   get_videogame_byName,
   get_videogame_detail,
+  delete_videogameDB,
 } = require("../helpers/videogamesHelpers.js");
 const { Videogame, Genre } = require("../db");
 
@@ -63,10 +64,38 @@ const create_videogame = async (req, res) => {
 };
 
 //DELETE
-const delete_videogame = async (req, res) => {};
+const delete_videogame = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await delete_videogameDB(id);
+    res.status(200).send();
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 //PUT
-const put_videogame = async (req, res) => {};
+const put_videogame = async (req, res) => {
+  const { name, image, description, released, rating, platforms, genres } =
+    req.body;
+
+  if (!name || !description || !released || !platforms || !genres)
+    return res.status(400).json({ error: "missing info" });
+
+  const updatedVideogame = updateVideogame(
+    id,
+    name,
+    image,
+    description,
+    released,
+    rating,
+    platforms,
+    genres
+  );
+
+  if (updatedVideogame[error]) return res.status(400).json(updatedUser);
+  else res.status(200).json(updatedVideogame);
+};
 
 module.exports = {
   create_videogame,
