@@ -3,6 +3,7 @@ const {
   get_videogame_byName,
   get_videogame_detail,
   delete_videogameDB,
+  updateVideogame,
 } = require("../helpers/videogamesHelpers.js");
 const { Videogame, Genre } = require("../db");
 
@@ -76,9 +77,9 @@ const delete_videogame = async (req, res) => {
 
 //PUT
 const put_videogame = async (req, res) => {
-  const { name, image, description, released, rating, platforms, genres } =
+  const { name, image, description, released, rating, platforms, genres, id } =
     req.body;
-
+  //esto es solo las requeridas o tiene que ser todo?
   if (!name || !description || !released || !platforms || !genres)
     return res.status(400).json({ error: "missing info" });
 
@@ -93,7 +94,7 @@ const put_videogame = async (req, res) => {
     genres
   );
 
-  if (updatedVideogame[error]) return res.status(400).json(updatedUser);
+  if (updatedVideogame[error]) return res.status(400).json(updatedVideogame);
   else res.status(200).json(updatedVideogame);
 };
 

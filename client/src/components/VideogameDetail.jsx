@@ -23,6 +23,11 @@ export default function Detail() {
     redirection.push("/home");
   };
 
+  // const handlePutVideogame = (e) => {
+  //   e.preventDefault();
+  //   dispatch(putVideogameDB(id));
+  // };
+
   if (detail) {
     return (
       <div>
@@ -41,6 +46,12 @@ export default function Detail() {
               >
                 Delete Videogame
               </button>
+              {/* <button
+                onClick={handlePutVideogame}
+                hidden={!detail.createdInDB}
+              >
+                Put Videogame
+              </button> */}
               <h1>{detail.name}</h1>
               <h5>{detail.genres.join(" - ")}</h5>
               <h4 className="star-rating">⭐️ {detail.rating}</h4>

@@ -138,22 +138,20 @@ const delete_videogameDB = async (id) => {
   }
 };
 
-const updateVideogame = async (
-  name,
-  image,
-  description,
-  released,
-  rating,
-  platforms,
-  genres
-) => {
-  // const videogame = users.find(user => user.id === parseInt(id));
-  // if(!user) return {error: "User not found"};
-  // user.name= name;
-  // user.surname= surname;
-  // user.mail= mail;
-  // user.age= age;
-  // return user;
+const updateVideogame = async (id) => {
+  const videogameToUpdate = await Videogame.findByPk(id);
+  if (videogameToUpdate) {
+    videogameToUpdate.name = name;
+    videogameToUpdate.description = description;
+    videogameToUpdate.image = image;
+    videogameToUpdate.released = released;
+    videogameToUpdate.rating = rating;
+    videogameToUpdate.platform = platform;
+    videogameToUpdate.genres = genres;
+    return videogameToUpdate;
+  } else {
+    throw new Error("Videogame not found");
+  }
 };
 
 module.exports = {
@@ -163,4 +161,5 @@ module.exports = {
   get_videogame_byName,
   get_videogame_detail,
   delete_videogameDB,
+  updateVideogame,
 };
