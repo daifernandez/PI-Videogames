@@ -1,5 +1,4 @@
 const { Videogame, conn } = require("../../src/db.js");
-const { expect } = require("chai");
 
 describe("Videogame model", () => {
   before(() =>
@@ -9,27 +8,47 @@ describe("Videogame model", () => {
   );
   describe("Validators", () => {
     beforeEach(() => Videogame.sync({ force: true }));
-    describe("name", () => {
-      it("should throw an error if name is null", (done) => {
-        Videogame.create({})
-          .then(() => done(new Error("It requires a valid name")))
-          .catch(() => done());
+    describe("create", () => {
+      it("should work when its a valid", async (done) => {
+        await Videogame.create({
+          name: "Super Mario Bros",
+          description: "simple game",
+          platforms: ["Nintendo"],
+          createdInDB: true,
+        })
+          .then(done())
+          .catch((error) => done(new Error(error.message)));
       });
-      it("should work when its a valid name", () => {
-        Videogame.create({ name: "Super Mario Bros" });
+    });
+    describe("name", () => {
+      it("should throw an error if name is null", async (done) => {
+        await Videogame.create({
+          description: "simple game",
+          platforms: ["Nintendo"],
+          createdInDB: true,
+        })
+          .then(() => done(new Error("Expected to fail without a name")))
+          .catch(done());
       });
     });
     describe("describe", () => {
       it("should throw an error if describe is null", (done) => {
-        Videogame.create({})
+        Videogame.create({
+          name: "Super Mario Bros",
+          platforms: ["Nintendo"],
+          createdInDB: true,
+        })
           .then(() => done(new Error("It requires description")))
           .catch(() => done());
       });
-      // describe no debe contener simbolos?? (idea ?)
     });
     describe("platforms", () => {
       it("should throw an error if platforms is null", (done) => {
-        Videogame.create({})
+        Videogame.create({
+          name: "Super Mario Bros",
+          description: "simple game",
+          createdInDB: true,
+        })
           .then(() => done(new Error("It requires platforms")))
           .catch(() => done());
       });
