@@ -21,7 +21,17 @@ describe("Videogame routes", () => {
   beforeEach(() =>
     Videogame.sync({ force: true }).then(() => Videogame.create(videogame))
   );
+
+  // GET VIDEOGAMES
   describe("GET /videogames", () => {
     it("should get 200", () => agent.get("/videogames").expect(200));
   });
+
+  // POST VIDEOGAMES
+
+  // GET VIDEOGAME ID
+
+  // DELETE VIDEOGAME ID
+
+  // PUT VIDEOGAME ID -> EN CASO DE HACERLO ?
 });
