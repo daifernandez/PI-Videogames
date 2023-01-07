@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,9 +13,13 @@ import {
 import "./Styles/Button.css";
 import "./Styles/Filters.css";
 
-export default function Filter() {
+export default function FiltersOrders() {
   const dispatch = useDispatch();
   const genres = useSelector((state) => state.genres);
+  const [selectRating, setSelectRating] = useState();
+  const [selectAlphOrder, setSelectAlphOrder] = useState();
+  const [genreSelect, setGenreSelect] = useState();
+  const [selectFrom, setSelectFrom] = useState();
 
   useEffect(() => {
     dispatch(getGenres());
@@ -39,9 +44,13 @@ export default function Filter() {
     dispatch(ratingOrder(e.target.value));
   }
 
-  function handleClearFilters(e) {
+  function handleClearFiltersOrder(e) {
     e.preventDefault();
     dispatch(clear());
+    setSelectRating("-");
+    setSelectAlphOrder("-");
+    setGenreSelect("-");
+    setSelectFrom("all");
   }
   return (
     <div className="contenedor-filters">
@@ -50,6 +59,7 @@ export default function Filter() {
         <select
           className="dropdown"
           id="genreOrder"
+          value={genreSelect}
           onChange={(e) => handleSelectGenre(e)}
         >
           <option value="-">-</option>
@@ -66,6 +76,7 @@ export default function Filter() {
           className="dropdown"
           name="dropdown"
           id="comesFrom"
+          value={selectFrom}
           onChange={(e) => handleSelectFrom(e)}
         >
           <option value="all"> All Videogames</option>
@@ -78,6 +89,7 @@ export default function Filter() {
         <select
           className="dropdown"
           id="alphabOrder"
+          value={selectAlphOrder}
           onChange={(e) => handleSelectOrderAlph(e)}
         >
           <option value="-">-</option>
@@ -90,6 +102,7 @@ export default function Filter() {
         <select
           className="dropdown"
           id="healthScoreOrder"
+          value={selectRating}
           onChange={(e) => handleSelectRating(e)}
         >
           <option value="-">-</option>
@@ -101,7 +114,7 @@ export default function Filter() {
       <button
         className="secondary-button"
         onClick={(e) => {
-          handleClearFilters(e);
+          handleClearFiltersOrder(e);
         }}
       >
         Clear Filters

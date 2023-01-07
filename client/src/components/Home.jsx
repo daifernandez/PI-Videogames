@@ -1,6 +1,6 @@
 import React from "react";
 import Search from "./Search";
-import Filter from "./Filters";
+import FiltersOrders from "./FiltersOrders";
 import Cards from "./Cards";
 import Paginado from "./Paginado";
 import EmptyResults from "./EmptyResults";
@@ -23,7 +23,7 @@ export default function Home() {
       return (
         <div>
           <Search />
-          <Filter />
+          <FiltersOrders />
           <Cards key="videogames-cards" videogames={videogames} />
           <Paginado />
         </div>
@@ -32,7 +32,7 @@ export default function Home() {
       return (
         <div>
           <Search />
-          <Filter />
+          <FiltersOrders />
           <EmptyResults />
         </div>
       );

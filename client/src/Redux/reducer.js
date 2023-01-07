@@ -21,9 +21,15 @@ const initialState = {
   videogamesOnScreen: [],
   videogameDetail: null,
   currentPage: 0,
+  videogamesForFilter: null,
 };
 
 function rootReducer(state = initialState, action) {
+  const activeVideogames =
+    state.videogamesForFilter !== null
+      ? state.videogamesForFilter
+      : state.videogames;
+
   switch (action.type) {
     case GET_VIDEOGAMES:
       return {
@@ -61,7 +67,8 @@ function rootReducer(state = initialState, action) {
       }
       return {
         ...state,
-        videogamesOnScreen: filterGenre,
+        videogamesOnScreen: filterGenre.slice(0, VIDEO_GAMES_PER_PAGE),
+        videogamesForFilter: filterGenre,
       };
     case POST_VIDEOGAME:
       return {
@@ -80,14 +87,14 @@ function rootReducer(state = initialState, action) {
       };
 
     case ALPH_ORDER:
-      var alphSorted = [...state.videogames].sort((a, b) =>
+      var alphSorted = [...activeVideogames].sort((a, b) =>
         a.name.localeCompare(b.name)
       );
       if (action.payload === "DESC") {
         alphSorted = alphSorted.reverse();
       }
       if (action.payload === "-") {
-        alphSorted = [...state.videogames];
+        alphSorted = [...activeVideogames];
       }
 
       return {
@@ -95,23 +102,24 @@ function rootReducer(state = initialState, action) {
         videogamesOnScreen: alphSorted,
       };
     case RATING_ORDER:
-      var hsSorted = [...state.videogames].sort(function (a, b) {
+      var hsSorted = [...activeVideogames].sort(function (a, b) {
         return a.rating - b.rating;
       });
       if (action.payload === "Higher") {
         hsSorted = hsSorted.reverse();
       }
       if (action.payload === "-") {
-        hsSorted = [...state.videogames];
+        hsSorted = [...activeVideogames];
       }
       return {
         ...state,
-        videogamesOnScreen: hsSorted,
+        videogamesOnScreen: hsSorted.slice(0, VIDEO_GAMES_PER_PAGE),
       };
     case CLEAR:
       return {
         ...state,
-        videogamesOnScreen: [...state.videogames],
+        videogamesOnScreen: state.videogames.slice(0, VIDEO_GAMES_PER_PAGE),
+        videogamesForFilter: null,
         currentPage: 0,
       };
     case GO_TO_PAGE:
@@ -123,7 +131,7 @@ function rootReducer(state = initialState, action) {
       const indexLastVideogame = indexFirstVideogame + VIDEO_GAMES_PER_PAGE;
       // TODO: Considerar filtros y busquedas con videogames on screen.
       // Generar un nuevo array solo con los elementos entre el primer y ultimo indice.
-      const videoGamesToShow = state.videogames.slice(
+      const videoGamesToShow = activeVideogames.slice(
         indexFirstVideogame,
         indexLastVideogame
       );
