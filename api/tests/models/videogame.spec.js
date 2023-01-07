@@ -6,6 +6,9 @@ describe("Videogame model", () => {
       console.error("Unable to connect to the database:", err);
     })
   );
+  after(function () {
+    Videogame.sync({ force: true });
+  });
   describe("Validators", () => {
     beforeEach(() => Videogame.sync({ force: true }));
     describe("create", () => {

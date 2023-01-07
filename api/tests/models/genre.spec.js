@@ -6,6 +6,9 @@ describe("Genre model", () => {
       console.error("Unable to connect to the database:", err);
     })
   );
+  after(function () {
+    Genre.sync({ force: true });
+  });
   describe("Validators", () => {
     beforeEach(() => Genre.sync({ force: true }));
     describe("name", () => {
