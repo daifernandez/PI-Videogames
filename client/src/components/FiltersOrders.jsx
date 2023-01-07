@@ -16,9 +16,9 @@ import "./Styles/Filters.css";
 export default function FiltersOrders() {
   const dispatch = useDispatch();
   const genres = useSelector((state) => state.genres);
-  const [selectRating, setSelectRating] = useState();
-  const [selectAlphOrder, setSelectAlphOrder] = useState();
-  const [genreSelect, setGenreSelect] = useState();
+  const [selectRating, setSelectRating] = useState("-");
+  const [selectAlphOrder, setSelectAlphOrder] = useState("-");
+  const [genreSelect, setGenreSelect] = useState("-");
   const [selectFrom, setSelectFrom] = useState();
 
   useEffect(() => {
@@ -27,6 +27,7 @@ export default function FiltersOrders() {
 
   function handleSelectGenre(e) {
     e.preventDefault();
+    setGenreSelect(e.target.value);
     dispatch(selectGenre(e.target.value));
   }
   function handleSelectFrom(e) {
@@ -36,11 +37,15 @@ export default function FiltersOrders() {
 
   function handleSelectOrderAlph(e) {
     e.preventDefault();
+    setSelectRating("-");
+    setSelectAlphOrder(e.target.value);
     dispatch(alphOrder(e.target.value));
   }
 
   function handleSelectRating(e) {
     e.preventDefault();
+    setSelectAlphOrder("-");
+    setSelectRating(e.target.value);
     dispatch(ratingOrder(e.target.value));
   }
 
