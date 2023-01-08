@@ -1,5 +1,7 @@
 const { Videogame, Genre } = require("../db");
 const axios = require("axios");
+const { Op } = require("sequelize");
+
 let local_videogames = require("./local_videogames.json");
 
 const get_videogame_db = async () => {
@@ -12,7 +14,6 @@ const get_videogame_db = async () => {
   });
 
   return videogames.map((videogame) => {
-    console.log(videogame.genres);
     return {
       id: videogame.id,
       name: videogame.name,
@@ -75,8 +76,39 @@ const get_allVideogames = async () => {
   return allVideogames;
 };
 
+const get_videogame_db_byName = async (name) => {
+  const dbVideogameName = await Videogame.findAll({
+    where: {
+      name: {
+        [Op.like]: `%${name}%`,
+      },
+    },
+    include: {
+      model: Genre,
+      attributes: ["name"],
+      through: { attributes: [] },
+    },
+  });
+
+  console.log(dbVideogameName);
+
+  return dbVideogameName.map((videogame) => {
+    return {
+      id: videogame.id,
+      name: videogame.name,
+      image: videogame.image,
+      description: videogame.description,
+      released: videogame.released,
+      rating: videogame.rating,
+      platforms: videogame.platforms,
+      genres: videogame.genres.map((genres) => genres.name),
+      createdInDB: videogame.createdInDB,
+    };
+  });
+};
+
 const get_videogame_byName = async (name) => {
-  const videogameSearch = await axios
+  const videogameApiSearch = await axios
     .get(
       `https://api.rawg.io/api/games?search=${name}&key=${process.env.API_KEY}`
     )
@@ -84,13 +116,13 @@ const get_videogame_byName = async (name) => {
       throw new Error(error.message);
     });
 
-  const videogamesApi = videogameSearch.data.results
-    .slice(0, 15)
-    .map((apiObject) => {
-      return api_videogameParse(apiObject);
-    });
+  const videogameDBSearch = await get_videogame_db_byName(name);
 
-  return videogamesApi;
+  const videogamesApi = videogameApiSearch.data.results.map((apiObject) => {
+    return api_videogameParse(apiObject);
+  });
+
+  return [...videogamesApi, ...videogameDBSearch];
 };
 
 const get_videogame_detail = async (id) => {

@@ -15,8 +15,10 @@ export default function Home() {
   const fetchedVideogames = useSelector((state) => state.videogames.length > 0);
 
   useEffect(() => {
-    dispatch(getvideogames());
-  }, [dispatch]);
+    if (!fetchedVideogames) {
+      dispatch(getvideogames());
+    }
+  }, [dispatch, fetchedVideogames]);
 
   if (fetchedVideogames) {
     if (videogames.length) {
