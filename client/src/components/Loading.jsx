@@ -1,5 +1,13 @@
 import React from "react";
 
+import "./Styles/Loading.css";
+
 export default function Loading() {
-  return <h1>Loading Videogames</h1>;
+  return (
+    <div>
+      <div className="loader-container">
+        <h1>Loading</h1>
+      </div>
+    </div>
+  );
 }

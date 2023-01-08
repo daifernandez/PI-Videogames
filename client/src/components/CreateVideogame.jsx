@@ -195,8 +195,10 @@ export default function CreateVideogame() {
                 key="genreName"
                 name="genreName"
                 id=""
+                required
                 onChange={handleSelect}
               >
+                <option value="">Genres</option>
                 {genres.map((genre) => (
                   <option>{genre.name}</option>
                 ))}

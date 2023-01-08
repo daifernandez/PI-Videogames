@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { deleteVideogameDB, getVideogameDetail } from "../Redux/actions";
 import "./Styles/VideogameDetail.css";
 import { useHistory } from "react-router-dom";
+import Loading from "./Loading";
 
 export default function Detail() {
   const { id } = useParams();
@@ -79,7 +80,7 @@ export default function Detail() {
   } else {
     return (
       <>
-        <h1>loading</h1>
+        <Loading/>
       </>
     );
   }
