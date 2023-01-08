@@ -59,5 +59,9 @@
   width: 20px;
   height: 20px;
   margin-right: 5px;
+}
 
+.icon-emptyResults {
+  width: 60px;
+  height: 60px;
 }

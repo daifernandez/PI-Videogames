@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { deleteVideogameDB, getVideogameDetail } from "../Redux/actions";
 import "./Styles/VideogameDetail.css";
@@ -80,7 +80,7 @@ export default function Detail() {
   } else {
     return (
       <>
-        <Loading/>
+        <Loading />
       </>
     );
   }
