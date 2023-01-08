@@ -19,18 +19,17 @@ const platforms = [
 //VALIDACION
 export function validate(input) {
   let errors = {};
-
   if (!input.name) {
     errors.name = "Name is required";
   }
   if (!input.description) {
     errors.description = "Description is required";
   }
-  if (input.rating > 5) {
-    errors.rating = "The rating cannot be higher than 5";
+  if (!input.rating || input.rating < 1 || input.rating > 5) {
+    errors.rating = "The rating needs to be between 1 and 5";
   }
-  if (!input.platforms) {
-    errors.description = "Platforms is required";
+  if (input.genres.length === 0) {
+    errors.genres = "Genres is required";
   }
   return errors;
 }
@@ -54,10 +53,29 @@ export default function CreateVideogame() {
     platforms: [],
   });
 
-  const [error, setError] = useState({});
+  const [error, setError] = useState({
+    name: "",
+    description: "",
+    rating: "",
+    genres: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newErrors = validate(form);
+
+    setError(newErrors);
+
+    if (
+      newErrors.name ||
+      newErrors.description ||
+      newErrors.rating ||
+      newErrors.genres
+    ) {
+      alert("Please fill the required fileds.");
+      return;
+    }
+
     dispatch(postVideogame(form));
     alert("Videogame successfully created!!");
     setForm({
@@ -79,12 +97,6 @@ export default function CreateVideogame() {
       ...form,
       [property]: value,
     });
-    setError(
-      validate({
-        ...form,
-        [property]: value,
-      })
-    );
   };
 
   const handleSelect = (e) => {
@@ -121,7 +133,7 @@ export default function CreateVideogame() {
 
   return (
     <div className="contenedor-create">
-      <h1 className="input-title">You cant add your own Videogame!!</h1>
+      <h1 className="input-title">You can add your own Videogame</h1>
 
       <div className="contenedor-create2">
         <form onSubmit={handleSubmit}>
@@ -154,7 +166,7 @@ export default function CreateVideogame() {
               className="barra"
               type="number"
               step="0.1"
-              min="0"
+              min="1"
               max="5"
               key="rating"
               name="rating"
@@ -165,14 +177,6 @@ export default function CreateVideogame() {
           </div>
           <div>
             <label className="input-label">Description:</label>
-            {/* <input
-              className="description"
-              type="text"
-              key="description"
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-            /> */}
             <textarea
               className="description"
               type="text"
@@ -198,11 +202,14 @@ export default function CreateVideogame() {
                 required
                 onChange={handleSelect}
               >
-                <option value="">Genres</option>
+                <option selected disabled value="">
+                  Genres
+                </option>
                 {genres.map((genre) => (
                   <option>{genre.name}</option>
                 ))}
               </select>
+              {error.genres && <p className="input-forgot">{error.genres}</p>}
               <div>
                 <>
                   {form.genres.map((genre) => (
@@ -257,7 +264,12 @@ export default function CreateVideogame() {
             key="submit"
             type="submit"
             value="submit"
-            disabled={!form.name || !form.description}
+            disabled={
+              !form.name ||
+              !form.description ||
+              !(form.rating >= 1 && form.rating < 5) ||
+              !form.genres
+            }
           >
             Create Videogame
           </button>

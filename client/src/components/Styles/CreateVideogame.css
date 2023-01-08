@@ -53,6 +53,11 @@
   color: white;
 }
 
+.form-button:disabled {
+  background-color: darkgray;
+  color: white;
+}
+
 .barra {
   border-radius: 8px;
   height: 30px;
