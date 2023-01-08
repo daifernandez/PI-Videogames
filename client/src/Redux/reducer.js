@@ -2,7 +2,6 @@ import {
   ALPH_ORDER,
   GET_GENRES,
   GET_VIDEOGAMES,
-  GET_VIDEOGAME_DETAIL,
   SELECT_GENRE,
   RATING_ORDER,
   GET_CREATED,
@@ -19,7 +18,6 @@ const initialState = {
   videogames: [],
   genres: [],
   videogamesOnScreen: [],
-  videogameDetail: null,
   currentPage: 0,
   videogamesForFilter: null,
 };
@@ -47,11 +45,6 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogamesOnScreen: action.payload,
-      };
-    case GET_VIDEOGAME_DETAIL:
-      return {
-        ...state,
-        videogameDetail: action.payload,
       };
     case DELETE_DB_VIDEOGAME:
       return {

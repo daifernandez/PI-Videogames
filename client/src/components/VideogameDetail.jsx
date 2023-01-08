@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -9,11 +9,16 @@ import { useHistory } from "react-router-dom";
 export default function Detail() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const detail = useSelector((state) => state.videogameDetail);
   const redirection = useHistory();
+  const [detailVideogame, setDetailVideogame] = useState();
 
   useEffect(() => {
-    dispatch(getVideogameDetail(id));
+    const fetchVideogameDetail = async () => {
+      const videgameDetail = await getVideogameDetail(id);
+      setDetailVideogame(videgameDetail);
+    };
+
+    fetchVideogameDetail();
   }, [dispatch, id]);
 
   const handleDeleteVideogame = (e) => {
@@ -28,13 +33,17 @@ export default function Detail() {
   //   dispatch(putVideogameDB(id));
   // };
 
-  if (detail) {
+  if (detailVideogame) {
     return (
       <div>
         <div className="detail-container">
           <img
             className="detail-main-image"
-            src={detail.image ? detail.image : "https://google.com"}
+            src={
+              detailVideogame.image
+                ? detailVideogame.image
+                : "https://google.com"
+            }
             alt="img not found"
           />
 
@@ -42,7 +51,7 @@ export default function Detail() {
             <div className="detail-text-info">
               <button
                 onClick={handleDeleteVideogame}
-                hidden={!detail.createdInDB}
+                hidden={!detailVideogame.createdInDB}
               >
                 Delete Videogame
               </button>
@@ -52,12 +61,16 @@ export default function Detail() {
               >
                 Put Videogame
               </button> */}
-              <h1>{detail.name}</h1>
-              <h5>{detail.genres.join(" - ")}</h5>
-              <h4 className="star-rating">⭐️ {detail.rating}</h4>
-              <h6>Released: {detail.released}</h6>
-              <div dangerouslySetInnerHTML={{ __html: detail.description }} />
-              <h4>{detail.platforms.join(", ")}</h4>
+              <h1>{detailVideogame.name}</h1>
+              <h5>{detailVideogame.genres.join(" - ")}</h5>
+              <h4 className="star-rating">⭐️ {detailVideogame.rating}</h4>
+              <h6>Released: {detailVideogame.released}</h6>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: detailVideogame.description,
+                }}
+              />
+              <h4>{detailVideogame.platforms.join(", ")}</h4>
             </div>
           </div>
         </div>

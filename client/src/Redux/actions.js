@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
 export const GET_GENRES = "GET_GENRES";
-export const GET_VIDEOGAME_DETAIL = "GET_VIDEOGAME_DETAIL";
 export const GET_VIDEOGAME_BY_NAME = "GET_VIDEOGAME_BY_NAME";
 export const POST_VIDEOGAME = "POST_VIDEOGAME";
 export const SELECT_GENRE = "SELECT_GENRE";
@@ -32,14 +31,10 @@ export function getGenres() {
       );
   };
 }
-export function getVideogameDetail(id) {
-  return async function (dispatch) {
-    await axios
-      .get(`http://localhost:3001/videogame/${id}`)
-      .then((response) =>
-        dispatch({ type: GET_VIDEOGAME_DETAIL, payload: response.data })
-      );
-  };
+
+export async function getVideogameDetail(id) {
+  const response = await axios.get(`http://localhost:3001/videogame/${id}`);
+  return response.data;
 }
 
 export function getVideogameByName(name) {
