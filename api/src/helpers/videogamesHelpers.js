@@ -1,7 +1,6 @@
 const { Videogame, Genre } = require("../db");
 const axios = require("axios");
 const { Op } = require("sequelize");
-const { v4: isUuid } = require("uuid");
 
 let local_videogames = require("./local_videogames.json");
 
@@ -127,7 +126,7 @@ const get_videogame_byName = async (name) => {
 };
 
 const get_videogame_detail = async (id) => {
-  if (isUuid(id)) {
+  if (id.includes("-")) {
     const videogameDBFind = await Videogame.findByPk(id, {
       include: {
         model: Genre,
