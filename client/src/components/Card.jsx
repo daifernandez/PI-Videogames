@@ -9,7 +9,11 @@ export default function Card({ videogame }) {
         <div className="main-image">
           <img
             className="main-image"
-            src={videogame.image ? videogame.image : "https://google.com"}
+            src={
+              videogame.image
+                ? videogame.image
+                : "https://images.nintendolife.com/a04d0d034e391/smash.large.jpg"
+            }
             alt="img not found"
           />
         </div>

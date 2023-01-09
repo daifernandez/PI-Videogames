@@ -43,7 +43,7 @@ export default function Detail() {
             src={
               detailVideogame.image
                 ? detailVideogame.image
-                : "https://google.com"
+                : "https://images.nintendolife.com/a04d0d034e391/smash.large.jpg"
             }
             alt="img not found"
           />
