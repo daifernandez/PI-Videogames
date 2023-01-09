@@ -6,16 +6,6 @@ import { postVideogame, getGenres } from "../Redux/actions";
 import "./Styles/CreateVideogame.css";
 import "./Styles/Button.css";
 
-const platforms = [
-  "Game Boy Advance",
-  "Nintendo Switch",
-  "Nintendo 64",
-  "PS4",
-  "PS5",
-  "PC",
-  "Wii",
-];
-
 //VALIDACION
 export function validate(input) {
   let errors = {};
@@ -28,8 +18,8 @@ export function validate(input) {
   if (!input.rating || input.rating < 1 || input.rating > 5) {
     errors.rating = "The rating needs to be between 1 and 5";
   }
-  if (input.genres.length === 0) {
-    errors.genres = "Genres is required";
+  if (input.platforms.length === 0) {
+    errors.platforms = "Genres is required";
   }
   return errors;
 }
@@ -38,6 +28,7 @@ export default function CreateVideogame() {
   const dispatch = useDispatch();
   const redirection = useHistory();
   const genres = useSelector((state) => state.genres);
+  const platforms = useSelector((state) => state.platforms);
 
   useEffect(() => {
     dispatch(getGenres());
@@ -57,7 +48,7 @@ export default function CreateVideogame() {
     name: "",
     description: "",
     rating: "",
-    genres: "",
+    platforms: "",
   });
 
   const [genresSelected, setGenresSelected] = useState("Genres");
@@ -70,7 +61,7 @@ export default function CreateVideogame() {
       newErrors.name ||
       newErrors.description ||
       newErrors.rating ||
-      newErrors.genres
+      newErrors.platforms
     ) {
       alert("Please fill the required fileds.");
       return;
@@ -194,7 +185,7 @@ export default function CreateVideogame() {
           </div>
           <div>
             <fieldset>
-              <legend className="input-label">Choose Genres*</legend>
+              <legend className="input-label">Choose Genres</legend>
               <select
                 className="barra"
                 key="genreName"
@@ -211,7 +202,6 @@ export default function CreateVideogame() {
                   <option>{genre.name}</option>
                 ))}
               </select>
-              {error.genres && <p className="input-forgot">{error.genres}</p>}
               <div>
                 <>
                   {form.genres.map((genre) => (
@@ -233,7 +223,7 @@ export default function CreateVideogame() {
           <br />
 
           <fieldset>
-            <legend className="input-label">Choose Platforms</legend>
+            <legend className="input-label">Choose Platforms*</legend>
             <br />
             {platforms.map((platform) => (
               <label>
@@ -245,7 +235,9 @@ export default function CreateVideogame() {
                 />
                 {platform}
                 <br />
-                {error.platform && <p>{error.platform}</p>}
+                {error.platforms && (
+                  <p className="input-forgot">{error.platforms}</p>
+                )}
               </label>
             ))}
           </fieldset>
@@ -270,7 +262,7 @@ export default function CreateVideogame() {
             disabled={
               !form.name ||
               !form.description ||
-              !(form.rating >= 1 && form.rating < 5) ||
+              !(form.rating >= 1 && form.rating <= 5) ||
               !form.genres
             }
           >

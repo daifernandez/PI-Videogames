@@ -20,6 +20,7 @@ const initialState = {
   videogamesOnScreen: [],
   currentPage: 0,
   videogamesForFilter: null,
+  platforms: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -30,12 +31,16 @@ function rootReducer(state = initialState, action) {
 
   switch (action.type) {
     case GET_VIDEOGAMES:
+      const platforms = action.payload.map((el) => el.platforms).flat();
+      const uniquePlatforms = new Set(platforms);
       return {
         ...state,
         videogames: action.payload,
         videogamesOnScreen: action.payload.slice(0, VIDEO_GAMES_PER_PAGE),
         currentPage: 0,
+        platforms: Array.from(uniquePlatforms),
       };
+
     case GET_GENRES:
       return {
         ...state,

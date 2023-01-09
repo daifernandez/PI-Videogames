@@ -32,7 +32,7 @@ videogamesRouter.post("/", validatorMiddleware, async (req, res) => {
       name: name,
       image: image,
       description: description,
-      released: released,
+      released: released === "" ? null : released,
       rating: rating,
       platforms: platforms,
       createdInDB: true,

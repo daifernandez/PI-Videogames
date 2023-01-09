@@ -1,6 +1,7 @@
 const { Videogame, Genre } = require("../db");
 const axios = require("axios");
 const { Op } = require("sequelize");
+const { v4: isUuid } = require("uuid");
 
 let local_videogames = require("./local_videogames.json");
 
@@ -126,16 +127,7 @@ const get_videogame_byName = async (name) => {
 };
 
 const get_videogame_detail = async (id) => {
-  if (parseInt(id)) {
-    const videogameDetail = await axios
-      .get(`https://api.rawg.io/api/games/${id}?key=${process.env.API_KEY}`)
-      .catch(function (error) {
-        throw new Error(error.message);
-      });
-
-    const result = api_videogameParse(videogameDetail.data);
-    return result;
-  } else {
+  if (isUuid(id)) {
     const videogameDBFind = await Videogame.findByPk(id, {
       include: {
         model: Genre,
@@ -156,6 +148,15 @@ const get_videogame_detail = async (id) => {
         createdInDB: videogameDBFind.createdInDB,
       };
     }
+  } else {
+    const videogameDetail = await axios
+      .get(`https://api.rawg.io/api/games/${id}?key=${process.env.API_KEY}`)
+      .catch(function (error) {
+        throw new Error(error.message);
+      });
+
+    const result = api_videogameParse(videogameDetail.data);
+    return result;
   }
 };
 
