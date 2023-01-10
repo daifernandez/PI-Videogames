@@ -1,14 +1,12 @@
-const { Router } = require("express");
-const videogamesRouter = Router();
 const { Videogame, Genre } = require("../db");
-const { validatorMiddleware } = require("../middlewares");
+
 const {
   get_allVideogames,
   get_videogame_byName,
 } = require("../helpers/videogamesHelpers.js");
 
 //GET -> me responda con todos los videogames o busque
-videogamesRouter.get("/", async (req, res) => {
+const get_videogames = async (req, res) => {
   const { name } = req.query;
   if (name) {
     try {
@@ -21,10 +19,10 @@ videogamesRouter.get("/", async (req, res) => {
     let videogamesTotal = await get_allVideogames();
     res.status(200).json(videogamesTotal);
   }
-});
+};
 
 //POST
-videogamesRouter.post("/", validatorMiddleware, async (req, res) => {
+const create_videogame = async (req, res) => {
   const { name, image, description, released, rating, platforms, genres } =
     req.body;
   if (name && description) {
@@ -50,6 +48,6 @@ videogamesRouter.post("/", validatorMiddleware, async (req, res) => {
   } else {
     return res.status(400).json({ error: "missing info" });
   }
-});
+};
 
-module.exports = videogamesRouter;
+module.exports = { create_videogame, get_videogames };
