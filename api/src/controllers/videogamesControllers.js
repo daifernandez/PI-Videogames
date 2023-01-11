@@ -25,29 +25,28 @@ const get_videogames = async (req, res) => {
 const create_videogame = async (req, res) => {
   const { name, image, description, released, rating, platforms, genres } =
     req.body;
-  if (name && description) {
-    const videogameCreated = await Videogame.create({
-      name: name,
-      image: image,
-      description: description,
-      released: released === "" ? null : released,
-      rating: rating,
-      platforms: platforms,
-      createdInDB: true,
-    });
 
-    let genresDb = await Genre.findAll({
-      where: { name: genres },
-    });
+  const videogameCreated = await Videogame.create({
+    name: name,
+    image: image,
+    description: description,
+    released: released === "" ? null : released,
+    rating: rating,
+    platforms: platforms,
+    createdInDB: true,
+  }).catch(function (error) {
+    throw new Error(error.message);
+  });
 
-    for (const genre of genresDb) {
-      videogameCreated.addGenre(genre);
-    }
+  let genresDb = await Genre.findAll({
+    where: { name: genres },
+  });
 
-    res.status(200).send(videogameCreated);
-  } else {
-    return res.status(400).json({ error: "missing info" });
+  for (const genre of genresDb) {
+    videogameCreated.addGenre(genre);
   }
+
+  res.status(200).send(videogameCreated);
 };
 
 module.exports = { create_videogame, get_videogames };
