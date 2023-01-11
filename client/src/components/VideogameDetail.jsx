@@ -53,6 +53,7 @@ export default function Detail() {
           <div className="detail-content">
             <div className="detail-text-info">
               <button
+              className="custom-button"
                 onClick={handleDeleteVideogame}
                 hidden={!detailVideogame.createdInDB}
               >
