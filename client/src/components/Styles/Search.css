@@ -1,7 +1,7 @@
 .search-contenedor {
   border-radius: 8px;
   height: 42px;
-  border-color: var(--secondary-color-card);
+  border-color: var(--secondary-color-search);
   border-width: 1px;
   border-style: solid;
   margin-right: 8px;
@@ -14,7 +14,7 @@
 .search-contenedor:focus {
   outline: none !important;
   border-width: 1px;
-  border-color: var(--primary-color-card);
+  border-color: var(--primary-color-search);
 }
 
 .contenedor-component {
