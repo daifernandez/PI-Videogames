@@ -1,14 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Styles/NavBar.css";
-import Logo from "../img/Icon.jpeg";
+import Logo from "../img/icono.png";
 import "./Styles/Button.css";
 
 export default function NavBar() {
   return (
     <div className="contenedor">
       <div className="img">
-        <img id="logo" src={Logo} className="img" alt="" />
+        <NavLink exact to="/">
+          <img id="logo" src={Logo} className="img" alt="" />
+        </NavLink>
       </div>
 
       <NavLink exact to="/home">
@@ -18,7 +20,7 @@ export default function NavBar() {
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
-          stroke="white"
+          stroke="black"
         >
           <path
             strokeLinecap="round"

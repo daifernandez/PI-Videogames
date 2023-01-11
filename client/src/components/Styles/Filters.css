@@ -2,11 +2,13 @@
   margin-top: 40px;
   margin-left: auto;
   margin-right: auto;
-  background-color: rgba(128, 128, 128, 0.068);
+  background-color: #faf5ff;
   border-radius: 10px;
   transition: 0.5s;
   justify-content: center;
   align-items: center;
+  box-shadow: 3px 3px 10px rgba(97, 108, 111, 0.306);
+  border-radius: 30px;
 }
 
 .dropdown {

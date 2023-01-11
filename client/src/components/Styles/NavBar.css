@@ -1,19 +1,15 @@
 .contenedor {
-  background-color: #1e1a15;
   align-items: center;
   height: 80px;
   width: 100%;
   display: flex;
   justify-content: space-between;
-
   padding: 0 30px;
   box-sizing: border-box;
+  box-shadow: 3px 3px 16px rgba(97, 108, 111, 0.306);
 }
 
 .img {
-  width: 75px;
-  height: 75px;
+  width: 85px;
+  height: 65px;
 }
-
-
-

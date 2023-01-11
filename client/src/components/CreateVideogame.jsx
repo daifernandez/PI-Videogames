@@ -1,4 +1,5 @@
 import React from "react";
+import NavBar from "./NavBar";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
@@ -124,7 +125,8 @@ export default function CreateVideogame() {
   };
 
   return (
-    <div className="contenedor-create">
+   <div><NavBar/>
+    <div className="contenedor-create"> 
       <div className="contenedor-create2">
         <h1 className="input-title">You can add your own Videogame</h1>
 
@@ -273,6 +275,7 @@ export default function CreateVideogame() {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 }

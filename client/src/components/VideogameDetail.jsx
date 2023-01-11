@@ -1,3 +1,4 @@
+import NavBar from "./NavBar";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -37,6 +38,7 @@ export default function Detail() {
   if (detailVideogame) {
     return (
       <div>
+        <NavBar />
         <div className="detail-container">
           <img
             className="detail-main-image"
@@ -80,6 +82,7 @@ export default function Detail() {
   } else {
     return (
       <>
+        <NavBar />
         <Loading />
       </>
     );

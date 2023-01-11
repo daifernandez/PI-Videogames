@@ -1,4 +1,5 @@
 import React from "react";
+import NavBar from "./NavBar";
 import Search from "./Search";
 import FiltersOrders from "./FiltersOrders";
 import Cards from "./Cards";
@@ -24,6 +25,7 @@ export default function Home() {
     if (videogames.length) {
       return (
         <div>
+          <NavBar />
           <Search />
           <FiltersOrders />
           <Cards key="videogames-cards" videogames={videogames} />
@@ -33,6 +35,7 @@ export default function Home() {
     } else {
       return (
         <div>
+          <NavBar />
           <Search />
           <FiltersOrders />
           <EmptyResults />
@@ -42,6 +45,7 @@ export default function Home() {
   } else {
     return (
       <div>
+        <NavBar />
         <Loading />
       </div>
     );
