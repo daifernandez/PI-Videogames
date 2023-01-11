@@ -1,14 +1,15 @@
 .contenedor-filters {
-  margin-top: 40px;
-  margin-left: auto;
-  margin-right: auto;
+  padding-left: 60px;
+  padding-right: 60px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   background-color: #faf5ff;
-  border-radius: 10px;
+
   transition: 0.5s;
   justify-content: center;
   align-items: center;
   box-shadow: 3px 3px 10px rgba(97, 108, 111, 0.306);
-  border-radius: 30px;
+  border-radius: 8px;
 }
 
 .dropdown {

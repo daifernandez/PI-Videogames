@@ -9,6 +9,7 @@ import Loading from "./Loading";
 import { getvideogames } from "../Redux/actions";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import "./Styles/Home.css";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -26,19 +27,23 @@ export default function Home() {
       return (
         <div>
           <NavBar />
-          <Search />
-          <FiltersOrders />
-          <Cards key="videogames-cards" videogames={videogames} />
-          <Paginado />
+          <div className="cont">
+            <Search />
+            <FiltersOrders />
+            <Cards key="videogames-cards" videogames={videogames} />
+            <Paginado />
+          </div>
         </div>
       );
     } else {
       return (
         <div>
           <NavBar />
-          <Search />
-          <FiltersOrders />
-          <EmptyResults />
+          <div className="cont">
+            <Search />
+            <FiltersOrders />
+            <EmptyResults />
+          </div>
         </div>
       );
     }

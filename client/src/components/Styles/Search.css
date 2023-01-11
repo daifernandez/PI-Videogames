@@ -9,7 +9,6 @@
   background: url(../../img/search_mini.png) no-repeat scroll 8px 10px;
   padding-left: 35px;
   background-color: white;
-
 }
 
 .search-contenedor:focus {
@@ -19,11 +18,14 @@
 }
 
 .contenedor-component {
-  margin-top: 40px;
+  /* padding-left: 60px;
+  padding-right: 60px; */
+  margin-top: 50px;
   display: flex;
   justify-content: space-between;
-  margin-left: 40px;
-  margin-right: 40px;
+  /* padding: auto; */
+  /* margin-left: 40px;
+  margin-right: 40px; */
 }
 
 .icon-text {

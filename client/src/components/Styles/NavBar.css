@@ -1,6 +1,6 @@
 .contenedor {
   align-items: center;
-  height: 80px;
+  height: 60px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -10,6 +10,6 @@
 }
 
 .img {
-  width: 85px;
-  height: 65px;
+  width: 75px;
+  height: 55px;
 }

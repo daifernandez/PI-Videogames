@@ -11,7 +11,7 @@ import {
   getCreated,
 } from "../Redux/actions";
 import "./Styles/Button.css";
-import "./Styles/Filters.css";
+import "./Styles/FiltersOrders.css";
 
 export default function FiltersOrders() {
   const dispatch = useDispatch();

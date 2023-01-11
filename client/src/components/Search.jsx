@@ -4,7 +4,6 @@ import "./Styles/Button.css";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { getVideogameByName } from "../Redux/actions";
-import { NavLink } from "react-router-dom";
 
 export default function Search() {
   const dispatch = useDispatch();
@@ -35,7 +34,7 @@ export default function Search() {
           Search
         </button>
       </div>
-      <NavLink to="/createVideogame">
+      {/* <NavLink to="/createVideogame">
         <button className="custom-buttonIcon">
           <div className="icon-text">
             <svg
@@ -55,7 +54,7 @@ export default function Search() {
            Add Videogame
           </div>
         </button>
-      </NavLink>
+      </NavLink> */}
     </div>
   );
 }
