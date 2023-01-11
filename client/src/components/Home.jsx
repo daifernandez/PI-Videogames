@@ -29,9 +29,13 @@ export default function Home() {
           <NavBar />
           <div className="cont">
             <Search />
-            <FiltersOrders />
-            <Cards key="videogames-cards" videogames={videogames} />
-            <Paginado />
+            <div className="">
+              <FiltersOrders />
+              <div>
+                <Cards key="videogames-cards" videogames={videogames} />
+                <Paginado />
+              </div>
+            </div>
           </div>
         </div>
       );

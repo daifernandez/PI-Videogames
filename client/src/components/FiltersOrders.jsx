@@ -59,62 +59,67 @@ export default function FiltersOrders() {
   }
   return (
     <div className="contenedor-filters">
-      <>
-        <label>Genre:</label>
-        <select
-          className="dropdown"
-          id="genreOrder"
-          value={genreSelect}
-          onChange={(e) => handleSelectGenre(e)}
-        >
-          <option value="-">-</option>
-          {genres.map((genre) => (
-            <option key={genre.name} value={genre.name}>
-              {genre.name}
-            </option>
-          ))}
-        </select>
-      </>
-      <>
-        <label>From:</label>
-        <select
-          className="dropdown"
-          name="dropdown"
-          id="comesFrom"
-          value={selectFrom}
-          onChange={(e) => handleSelectFrom(e)}
-        >
-          <option value="all"> All Videogames</option>
-          <option value="createdInDB"> Videogames Created </option>
-          <option value="ApiCreated"> Existing Videogames</option>
-        </select>
-      </>
-      <>
-        <label>Alphabetical:</label>
-        <select
-          className="dropdown"
-          id="alphabOrder"
-          value={selectAlphOrder}
-          onChange={(e) => handleSelectOrderAlph(e)}
-        >
-          <option value="-">-</option>
-          <option value="ASC">A-Z</option>
-          <option value="DESC">Z-A</option>
-        </select>
-      </>
-      <>
-        <label>Rating:</label>
-        <select
-          className="dropdown"
-          id="healthScoreOrder"
-          value={selectRating}
-          onChange={(e) => handleSelectRating(e)}
-        >
-          <option value="-">-</option>
-          <option value="Higher">Higher</option>
-          <option value="Lower">Lower</option>
-        </select>
-      </>
+  
+      <div className="filters-orders">
+        <div>
+          <label>Genre:</label>
+          <select
+            className="dropdown"
+            id="genreOrder"
+            value={genreSelect}
+            onChange={(e) => handleSelectGenre(e)}
+          >
+            <option value="-">-</option>
+            {genres.map((genre) => (
+              <option key={genre.name} value={genre.name}>
+                {genre.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label>From:</label>
+          <select
+            className="dropdown"
+            name="dropdown"
+            id="comesFrom"
+            value={selectFrom}
+            onChange={(e) => handleSelectFrom(e)}
+          >
+            <option value="all"> All Videogames</option>
+            <option value="createdInDB"> Videogames Created </option>
+            <option value="ApiCreated"> Existing Videogames</option>
+          </select>
+        </div>{" "}
+      </div>
+      <div className="filters-orders">
+        <div>
+          <label>Alphabetical:</label>
+          <select
+            className="dropdown"
+            id="alphabOrder"
+            value={selectAlphOrder}
+            onChange={(e) => handleSelectOrderAlph(e)}
+          >
+            <option value="-">-</option>
+            <option value="ASC">A-Z</option>
+            <option value="DESC">Z-A</option>
+          </select>
+        </div>
+        <div>
+          <label>Rating:</label>
+          <select
+            className="dropdown"
+            id="healthScoreOrder"
+            value={selectRating}
+            onChange={(e) => handleSelectRating(e)}
+          >
+            <option value="-">-</option>
+            <option value="Higher">Higher</option>
+            <option value="Lower">Lower</option>
+          </select>
+        </div>
+      </div>
 
       <button
         className="secondary-button"

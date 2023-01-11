@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { deleteVideogameDB, getVideogameDetail } from "../Redux/actions";
 import "./Styles/VideogameDetail.css";
+import Cards from "./Cards";
 import { useHistory } from "react-router-dom";
 import Loading from "./Loading";
 
@@ -53,7 +54,7 @@ export default function Detail() {
           <div className="detail-content">
             <div className="detail-text-info">
               <button
-              className="custom-button"
+                className="custom-button"
                 onClick={handleDeleteVideogame}
                 hidden={!detailVideogame.createdInDB}
               >
@@ -75,6 +76,16 @@ export default function Detail() {
                 }}
               />
               <h4>{detailVideogame.platforms.join(", ")}</h4>
+              <h1>More Actions games</h1>
+              <Cards
+                key="videogames-cards"
+                videogames={[
+                  detailVideogame,
+                  detailVideogame,
+                  detailVideogame,
+                  detailVideogame,
+                ]}
+              />
             </div>
           </div>
         </div>

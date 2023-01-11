@@ -1,15 +1,17 @@
 .contenedor-filters {
   padding-left: 60px;
   padding-right: 60px;
+  padding-bottom: 20px;
   margin-top: 20px;
   margin-bottom: 20px;
-  background-color: #312e810b;
-
+  background-color: #cbcada0b;
+  background-image: url("../../img/banner.jpg");
   transition: 0.5s;
   justify-content: center;
   align-items: center;
   box-shadow: 3px 3px 10px rgba(97, 108, 111, 0.306);
   border-radius: 8px;
+  color: white;
 }
 
 .dropdown {
@@ -22,3 +24,11 @@
   margin-right: 20px;
   margin-bottom: 30px;
 }
+
+.filters-orders {
+  display: flex;
+  flex-direction: row;
+  justify-content:center;
+ 
+}
+
