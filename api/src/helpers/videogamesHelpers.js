@@ -90,8 +90,6 @@ const get_videogame_db_byName = async (name) => {
     },
   });
 
-  console.log(dbVideogameName);
-
   return dbVideogameName.map((videogame) => {
     return {
       id: videogame.id,
@@ -126,6 +124,7 @@ const get_videogame_byName = async (name) => {
 };
 
 const get_videogame_detail = async (id) => {
+  //distinguimos entre uuid e int
   if (id.includes("-")) {
     const videogameDBFind = await Videogame.findByPk(id, {
       include: {
@@ -133,6 +132,8 @@ const get_videogame_detail = async (id) => {
         attributes: ["name"],
         through: { attributes: [] },
       },
+    }).catch(function (error) {
+      throw new Error(error.message);
     });
     if (videogameDBFind) {
       return {
