@@ -24,7 +24,7 @@ export default function Search() {
     <div className="contenedor-component">
       <div>
         <input
-          className="search-contenedor"
+          className="search-bar"
           type="search"
           placeholder="Videogame Name..."
           value={search}

@@ -8,6 +8,7 @@ import "./Styles/VideogameDetail.css";
 import Cards from "./Cards";
 import { useHistory } from "react-router-dom";
 import Loading from "./Loading";
+import banner from "../img/banner.jpg";
 
 export default function Detail() {
   const { id } = useParams();
@@ -43,11 +44,7 @@ export default function Detail() {
         <div className="detail-container">
           <img
             className="detail-main-image"
-            src={
-              detailVideogame.image
-                ? detailVideogame.image
-                : "https://images.nintendolife.com/a04d0d034e391/smash.large.jpg"
-            }
+            src={detailVideogame.image ? detailVideogame.image : banner}
             alt="img not found"
           />
 

@@ -27,8 +27,8 @@ export default function Home() {
       return (
         <div>
           <NavBar />
+          <Search />
           <div className="cont">
-            <Search />
             <div className="">
               <FiltersOrders />
               <div>
@@ -43,8 +43,8 @@ export default function Home() {
       return (
         <div>
           <NavBar />
+          <Search />
           <div className="cont">
-            <Search />
             <FiltersOrders />
             <EmptyResults />
           </div>

@@ -4,6 +4,7 @@
   box-shadow: 5px 5px 16px rgba(97, 108, 111, 0.469);
   background-color: rgba(128, 128, 128, 0.063);
   overflow: hidden;
+  background-color: white;
 }
 
 .main-image {

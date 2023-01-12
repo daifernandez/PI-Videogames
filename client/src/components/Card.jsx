@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Styles/Card.css";
+import banner from "../img/banner.jpg";
 
 export default function Card({ videogame }) {
   return (
@@ -9,11 +10,7 @@ export default function Card({ videogame }) {
         <div className="main-image">
           <img
             className="main-image"
-            src={
-              videogame.image
-                ? videogame.image
-                : "https://images.nintendolife.com/a04d0d034e391/smash.large.jpg"
-            }
+            src={videogame.image ? videogame.image : banner}
             alt="img not found"
           />
         </div>
