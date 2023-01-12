@@ -7,7 +7,6 @@ import { postVideogame, getGenres } from "../Redux/actions";
 import "./Styles/CreateVideogame.css";
 import "./Styles/Button.css";
 
-//VALIDACION
 export function validate(input) {
   let errors = {};
   if (!input.name) {
@@ -125,157 +124,160 @@ export default function CreateVideogame() {
   };
 
   return (
-   <div><NavBar/>
-    <div className="contenedor-create"> 
-      <div className="contenedor-create2">
-        <h1 className="input-title">You can add your own Videogame</h1>
+    <div>
+      <NavBar />
+      <div className="contenedor-create">
+        <div className="contenedor-create2">
+          <h1 className="input-title">Create your own Videogame Detail</h1>
 
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label className="input-label">Name*</label>
-            <input
-              className="barra"
-              type="text"
-              key="name"
-              name="name"
-              placeholder="Videogame name"
-              value={form.name}
-              onChange={handleChange}
-            />
-            {error.name && <p className="input-forgot">{error.name}</p>}
-          </div>
-          <div>
-            <label className="input-label">Released</label>
-            <input
-              className="barra"
-              type="date"
-              key="released"
-              name="released"
-              value={form.released}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label className="input-label">Rating*</label>
-            <input
-              className="barra"
-              type="number"
-              step="0.1"
-              min="1"
-              max="5"
-              key="rating"
-              name="rating"
-              placeholder="3.5"
-              value={form.rating}
-              onChange={handleChange}
-            />
-            {error.rating && <p className="input-forgot">{error.rating}</p>}
-          </div>
-          <div>
-            <label className="input-label-description">Description*</label>
-            <textarea
-              className="barra-description"
-              type="text"
-              key="description"
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-              rows="4"
-              cols="50"
-              placeholder="Videogame description"
-            ></textarea>
-            {error.description && (
-              <p className="input-forgot">{error.description}</p>
-            )}
-          </div>
-          <div>
-            <fieldset>
-              <legend className="input-label-genres">Choose Genres</legend>
-              <select
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label className="input-label">Name*</label>
+              <input
                 className="barra"
-                key="genreName"
-                name="genreName"
-                id=""
-                value={genresSelected}
-                required
-                onChange={handleSelectGenre}
-              >
-                <option disabled value="Genres">
-                  Genres
-                </option>
-                {genres.map((genre) => (
-                  <option>{genre.name}</option>
-                ))}
-              </select>
-              <div>
-                <>
-                  {form.genres.map((genre) => (
-                    <button
-                      className="genres"
-                      key={genre}
-                      type="button"
-                      value={genre}
-                      onClick={(e) => handleDeleteGenre(e)}
-                    >
-                      {genre} x
-                    </button>
+                type="text"
+                key="name"
+                name="name"
+                placeholder="Videogame name"
+                value={form.name}
+                onChange={handleChange}
+              />
+              {error.name && <p className="input-forgot">{error.name}</p>}
+            </div>
+            <div>
+              <label className="input-label">Released</label>
+              <input
+                className="barra"
+                type="date"
+                key="released"
+                name="released"
+                value={form.released}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="input-label">Rating*</label>
+              <input
+                className="barra"
+                type="number"
+                step="0.1"
+                min="1"
+                max="5"
+                key="rating"
+                name="rating"
+                placeholder="3.5"
+                value={form.rating}
+                onChange={handleChange}
+              />
+              {error.rating && <p className="input-forgot">{error.rating}</p>}
+            </div>
+            <div>
+              <label className="input-label-description">Description*</label>
+              <textarea
+                className="barra-description"
+                type="text"
+                key="description"
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                rows="4"
+                cols="50"
+                placeholder="Videogame description"
+              ></textarea>
+              {error.description && (
+                <p className="input-forgot">{error.description}</p>
+              )}
+            </div>
+            <div>
+              <fieldset>
+                <legend className="input-label-genres">Choose Genres</legend>
+                <select
+                  className="barra"
+                  key="genreName"
+                  name="genreName"
+                  id=""
+                  value={genresSelected}
+                  required
+                  onChange={handleSelectGenre}
+                >
+                  <option disabled value="Genres">
+                    Genres
+                  </option>
+                  {genres.map((genre) => (
+                    <option>{genre.name}</option>
                   ))}
-                </>
-              </div>
-            </fieldset>
-          </div>
+                </select>
+                <div>
+                  <>
+                    {form.genres.map((genre) => (
+                      <button
+                        className="genres"
+                        key={genre}
+                        type="button"
+                        value={genre}
+                        onClick={(e) => handleDeleteGenre(e)}
+                      >
+                        {genre} x
+                      </button>
+                    ))}
+                  </>
+                </div>
+              </fieldset>
+            </div>
 
-          <br />
-
-          <fieldset>
-            <legend className="input-label-platforms">Choose Platforms*</legend>
             <br />
-            {platforms.map((platform) => (
-              <label>
-                <input
-                  type="checkbox"
-                  name={platform}
-                  value={platform}
-                  onChange={handleSelectPlatform}
-                />
-                {platform}
-                <br />
-                {error.platforms && (
-                  <p className="input-forgot">{error.platforms}</p>
-                )}
-              </label>
-            ))}
-          </fieldset>
 
-          <br />
-          <div>
-            <label className="input-label-image">Image:</label>
-            <input
-              type="file"
-              key="image"
-              name="image"
-              value={form.image}
-              onChange={handleChange}
-            />
-          </div>
-          <p className="required-text">(*) required fields</p>
-          <button
-            className="form-button"
-            key="submit"
-            type="submit"
-            value="submit"
-            disabled={
-              !form.name ||
-              !form.description ||
-              !(form.rating >= 1 && form.rating <= 5) ||
-              !form.genres
-            }
-          >
-            Create Videogame
-          </button>
-        </form>
+            <fieldset>
+              <legend className="input-label-platforms">
+                Choose Platforms*
+              </legend>
+              <br />
+              {platforms.map((platform) => (
+                <label>
+                  <input
+                    type="checkbox"
+                    name={platform}
+                    value={platform}
+                    onChange={handleSelectPlatform}
+                  />
+                  {platform}
+                  <br />
+                  {error.platforms && (
+                    <p className="input-forgot">{error.platforms}</p>
+                  )}
+                </label>
+              ))}
+            </fieldset>
+
+            <br />
+            <div>
+              <label className="input-label-image">Image:</label>
+              <input
+                type="file"
+                key="image"
+                name="image"
+                value={form.image}
+                onChange={handleChange}
+              />
+            </div>
+            <p className="required-text">(*) required fields</p>
+            <button
+              className="form-button"
+              key="submit"
+              type="submit"
+              value="submit"
+              disabled={
+                !form.name ||
+                !form.description ||
+                !(form.rating >= 1 && form.rating <= 5) ||
+                !form.genres
+              }
+            >
+              Create
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
     </div>
   );
 }
