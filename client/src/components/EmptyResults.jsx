@@ -1,24 +1,32 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { clear } from "../Redux/actions";
 import "./Styles/Button.css";
+import "./Styles/EmptyResults.css";
 
 export default function EmptyResults() {
+  const dispatch = useDispatch();
+
+  function handleClear(e) {
+    e.preventDefault();
+    dispatch(clear());
+  }
   return (
     <div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="icon-emptyResults"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"
-        />
-      </svg>
+      <img
+        className="empty-gif"
+        src="https://media3.giphy.com/media/PgP2SoNRY3GRwuETmq/giphy.gif"
+        alt="not found"
+      />
       <p>No pudimos encontrar videojuegos para los filtros activos.</p>
+      <button
+        className="secondary-button"
+        onClick={(e) => {
+          handleClear(e);
+        }}
+      >
+        Return
+      </button>
     </div>
   );
 }
