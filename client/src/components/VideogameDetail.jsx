@@ -50,19 +50,6 @@ export default function Detail() {
 
           <div className="detail-content">
             <div className="detail-text-info">
-              <button
-                className="custom-button"
-                onClick={handleDeleteVideogame}
-                hidden={!detailVideogame.createdInDB}
-              >
-                Delete Videogame
-              </button>
-              {/* <button
-                onClick={handlePutVideogame}
-                hidden={!detail.createdInDB}
-              >
-                Put Videogame
-              </button> */}
               <h1>{detailVideogame.name}</h1>
               <h5>{detailVideogame.genres.join(" - ")}</h5>
               <h4 className="star-rating">⭐️ {detailVideogame.rating}</h4>
@@ -73,6 +60,16 @@ export default function Detail() {
                 }}
               />
               <h4>{detailVideogame.platforms.join(", ")}</h4>
+              <button
+                className="delete-button"
+                onClick={handleDeleteVideogame}
+                hidden={!detailVideogame.createdInDB}
+              >
+                <i class="material-symbols-rounded middle-align button-icon">
+                  delete
+                </i>
+                <span className="middle-align">Delete Videogame</span>
+              </button>
               <h1>More Actions games</h1>
               <Cards
                 key="videogames-cards"

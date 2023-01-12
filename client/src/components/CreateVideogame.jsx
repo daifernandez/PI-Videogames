@@ -174,7 +174,7 @@ export default function CreateVideogame() {
           <div>
             <label className="input-label-description">Description*</label>
             <textarea
-              className="description"
+              className="barra-description"
               type="text"
               key="description"
               name="description"

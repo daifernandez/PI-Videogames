@@ -77,7 +77,6 @@ export default function FiltersOrders() {
       </div>
       <div className="filter">
         <span class="material-symbols-rounded">folder_open</span>
-        {/* <label>From:</label> */}
         <select
           className="dropdown"
           name="dropdown"
@@ -92,7 +91,6 @@ export default function FiltersOrders() {
       </div>
       <div className="filter">
         <span class="material-symbols-outlined">sort_by_alpha</span>
-        {/* <label>Alphabetical:</label> */}
         <select
           className="dropdown"
           id="alphabOrder"
@@ -106,7 +104,6 @@ export default function FiltersOrders() {
       </div>
       <div className="filter">
         <span class="material-symbols-rounded">hotel_class</span>
-        {/* <label>Rating:</label> */}
         <select
           className="dropdown"
           id="healthScoreOrder"

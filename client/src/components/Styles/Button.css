@@ -61,6 +61,33 @@
   margin-right: 5px;
 }
 
+.delete-button {
+  background-color: red;
+  border-radius: 8px;
+  padding: 10px 30px;
+  height: 44px;
+  text-align: center;
+  color: white;
+  font-size: 14px;
+  border: 0;
+  font-weight: 800;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.middle-align {
+  vertical-align: middle;
+}
+
+.delete-button:hover {
+  background-color: rgb(175, 0, 0);
+}
+
+.button-icon {
+  padding-right: 8px;
+}
+
 .icon-emptyResults {
   width: 60px;
   height: 60px;

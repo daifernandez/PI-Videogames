@@ -3,22 +3,26 @@
   padding-right: 60px;
   padding-bottom: 20px;
   margin-bottom: 20px;
-  /* justify-content: center;
-  align-items: center; */
-  /* width: 100%; */
 }
 
 .dropdown {
   font-size: 15px;
-  height: 20px;
-  width: auto;
   border-radius: 5px;
-  margin-top: 30px;
-  margin-left: 5px;
-  margin-right: 20px;
-  margin-bottom: 30px;
+  height: 35px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(231, 231, 231);
+  padding-left: 8px;
+  padding-right: 8px;
+  width: 100%;
+  background-color: rgb(247, 247, 247);
+}
+.dropdown:focus {
+  outline: none !important;
 }
 
 .filter {
   display: inline-block;
+  margin-left: 5px;
+  margin-right: 20px;
 }

@@ -108,16 +108,19 @@
   border-color: var(--primary-color); */
 }
 
-.description {
+.barra-description {
   border-radius: 8px;
   height: 100px;
-  border-color: rgb(237, 237, 237);
-  border-width: 2px;
-  /* border-style: solid; */
-  border-style: groove;
-  margin-right: 8px;
-  width: 250px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(231, 231, 231);
+  padding-left: 8px;
+  padding-right: 8px;
+  width: 100%;
   background-color: rgb(247, 247, 247);
+}
+.barra-description:focus {
+  outline: none !important;
 }
 
 .genres {
