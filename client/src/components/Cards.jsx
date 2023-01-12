@@ -4,7 +4,7 @@ import "./Styles/Cards.css";
 
 export default function Cards({ videogames }) {
   return (
-    <div className="cont">
+    <div className="cont-cards">
       {videogames.map((videogame) => (
         <Card key={videogame.id} videogame={videogame} />
       ))}

@@ -29,7 +29,7 @@ export default function Home() {
           <NavBar />
           <Search />
           <div className="cont">
-            <div className="">
+            <div>
               <FiltersOrders />
               <div>
                 <Cards key="videogames-cards" videogames={videogames} />

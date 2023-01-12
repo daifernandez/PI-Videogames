@@ -1,8 +1,5 @@
 .contenedor-filters {
-  padding-left: 60px;
-  padding-right: 60px;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  margin: 12px 8px;
 }
 
 .dropdown {
@@ -14,7 +11,7 @@
   border-color: rgb(231, 231, 231);
   padding-left: 8px;
   padding-right: 8px;
-  width: 100%;
+  margin-left: 8px;
   background-color: rgb(247, 247, 247);
 }
 .dropdown:focus {
@@ -23,6 +20,9 @@
 
 .filter {
   display: inline-block;
-  margin-left: 5px;
-  margin-right: 20px;
+  margin: 8px 15px 8px 5px;
+}
+
+.filter-icon {
+  vertical-align: middle;
 }
