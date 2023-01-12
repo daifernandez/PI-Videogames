@@ -59,7 +59,7 @@ export default function Detail() {
                   __html: detailVideogame.description,
                 }}
               />
-              <h4>{detailVideogame.platforms.join(", ")}</h4>
+              <h4>{detailVideogame.platforms.join(" | ")}</h4>
               <button
                 className="delete-button"
                 onClick={handleDeleteVideogame}
@@ -77,7 +77,7 @@ export default function Detail() {
                   detailVideogame,
                   detailVideogame,
                   detailVideogame,
-                  detailVideogame,
+                 
                 ]}
               />
             </div>
