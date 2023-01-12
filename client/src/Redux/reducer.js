@@ -40,7 +40,6 @@ function rootReducer(state = initialState, action) {
         currentPage: 0,
         platforms: Array.from(uniquePlatforms),
       };
-
     case GET_GENRES:
       return {
         ...state,
@@ -70,10 +69,11 @@ function rootReducer(state = initialState, action) {
       };
     case POST_VIDEOGAME:
       return {
+        //chequear ?
         ...state,
+        // videogame: [...state.includes(action.payload)],
       };
     case GET_CREATED:
-      console.log(action.payload);
       const createdFilter =
         action.payload === "createdInDB"
           ? state.videogames.filter((e) => e.createdInDB)
@@ -94,7 +94,6 @@ function rootReducer(state = initialState, action) {
       if (action.payload === "-") {
         alphSorted = [...activeVideogames];
       }
-
       return {
         ...state,
         videogamesOnScreen: alphSorted,
