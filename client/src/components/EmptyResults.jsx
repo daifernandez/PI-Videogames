@@ -18,7 +18,7 @@ export default function EmptyResults() {
         src="https://media3.giphy.com/media/PgP2SoNRY3GRwuETmq/giphy.gif"
         alt="not found"
       />
-      <p>No pudimos encontrar videojuegos para los filtros activos.</p>
+      <p>sorry! we couldn't find videogames</p>
       <button
         className="secondary-button"
         onClick={(e) => {
