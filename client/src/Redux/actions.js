@@ -32,6 +32,7 @@ export function getGenres() {
   };
 }
 
+//CREO QUE NO VA ACA, REVISAR, NO HAY UNA FUNCION DISPACHADORA PARA EL REDUCER
 export async function getVideogameDetail(id) {
   const response = await axios.get(`http://localhost:3001/videogame/${id}`);
   return response.data;
@@ -93,6 +94,7 @@ export function goToPage(page) {
   };
 }
 
+// QUE ES COMPLETION??
 export function deleteVideogameDB(id, completion) {
   return async function (dispatch) {
     await axios
