@@ -1,14 +1,12 @@
-import NavBar from "./NavBar";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { deleteVideogameDB, getVideogameDetail } from "../Redux/actions";
-import "./Styles/VideogameDetail.css";
 import Cards from "./Cards";
-import { useHistory } from "react-router-dom";
+import NavBar from "./NavBar";
 import Loading from "./Loading";
 import banner from "../img/banner.jpg";
+import "./Styles/VideogameDetail.css";
 
 export default function Detail() {
   const { id } = useParams();
@@ -73,12 +71,7 @@ export default function Detail() {
               <h1>More Actions games</h1>
               <Cards
                 key="videogames-cards"
-                videogames={[
-                  detailVideogame,
-                  detailVideogame,
-                  detailVideogame,
-                 
-                ]}
+                videogames={[detailVideogame, detailVideogame, detailVideogame]}
               />
             </div>
           </div>
