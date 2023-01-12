@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Styles/NavBar.css";
-import Logo from "../img/icono.png";
+import Logo from "../img/navbar.png";
 import "./Styles/Button.css";
 
 export default function NavBar() {

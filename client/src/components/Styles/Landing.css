@@ -22,3 +22,8 @@
   flex-direction: row;
   margin: auto;
 }
+
+.title {
+  width: 90%;
+  height: 90%;
+}
