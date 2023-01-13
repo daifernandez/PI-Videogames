@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Styles/Search.css";
 import "./Styles/Button.css";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
 import { getVideogameByName } from "../Redux/actions";
 
 export default function Search() {

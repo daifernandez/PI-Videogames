@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./Styles/NavBar.css";
 import Logo from "../img/navbar.png";
 import "./Styles/Button.css";
+import "./Styles/NavBar.css";
 
 export default function NavBar() {
   return (
