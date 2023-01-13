@@ -24,14 +24,12 @@ export default function Detail() {
   }, [dispatch, id]);
 
   const handleDeleteVideogame = (e) => {
-    e.preventDefault();
     dispatch(deleteVideogameDB(id));
     alert("Videogame successfully deleted!!");
     redirection.push("/home");
   };
 
   // const handlePutVideogame = (e) => {
-  //   e.preventDefault();
   //   dispatch(putVideogameDB(id));
   // };
 

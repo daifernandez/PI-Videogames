@@ -25,31 +25,26 @@ export default function FiltersOrders() {
   }, [dispatch]);
 
   function handleSelectGenre(e) {
-    e.preventDefault();
     setGenreSelect(e.target.value);
     dispatch(selectGenre(e.target.value));
   }
   function handleSelectFrom(e) {
-    e.preventDefault();
     dispatch(getCreated(e.target.value));
   }
 
   function handleSelectOrderAlph(e) {
-    e.preventDefault();
     setSelectRating("-");
     setSelectAlphOrder(e.target.value);
     dispatch(alphOrder(e.target.value));
   }
 
   function handleSelectRating(e) {
-    e.preventDefault();
     setSelectAlphOrder("-");
     setSelectRating(e.target.value);
     dispatch(ratingOrder(e.target.value));
   }
 
   function handleClearFiltersOrder(e) {
-    e.preventDefault();
     dispatch(clear());
     setSelectRating("-");
     setSelectAlphOrder("-");
