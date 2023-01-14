@@ -94,8 +94,7 @@ export function goToPage(page) {
   };
 }
 
-// QUE ES COMPLETION??
-export function deleteVideogameDB(id, completion) {
+export function deleteVideogameDB(id) {
   return async function (dispatch) {
     await axios
       .delete(`http://localhost:3001/videogame/${id}`)

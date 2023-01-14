@@ -15,7 +15,8 @@ export function validate(input) {
     errors.description = "Description is required";
   }
   if (input.description.length > 2000) {
-    errors.description = "Sorry, description must not contain more than 2000 characters";
+    errors.description =
+      "Sorry, description must not contain more than 2000 characters";
   }
   if (!input.rating || input.rating < 1 || input.rating > 5) {
     errors.rating = "The rating needs to be between 1 and 5";

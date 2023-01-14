@@ -69,9 +69,8 @@ function rootReducer(state = initialState, action) {
       };
     case POST_VIDEOGAME:
       return {
-        //chequear ?
         ...state,
-        // videogame: [...state.includes(action.payload)],
+        videogame: [...state.videogames] + [action.payload],
       };
     case GET_CREATED:
       const createdFilter =
