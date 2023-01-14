@@ -92,3 +92,72 @@
   width: 60px;
   height: 60px;
 }
+/* 
+.button-clear {
+  align-items: center;
+  background-color: transparent;
+  color: black;
+  cursor: pointer;
+
+  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-decoration: none;
+  text-transform: uppercase;
+  outline: 0;
+  border: 0;
+  padding: 1rem;
+}
+
+.button-clear:before {
+  background-color: #fff;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  margin-right: 10px;
+  transition: all 0.42s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 0;
+}
+
+.button-clear:hover:before {
+  background-color: black;
+  width: 3rem;
+} */
+
+.button-clear {
+  font-size: 17px;
+  background: transparent;
+  border: none;
+  /* padding: 1em 1.5em; */
+  color: black;
+  /* text-transform: uppercase; */
+  position: relative;
+  transition: 0.5s ease;
+}
+
+.button-clear::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: var(--primary-button-color);
+  transition: 0.5s ease;
+}
+
+.button-clear:hover {
+  color: black;
+  transition-delay: 0.5s;
+}
+
+.button-clear:hover::before {
+  width: 100%;
+}
+
+.button-clear:hover::after {
+  height: 100%;
+  transition-delay: 0.4s;
+  color: var(--primary-button-color);
+}

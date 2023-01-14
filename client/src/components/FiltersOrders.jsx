@@ -111,7 +111,7 @@ export default function FiltersOrders() {
       </div>
 
       <button
-        className="secondary-button"
+        className="button-clear"
         onClick={(e) => {
           handleClearFiltersOrder(e);
         }}

@@ -3,6 +3,7 @@
   flex-direction: column;
   padding: 25px;
   margin: auto;
+  
 }
 
 .contenedor-create2 {
@@ -19,7 +20,6 @@
 }
 
 .input-title {
-  /* text-align: center; */
   font-size: 30px;
   margin-top: 30px;
   margin-bottom: 40px;
