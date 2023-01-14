@@ -1,18 +1,7 @@
 .celda {
-  /* position: relative;
   border-radius: 12px;
-  box-shadow: 5px 5px 16px rgba(97, 108, 111, 0.469);
-  background-color: rgba(128, 128, 128, 0.063);
-  overflow: hidden;
-  background-color: white; */
-
-  /* border-radius: 12px;
-  background: linear-gradient(145deg, #ffffff, #e6e6e6);
-  box-shadow:  29px 29px 74px #cccccc,
-               -29px -29px 74px #ffffff; */
-  border-radius: 12px;
-  background: linear-gradient(145deg, #ffffff, #e6e6e6);
-  box-shadow: 25px 25px 50px #cccccc, -25px -25px 50px #ffffff;
+  background: #ffffff;
+  box-shadow: 19px 19px 59px #e3e3e3, -19px -19px 59px #ffffff;
   overflow: hidden;
 }
 
