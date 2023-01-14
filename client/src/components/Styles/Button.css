@@ -150,6 +150,7 @@
 .button-clear:hover {
   color: black;
   transition-delay: 0.5s;
+  cursor: pointer;
 }
 
 .button-clear:hover::before {
