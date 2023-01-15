@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import { deleteVideogameDB, getVideogameDetail } from "../Redux/actions";
-import Cards from "./Cards";
 import NavBar from "./NavBar";
 import Loading from "./Loading";
 import banner from "../img/banner.jpg";
@@ -66,11 +65,6 @@ export default function Detail() {
                 </i>
                 <span className="middle-align">Delete Videogame</span>
               </button>
-              <h1>More Actions games</h1>
-              <Cards
-                key="videogames-cards"
-                videogames={[detailVideogame, detailVideogame, detailVideogame]}
-              />
             </div>
           </div>
         </div>
