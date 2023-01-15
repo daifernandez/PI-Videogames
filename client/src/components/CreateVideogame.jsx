@@ -209,7 +209,7 @@ export default function CreateVideogame() {
                   <>
                     {form.genres.map((genre) => (
                       <button
-                        className="genres"
+                        className="button-genres"
                         key={genre}
                         type="button"
                         value={genre}
