@@ -7,17 +7,20 @@ import title from "../img/title.png";
 
 export default function Landing() {
   return (
-    <div className="landing">
-      <div>
-        <img className="title" src={title} alt="" />
-        <div  className="data-contain">
-          <h4 className="contenido">PI - Henry Videogames</h4>{" "}
-          <Link to="/home">
-            <button className="custom-button">Home</button>
-          </Link>
+    <div>
+      <div className="landing">
+        <div className="contenedor-titulo">
+          <img className="title" src={title} alt="" />
+          <div className="data-contain">
+            <h4 className="contenido">PI - Henry Videogames</h4>{" "}
+            <Link to="/home">
+              <button className="custom-button">Home</button>
+            </Link>
+          </div>
         </div>
+        <img id="logo" src={Logo} className="logo" alt="" />
       </div>
-      <img id="logo" src={Logo} className="logo" alt="" />
+      <label className="footnote">Hecho con ❤️ por Dai.</label>
     </div>
   );
 }

@@ -25,7 +25,7 @@ export default function Search() {
         <input
           className="search-bar"
           type="search"
-          placeholder="Videogame Name..."
+          placeholder="Search 100s of videogames..."
           value={search}
           onChange={(e) => handleTextChange(e)}
         />

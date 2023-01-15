@@ -3,6 +3,7 @@
   background: #ffffff;
   box-shadow: 19px 19px 59px #e3e3e3, -19px -19px 59px #ffffff;
   overflow: hidden;
+  width: 300px;
 }
 
 .main-image {
@@ -25,6 +26,7 @@ h4 {
   margin: 0;
   text-align: left;
   padding-bottom: 8px;
+  max-width: 80%;
 }
 
 .star-rating {
