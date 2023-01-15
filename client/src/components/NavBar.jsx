@@ -14,7 +14,7 @@ export default function NavBar() {
       </div>
       <NavLink to="/createVideogame">
         <button className="custom-button">
-          <span class="material-symbols-rounded middle-align button-icon">
+          <span className="material-symbols-rounded middle-align button-icon">
             add_to_photos
           </span>
           <span className="middle-align">Add Videogame</span>

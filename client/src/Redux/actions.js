@@ -48,13 +48,14 @@ export function getVideogameByName(name) {
   };
 }
 
-export function postVideogame(videogame) {
+export function postVideogame(videogame, callback) {
   return async function (dispatch) {
     await axios
       .post("http://localhost:3001/videogames", videogame)
-      .then((response) =>
-        dispatch({ type: POST_VIDEOGAME, payload: response.data })
-      );
+      .then((response) => {
+        dispatch({ type: POST_VIDEOGAME, payload: response.data });
+        callback(response.data);
+      });
   };
 }
 

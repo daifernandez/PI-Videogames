@@ -51,9 +51,16 @@ function rootReducer(state = initialState, action) {
         videogamesOnScreen: action.payload,
       };
     case DELETE_DB_VIDEOGAME:
+      const updatedVideogames = [...state.videogames].filter(
+        (videogame) => videogame.id !== action.payload.id
+      );
+      const updatedVideogamesOnScreen = [...state.videogamesOnScreen].filter(
+        (videogame) => videogame.id !== action.payload.id
+      );
       return {
         ...state,
-        videogameDetail: null,
+        videogames: updatedVideogames,
+        videogamesOnScreen: updatedVideogamesOnScreen,
       };
     case SELECT_GENRE:
       var filterGenre = [...state.videogames].filter((videogame) =>
@@ -68,9 +75,11 @@ function rootReducer(state = initialState, action) {
         videogamesForFilter: filterGenre,
       };
     case POST_VIDEOGAME:
+      var updatedAllVideogames = [...state.videogames];
+      updatedVideogames.push(action.payload);
       return {
         ...state,
-        videogame: [...state.videogames] + [action.payload],
+        videogames: updatedAllVideogames,
       };
     case GET_CREATED:
       const createdFilter =

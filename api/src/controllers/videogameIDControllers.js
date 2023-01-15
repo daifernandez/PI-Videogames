@@ -19,8 +19,8 @@ const get_videogameDetail = async (req, res) => {
 const delete_videogame = async (req, res) => {
   const { id } = req.params;
   try {
-    await delete_videogameDB(id);
-    res.status(200).send();
+    const deletedVideogame = await delete_videogameDB(id);
+    res.status(200).send(deletedVideogame);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

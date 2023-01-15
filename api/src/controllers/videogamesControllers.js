@@ -26,7 +26,8 @@ const create_videogame = async (req, res) => {
   const { name, image, description, released, rating, platforms, genres } =
     req.body;
 
-  const videogameCreated = await Videogame.create({
+  // Creo el video juego con las propiedades pero sin relacion a generos.
+  const videogame = await Videogame.create({
     name: name,
     image: image,
     description: description,
@@ -38,15 +39,33 @@ const create_videogame = async (req, res) => {
     throw new Error(error.message);
   });
 
-  let genresDb = await Genre.findAll({
-    where: { name: genres },
+  // Busco los generos en la base de datos a partir de los nombres de los generos pasados por body.
+  const genresDb = await Genre.findAll({ where: { name: genres } });
+  // Creamos la relacion entre videogame y generos en la base de datos. Esto NO actualiza el objecto videogame.
+  await videogame.addGenres(genresDb);
+
+  // Traemos el videojuego CON relaciones de la base de datos para devolverlo.
+  const videogameWithRelation = await Videogame.findByPk(videogame.id, {
+    include: {
+      model: Genre,
+      attributes: ["name"],
+      through: { attributes: [] },
+    },
+  }).catch(function (error) {
+    throw new Error(error.message);
   });
 
-  for (const genre of genresDb) {
-    videogameCreated.addGenre(genre);
-  }
-
-  res.status(200).send(videogameCreated);
+  res.status(200).send({
+    id: videogameWithRelation.id,
+    name: videogameWithRelation.name,
+    image: videogameWithRelation.image,
+    description: videogameWithRelation.description,
+    released: videogameWithRelation.released,
+    rating: videogameWithRelation.rating,
+    platforms: videogameWithRelation.platforms,
+    genres: videogameWithRelation.genres.map((genres) => genres.name),
+    createdInDB: videogameWithRelation.createdInDB,
+  });
 };
 
 module.exports = { create_videogame, get_videogames };

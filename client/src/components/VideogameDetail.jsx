@@ -61,7 +61,7 @@ export default function Detail() {
                 onClick={handleDeleteVideogame}
                 hidden={!detailVideogame.createdInDB}
               >
-                <i class="material-symbols-rounded middle-align button-icon">
+                <i className="material-symbols-rounded middle-align button-icon">
                   delete
                 </i>
                 <span className="middle-align">Delete Videogame</span>

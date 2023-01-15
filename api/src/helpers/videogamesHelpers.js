@@ -163,9 +163,10 @@ const get_videogame_detail = async (id) => {
 const delete_videogameDB = async (id) => {
   const videogameToDelete = await Videogame.findByPk(id);
   if (videogameToDelete) {
-    videogameToDelete.destroy().catch(function (error) {
+    await videogameToDelete.destroy().catch(function (error) {
       throw new Error(error.message);
     });
+    return videogameToDelete;
   } else {
     throw new Error("Videogame not found");
   }

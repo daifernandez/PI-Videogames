@@ -56,7 +56,7 @@ export default function CreateVideogame() {
 
   const [genresSelected, setGenresSelected] = useState("Genres");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate(form);
     setError(newErrors);
@@ -69,18 +69,13 @@ export default function CreateVideogame() {
       alert("Please fill the required fileds.");
       return;
     }
-    dispatch(postVideogame(form));
-    alert("Videogame successfully created!!");
-    setForm({
-      name: "",
-      description: "",
-      rating: "",
-      released: "",
-      image: "",
-      genres: [],
-      platforms: [],
-    });
-    redirection.push("/home");
+
+    dispatch(
+      postVideogame(form, (createdVideogame) => {
+        alert(`Videogame: ${createdVideogame.name} created!`);
+        redirection.push(`/videogame/${createdVideogame.id}`);
+      })
+    );
   };
 
   const handleChange = (e) => {
@@ -207,7 +202,7 @@ export default function CreateVideogame() {
                     Genres
                   </option>
                   {genres.map((genre) => (
-                    <option>{genre.name}</option>
+                    <option key={genre.id}>{genre.name}</option>
                   ))}
                 </select>
                 <div>
@@ -236,7 +231,7 @@ export default function CreateVideogame() {
               </legend>
               <br />
               {platforms.map((platform) => (
-                <label>
+                <label key={platform}>
                   <input
                     type="checkbox"
                     name={platform}
