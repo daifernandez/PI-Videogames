@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { postVideogame, getGenres } from "../Redux/actions";
+import { postVideogame, getGenres, getvideogames } from "../Redux/actions";
 import "./Styles/CreateVideogame.css";
 import "./Styles/Button.css";
 
@@ -34,8 +34,16 @@ export default function CreateVideogame() {
   const platforms = useSelector((state) => state.platforms);
 
   useEffect(() => {
-    dispatch(getGenres());
-  }, [dispatch]);
+    if (genres.length === 0) {
+      dispatch(getGenres());
+    }
+  }, [dispatch, genres]);
+
+  useEffect(() => {
+    if (platforms.length === 0) {
+      dispatch(getvideogames());
+    }
+  }, [dispatch, platforms]);
 
   const [form, setForm] = useState({
     name: "",

@@ -32,7 +32,7 @@ export default function Home() {
             <div>
               <FiltersOrders />
               <div>
-                <Cards key="videogames-cards" videogames={videogames} />
+                <Cards key="videogames-cards" videogames={videogames} direction="vertical" />
                 <Paginado />
               </div>
             </div>

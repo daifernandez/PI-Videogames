@@ -1,4 +1,4 @@
-.cont-cards {
+.cont-cards-vertical {
   display: flex;
   justify-content: space-around;
   flex-direction: row;
@@ -7,4 +7,14 @@
   padding: 2rem;
   gap: 3rem;
   align-items: center;
+}
+
+.cont-cards-horizontal {
+  display: flex;
+  overflow: auto;
+  scroll-snap-type: x mandatory;
+  padding: 10px;
+  gap: 10px;
+  scroll-padding: 10px;
+  height: 254px;
 }

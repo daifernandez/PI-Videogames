@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import { deleteVideogameDB, getVideogameDetail } from "../Redux/actions";
 import NavBar from "./NavBar";
 import Loading from "./Loading";
 import banner from "../img/banner.jpg";
 import "./Styles/VideogameDetail.css";
+import Cards from "./Cards";
 
 export default function Detail() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const redirection = useHistory();
   const [detailVideogame, setDetailVideogame] = useState();
+  const sameGenreVideogames = useSelector((state) => {
+    if (detailVideogame) {
+      return state.videogames
+        .filter((videogame) =>
+          videogame.genres.includes(detailVideogame.genres[0])
+        )
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 4);
+    } else {
+      return [];
+    }
+  });
 
   useEffect(() => {
     const fetchVideogameDetail = async () => {
@@ -66,6 +79,12 @@ export default function Detail() {
                 <span className="middle-align">Delete Videogame</span>
               </button>
             </div>
+            <h2>More Action games</h2>
+            <Cards
+              key="videogames-cards"
+              videogames={sameGenreVideogames}
+              direction="horizontal"
+            />
           </div>
         </div>
       </div>

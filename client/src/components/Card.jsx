@@ -5,7 +5,7 @@ import banner from "../img/banner.jpg";
 
 export default function Card({ videogame }) {
   return (
-    <NavLink to={`videogame/${videogame.id}`}>
+    <NavLink to={`/videogame/${videogame.id}`}>
       <div className="celda">
         <div className="main-image">
           <img
