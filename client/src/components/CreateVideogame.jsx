@@ -248,16 +248,7 @@ export default function CreateVideogame() {
             </fieldset>
 
             <br />
-            <div>
-              <label className="input-label-image">Image:</label>
-              <input
-                type="file"
-                key="image"
-                name="image"
-                value={form.image}
-                onChange={handleChange}
-              />
-            </div>
+
             <p className="required-text">(*) required fields</p>
             <button
               className="form-button"
