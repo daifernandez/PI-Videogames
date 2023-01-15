@@ -13,8 +13,8 @@
   display: flex;
   overflow: auto;
   scroll-snap-type: x mandatory;
-  padding: 10px;
+  padding: 10px 30px;
   gap: 10px;
-  scroll-padding: 10px;
-  height: 254px;
+  scroll-padding: 20px;
+  height: auto;
 }

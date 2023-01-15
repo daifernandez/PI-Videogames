@@ -14,10 +14,19 @@ export default function Search() {
     setSearch(e.target.value);
   }
   function handleSubmit(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     dispatch(getVideogameByName(search));
-    setSearch("");
+    // setSearch("");
   }
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      console.log("Enter was pressed");
+      handleSubmit();
+    }
+  };
 
   return (
     <div className="contenedor-component">
@@ -28,6 +37,7 @@ export default function Search() {
           placeholder="Search 100s of videogames..."
           value={search}
           onChange={(e) => handleTextChange(e)}
+          onKeyDown={handleKeyDown}
         />
         <button className="custom-button" onClick={(e) => handleSubmit(e)}>
           Search

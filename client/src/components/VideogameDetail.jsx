@@ -79,7 +79,7 @@ export default function Detail() {
                 <span className="middle-align">Delete Videogame</span>
               </button>
             </div>
-            <h2>More Action games</h2>
+            <h2 className="more-text">More similar genre games</h2>
             <Cards
               key="videogames-cards"
               videogames={sameGenreVideogames}
