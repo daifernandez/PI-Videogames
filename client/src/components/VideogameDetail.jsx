@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
-import { deleteVideogameDB, getVideogameDetail } from "../Redux/actions";
+import { useParams, useHistory, NavLink } from "react-router-dom";
+import {
+  deleteVideogameDB,
+  getVideogameDetail,
+  getvideogames,
+} from "../Redux/actions";
 import NavBar from "./NavBar";
 import Loading from "./Loading";
 import banner from "../img/banner.jpg";
 import "./Styles/VideogameDetail.css";
 import Cards from "./Cards";
+import ScrollToTop from "./ScrollToTop.jsx";
 
 export default function Detail() {
   const { id } = useParams();
@@ -25,8 +30,10 @@ export default function Detail() {
       return [];
     }
   });
+  const hasVideogames = useSelector((state) => state.videogames.length > 0);
 
   useEffect(() => {
+    setDetailVideogame();
     const fetchVideogameDetail = async () => {
       const videgameDetail = await getVideogameDetail(id);
       setDetailVideogame(videgameDetail);
@@ -34,6 +41,12 @@ export default function Detail() {
 
     fetchVideogameDetail();
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (!hasVideogames) {
+      dispatch(getvideogames());
+    }
+  }, [dispatch, hasVideogames]);
 
   const handleDeleteVideogame = (e) => {
     dispatch(deleteVideogameDB(id));
@@ -48,6 +61,7 @@ export default function Detail() {
   if (detailVideogame) {
     return (
       <div>
+        <ScrollToTop />
         <NavBar />
         <div className="detail-container">
           <img
@@ -67,7 +81,17 @@ export default function Detail() {
                   __html: detailVideogame.description,
                 }}
               />
-              <h4>{detailVideogame.platforms.join(" | ")}</h4>
+              <h4>
+                {detailVideogame.platforms.map((platform) => (
+                  <NavLink
+                    to={`/videogames/platform/${platform}`}
+                    className="platform"
+                    key={platform}
+                  >
+                    {platform}
+                  </NavLink>
+                ))}
+              </h4>
               <button
                 className="delete-button"
                 onClick={handleDeleteVideogame}

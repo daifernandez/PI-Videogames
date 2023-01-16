@@ -32,7 +32,11 @@ export default function Home() {
             <div>
               <FiltersOrders />
               <div>
-                <Cards key="videogames-cards" videogames={videogames} direction="vertical" />
+                <Cards
+                  key="videogames-cards"
+                  videogames={videogames}
+                  direction="vertical"
+                />
                 <Paginado />
               </div>
             </div>
@@ -46,7 +50,7 @@ export default function Home() {
           <Search />
           <div className="cont">
             <FiltersOrders />
-            <EmptyResults />
+            <EmptyResults isHome={true} />
           </div>
         </div>
       );

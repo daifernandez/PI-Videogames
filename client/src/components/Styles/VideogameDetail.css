@@ -34,3 +34,21 @@
   margin-left: 30px;
   color: rgb(102, 102, 102);
 }
+
+.platform {
+  color: #090909;
+  margin: 5px;
+  padding: 0.5em;
+  font-size: 12px;
+  border-radius: 0.5em;
+  border: 1px solid #e8e8e8ce;
+  background: linear-gradient(145deg, #e6e6e6, #ffffff);
+  box-shadow: 10px 10px 20px #d4d4d4, -10px -10px 20px #ffffff;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s;
+ }
+
+.platform:active {
+  color: #666;
+  box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+}

@@ -1,15 +1,21 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { clear } from "../Redux/actions";
 import "./Styles/Button.css";
 import "./Styles/EmptyResults.css";
 
-export default function EmptyResults() {
+export default function EmptyResults({ isHome }) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   function handleClear(e) {
     e.preventDefault();
-    dispatch(clear());
+    if (isHome) {
+      dispatch(clear());
+    } else {
+      history.goBack();
+    }
   }
   return (
     <div>
