@@ -18,12 +18,11 @@ export default function Search() {
       e.preventDefault();
     }
     dispatch(getVideogameByName(search));
-    // setSearch("");
+    setSearch("");
   }
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      console.log("Enter was pressed");
       handleSubmit();
     }
   };

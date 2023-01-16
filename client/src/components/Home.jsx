@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "./NavBar";
 import Search from "./Search";
 import FiltersOrders from "./FiltersOrders";
@@ -7,22 +7,30 @@ import Paginado from "./Paginado";
 import EmptyResults from "./EmptyResults";
 import Loading from "./Loading";
 import { getvideogames } from "../Redux/actions";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Styles/Home.css";
 
 export default function Home() {
   const dispatch = useDispatch();
   const videogames = useSelector((state) => state.videogamesOnScreen);
-  const fetchedVideogames = useSelector((state) => state.videogames.length > 0);
+  const needsToFetchVideogames = useSelector(
+    (state) => state.videogames.length === 0
+  );
 
   useEffect(() => {
-    if (!fetchedVideogames) {
+    if (needsToFetchVideogames) {
       dispatch(getvideogames());
     }
-  }, [dispatch, fetchedVideogames]);
+  }, [dispatch, needsToFetchVideogames]);
 
-  if (fetchedVideogames) {
+  if (needsToFetchVideogames) {
+    return (
+      <div>
+        <NavBar />
+        <Loading />
+      </div>
+    );
+  } else {
     if (videogames.length) {
       return (
         <div>
@@ -55,12 +63,5 @@ export default function Home() {
         </div>
       );
     }
-  } else {
-    return (
-      <div>
-        <NavBar />
-        <Loading />
-      </div>
-    );
   }
 }
