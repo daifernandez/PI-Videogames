@@ -43,10 +43,11 @@
   border-radius: 0.5em;
   border: 1px solid #e8e8e8ce;
   background: linear-gradient(145deg, #e6e6e6, #ffffff);
-  box-shadow: 10px 10px 20px #d4d4d4, -10px -10px 20px #ffffff;
+  box-shadow: 10px 10px 30px #d4d4d4, -10px -10x 30px #ffffff;
   border: 1px solid #e8e8e8;
   transition: all 0.3s;
- }
+  display: inline-block;
+}
 
 .platform:active {
   color: #666;
