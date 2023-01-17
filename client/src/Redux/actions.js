@@ -1,5 +1,6 @@
 import axios from "axios";
-const { API_HOST } = process.env;
+require("dotenv").config();
+const { REACT_APP_API_HOST } = process.env;
 
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
 export const GET_GENRES = "GET_GENRES";
@@ -16,7 +17,7 @@ export const DELETE_DB_VIDEOGAME = "DELETE_DB_VIDEOGAME";
 export function getvideogames() {
   return async function (dispatch) {
     await axios
-      .get(`${API_HOST}/videogames`)
+      .get(`${REACT_APP_API_HOST}/videogames`)
       .then((response) =>
         dispatch({ type: GET_VIDEOGAMES, payload: response.data })
       );
@@ -26,7 +27,7 @@ export function getvideogames() {
 export function getGenres() {
   return async function (dispatch) {
     await axios
-      .get(`${API_HOST}/genres`)
+      .get(`${REACT_APP_API_HOST}/genres`)
       .then((response) =>
         dispatch({ type: GET_GENRES, payload: response.data })
       );
@@ -35,14 +36,14 @@ export function getGenres() {
 
 //CREO QUE NO VA ACA, REVISAR, NO HAY UNA FUNCION DISPACHADORA PARA EL REDUCER
 export async function getVideogameDetail(id) {
-  const response = await axios.get(`${API_HOST}/videogame/${id}`);
+  const response = await axios.get(`${REACT_APP_API_HOST}/videogame/${id}`);
   return response.data;
 }
 
 export function getVideogameByName(name) {
   return async function (dispatch) {
     await axios
-      .get(`${API_HOST}/videogames?name=${name}`)
+      .get(`${REACT_APP_API_HOST}/videogames?name=${name}`)
       .then((response) =>
         dispatch({ type: GET_VIDEOGAME_BY_NAME, payload: response.data })
       );
@@ -51,10 +52,12 @@ export function getVideogameByName(name) {
 
 export function postVideogame(videogame, callback) {
   return async function (dispatch) {
-    await axios.post(`${API_HOST}/videogames`, videogame).then((response) => {
-      dispatch({ type: POST_VIDEOGAME, payload: response.data });
-      callback(response.data);
-    });
+    await axios
+      .post(`${REACT_APP_API_HOST}/videogames`, videogame)
+      .then((response) => {
+        dispatch({ type: POST_VIDEOGAME, payload: response.data });
+        callback(response.data);
+      });
   };
 }
 
@@ -96,8 +99,10 @@ export function goToPage(page) {
 
 export function deleteVideogameDB(id) {
   return async function (dispatch) {
-    await axios.delete(`${API_HOST}/videogame/${id}`).then(function (response) {
-      dispatch({ type: DELETE_DB_VIDEOGAME, payload: response.data });
-    });
+    await axios
+      .delete(`${REACT_APP_API_HOST}/videogame/${id}`)
+      .then(function (response) {
+        dispatch({ type: DELETE_DB_VIDEOGAME, payload: response.data });
+      });
   };
 }
