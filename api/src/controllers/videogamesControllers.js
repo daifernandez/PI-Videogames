@@ -19,9 +19,9 @@ const get_videogames = async (req, res) => {
     }
   } else {
     // TODO: Remove!
-    // res.status(200).json(local_videogames);
-    let videogamesTotal = await get_allVideogames();
-    res.status(200).json(videogamesTotal);
+    res.status(200).json(local_videogames);
+    // let videogamesTotal = await get_allVideogames();
+    // res.status(200).json(videogamesTotal);
   }
 };
 
