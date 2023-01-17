@@ -1,6 +1,5 @@
 const { get_all_genres_helper } = require("../helpers/genresHelpers");
 
-// GET genres
 
 const get_genres = async (req, res) => {
   try {

@@ -7,7 +7,6 @@ const {
 
 const videogameIDRouter = Router();
 
-//GET
 videogameIDRouter.get("/:id", get_videogameDetail);
 videogameIDRouter.delete("/:id", delete_videogame);
 videogameIDRouter.put("/:id", put_videogame);
