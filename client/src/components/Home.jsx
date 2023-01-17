@@ -31,37 +31,29 @@ export default function Home() {
       </div>
     );
   } else {
+    let content;
     if (videogames.length) {
-      return (
+      content = (
         <div>
-          <NavBar />
-          <Search />
-          <div className="cont">
-            <div>
-              <FiltersOrders />
-              <div>
-                <Cards
-                  key="videogames-cards"
-                  videogames={videogames}
-                  direction="vertical"
-                />
-                <Paginado />
-              </div>
-            </div>
-          </div>
+          <Cards
+            key="videogames-cards"
+            videogames={videogames}
+            direction="vertical"
+          />
+          <Paginado />
         </div>
       );
     } else {
-      return (
-        <div>
-          <NavBar />
-          <Search />
-          <div className="cont">
-            <FiltersOrders />
-            <EmptyResults isHome={true} />
-          </div>
-        </div>
-      );
+      content = <EmptyResults isHome={true} />;
     }
+
+    return (
+      <div>
+        <NavBar />
+        <Search />
+        <FiltersOrders />
+        <div className="cont">{content}</div>
+      </div>
+    );
   }
 }

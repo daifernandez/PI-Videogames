@@ -86,7 +86,9 @@ export default function FiltersOrders() {
         </select>
       </div>
       <div className="filter">
-        <span className="material-symbols-outlined filter-icon">sort_by_alpha</span>
+        <span className="material-symbols-outlined filter-icon">
+          sort_by_alpha
+        </span>
         <select
           className="dropdown"
           id="alphabOrder"
@@ -94,12 +96,14 @@ export default function FiltersOrders() {
           onChange={(e) => handleSelectOrderAlph(e)}
         >
           <option value="-">-</option>
-          <option value="ASC">A-Z</option>
-          <option value="DESC">Z-A</option>
+          <option value="A-Z">A-Z</option>
+          <option value="Z-A">Z-A</option>
         </select>
       </div>
       <div className="filter">
-        <span className="material-symbols-rounded filter-icon">hotel_class</span>
+        <span className="material-symbols-rounded filter-icon">
+          hotel_class
+        </span>
         <select
           className="dropdown"
           id="healthScoreOrder"
@@ -107,8 +111,8 @@ export default function FiltersOrders() {
           onChange={(e) => handleSelectRating(e)}
         >
           <option value="-">-</option>
-          <option value="Higher">Higher</option>
-          <option value="Lower">Lower</option>
+          <option value="5-1">Higher</option>
+          <option value="1-5">Lower</option>
         </select>
       </div>
 

@@ -2,8 +2,6 @@ const { Videogame, Genre } = require("../db");
 const axios = require("axios");
 const { Op } = require("sequelize");
 
-let local_videogames = require("./local_videogames.json");
-
 const get_videogame_db = async () => {
   const videogames = await Videogame.findAll({
     include: {
@@ -51,16 +49,14 @@ const api_videogameParse = (apiObject) => {
 
 const get_videogame_api = async () => {
   const pagesToFetch = [1, 2, 3];
-  // var allVideogames = [];
-  var allVideogames = local_videogames;
-  // for (pageNumber of pagesToFetch) {
-  //   console.log(pageNumber);
-  //   const urlApi = await axios.get(
-  //     `https://api.rawg.io/api/games?key=${process.env.API_KEY}&page_size=40&page=${pageNumber}`
-  //   );
+  var allVideogames = [];
+  for (pageNumber of pagesToFetch) {
+    const urlApi = await axios.get(
+      `https://api.rawg.io/api/games?key=${process.env.API_KEY}&page_size=40&page=${pageNumber}`
+    );
 
-  //   allVideogames = allVideogames.concat(urlApi.data.results);
-  // }
+    allVideogames = allVideogames.concat(urlApi.data.results);
+  }
 
   const videogamesApi = allVideogames.map((apiObject) => {
     return api_videogameParse(apiObject);

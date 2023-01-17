@@ -210,7 +210,12 @@ export default function CreateVideogame() {
                     Genres
                   </option>
                   {genres.map((genre) => (
-                    <option key={genre.id}>{genre.name}</option>
+                    <option
+                      key={genre.id}
+                      disabled={form.genres.includes(genre.name)}
+                    >
+                      {genre.name}
+                    </option>
                   ))}
                 </select>
                 <div>

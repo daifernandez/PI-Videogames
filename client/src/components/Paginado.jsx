@@ -4,15 +4,9 @@ import { goToPage } from "../Redux/actions";
 import "./Styles/Paginado.css";
 
 export default function Paginado() {
-  const VIDEO_GAMES_PER_PAGE = 15;
   const dispatch = useDispatch();
-  const videogames = useSelector((state) =>
-    state.videogamesForFilter !== null
-      ? state.videogamesForFilter
-      : state.videogames
-  );
   const numberOfPages = useSelector((state) => [
-    ...Array(Math.ceil(videogames.length / VIDEO_GAMES_PER_PAGE)).keys(),
+    ...Array(state.numberOfPages).keys(),
   ]);
   const currentPage = useSelector((state) => state.currentPage);
 
