@@ -54,6 +54,8 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogamesOnScreen: action.payload,
+        currentPage: 0,
+        numberOfPages: 1,
       };
     case DELETE_DB_VIDEOGAME:
       const updatedVideogames = [...state.videogames].filter(
