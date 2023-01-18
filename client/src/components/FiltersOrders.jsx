@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getGenres,
@@ -15,17 +15,38 @@ import "./Styles/FiltersOrders.css";
 export default function FiltersOrders() {
   const dispatch = useDispatch();
   const genres = useSelector((state) => state.genres);
-  const [selectRating, setSelectRating] = useState("-");
-  const [selectAlphOrder, setSelectAlphOrder] = useState("-");
-  const [genreSelect, setGenreSelect] = useState("-");
-  const [selectFrom, setSelectFrom] = useState();
+  const genre = useSelector(
+    (state) => state.filterAndSortingState.genre ?? "-"
+  );
+  const origin = useSelector(
+    (state) => state.filterAndSortingState.origin ?? "all"
+  );
+  const rating = useSelector((state) => {
+    if (
+      state.filterAndSortingState.sorting === "1-5" ||
+      state.filterAndSortingState.sorting === "5-1"
+    ) {
+      return state.filterAndSortingState.sorting;
+    } else {
+      return "-";
+    }
+  });
+  const alph = useSelector((state) => {
+    if (
+      state.filterAndSortingState.sorting === "A-Z" ||
+      state.filterAndSortingState.sorting === "Z-A"
+    ) {
+      return state.filterAndSortingState.sorting;
+    } else {
+      return "-";
+    }
+  });
 
   useEffect(() => {
     dispatch(getGenres());
   }, [dispatch]);
 
   function handleSelectGenre(e) {
-    setGenreSelect(e.target.value);
     dispatch(selectGenre(e.target.value));
   }
   function handleSelectFrom(e) {
@@ -33,24 +54,17 @@ export default function FiltersOrders() {
   }
 
   function handleSelectOrderAlph(e) {
-    setSelectRating("-");
-    setSelectAlphOrder(e.target.value);
     dispatch(alphOrder(e.target.value));
   }
 
   function handleSelectRating(e) {
-    setSelectAlphOrder("-");
-    setSelectRating(e.target.value);
     dispatch(ratingOrder(e.target.value));
   }
 
   function handleClearFiltersOrder(e) {
     dispatch(clear());
-    setSelectRating("-");
-    setSelectAlphOrder("-");
-    setGenreSelect("-");
-    setSelectFrom("all");
   }
+
   return (
     <div className="contenedor-filters">
       <div className="filter">
@@ -58,7 +72,7 @@ export default function FiltersOrders() {
         <select
           className="dropdown"
           id="genreOrder"
-          value={genreSelect}
+          value={genre}
           onChange={(e) => handleSelectGenre(e)}
         >
           <option value="-">-</option>
@@ -77,12 +91,12 @@ export default function FiltersOrders() {
           className="dropdown"
           name="dropdown"
           id="comesFrom"
-          value={selectFrom}
+          value={origin}
           onChange={(e) => handleSelectFrom(e)}
         >
           <option value="all"> All Videogames</option>
-          <option value="createdInDB"> Videogames Created </option>
-          <option value="ApiCreated"> Existing Videogames</option>
+          <option value="DB"> Videogames Created </option>
+          <option value="API"> Existing Videogames</option>
         </select>
       </div>
       <div className="filter">
@@ -92,7 +106,7 @@ export default function FiltersOrders() {
         <select
           className="dropdown"
           id="alphabOrder"
-          value={selectAlphOrder}
+          value={alph}
           onChange={(e) => handleSelectOrderAlph(e)}
         >
           <option value="-">-</option>
@@ -107,7 +121,7 @@ export default function FiltersOrders() {
         <select
           className="dropdown"
           id="healthScoreOrder"
-          value={selectRating}
+          value={rating}
           onChange={(e) => handleSelectRating(e)}
         >
           <option value="-">-</option>

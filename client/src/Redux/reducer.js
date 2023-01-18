@@ -107,8 +107,7 @@ function rootReducer(state = initialState, action) {
       if (action.payload === "all") {
         filterAndSortingState.origin = null;
       } else {
-        filterAndSortingState.origin =
-          action.payload === "createdInDB" ? "DB" : "API";
+        filterAndSortingState.origin = action.payload;
       }
 
       const filteredVideogamesCreated = videogamesForFilter(
