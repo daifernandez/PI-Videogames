@@ -1,13 +1,9 @@
 const { Videogame, Genre } = require("../db");
-
 const {
   get_allVideogames,
   get_videogame_byName,
 } = require("../helpers/videogamesHelpers.js");
 
-let local_videogames = require("../helpers/local_videogames.json");
-
-//GET -> me responda con todos los videogames o busque
 const get_videogames = async (req, res) => {
   const { name } = req.query;
   if (name) {
@@ -18,14 +14,11 @@ const get_videogames = async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   } else {
-    // TODO: Remove!
-    // res.status(200).json(local_videogames);
     let videogamesTotal = await get_allVideogames();
     res.status(200).json(videogamesTotal);
   }
 };
 
-//POST
 const create_videogame = async (req, res) => {
   const { name, image, description, released, rating, platforms, genres } =
     req.body;

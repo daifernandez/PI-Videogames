@@ -7,7 +7,7 @@ const router = require("./routes/index.js");
 const { ALLOW_CONNECTION } = process.env;
 
 require("./db.js");
-//creamos nuestro servidor de express, lo instanciamos
+
 const server = express();
 
 server.name = "API";
@@ -29,7 +29,6 @@ server.use((req, res, next) => {
 
 server.use("/", router);
 
-// Error catching endware.
 server.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
   const status = err.status || 500;
