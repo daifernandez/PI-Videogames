@@ -104,7 +104,7 @@ const get_videogame_db_byName = async (name) => {
 const get_videogame_byName = async (name) => {
   const videogameApiSearch = await axios
     .get(
-      `https://api.rawg.io/api/games?search=${name}&key=${process.env.API_KEY}`
+      `https://api.rawg.io/api/games?search=${name}&search_exact=true&key=${process.env.API_KEY}`
     )
     .catch(function (error) {
       throw new Error(error.message);
