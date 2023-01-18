@@ -5,14 +5,17 @@ import "./Styles/Paginado.css";
 
 export default function Paginado() {
   const dispatch = useDispatch();
-  const numberOfPages = useSelector((state) => [
-    ...Array(state.numberOfPages).keys(),
-  ]);
+  const arrayOfPages = useSelector((state) => {
+    var pages = [];
+    for (var i = 0; i < state.numberOfPages; i++) {
+      pages.push(i);
+    }
+    return pages;
+  });
   const currentPage = useSelector((state) => state.currentPage);
 
   const handlePageSelection = (page) => {
     dispatch(goToPage(page));
-    // Nos movemos al tope de la lista al cambiar de pagina.
     window.scrollTo({ top: 0, left: 0 });
   };
 
@@ -20,8 +23,8 @@ export default function Paginado() {
     <nav>
       <div className="pagination">
         <div>
-          {numberOfPages &&
-            numberOfPages.map((number) => (
+          {arrayOfPages &&
+            arrayOfPages.map((number) => (
               <button
                 className={
                   currentPage === number

@@ -21,7 +21,11 @@ const initialState = {
   currentPage: 0,
   numberOfPages: 0,
   platforms: [],
-  activeFiltersAndSorting: {},
+  activeFiltersAndSorting: {
+    genre: null,
+    origin: null,
+    sorting: null,
+  },
 };
 
 function rootReducer(state = initialState, action) {
@@ -29,15 +33,16 @@ function rootReducer(state = initialState, action) {
     case GET_VIDEOGAMES:
       const platforms = action.payload.map((el) => el.platforms).flat();
       const uniquePlatforms = new Set(platforms);
-      const paginationGetVideogames = paginationForVideogames(
-        videogamesForFilter(action.payload, state.activeFiltersAndSorting),
+      const videogames = action.payload;
+      const paginationGetVideogames = videogamesForPage(
+        videogames,
         state.currentPage
       );
       return {
         ...state,
-        videogames: action.payload,
-        videogamesOnScreen: paginationGetVideogames.videogamesForPage,
-        numberOfPages: paginationGetVideogames.numberOfPages,
+        videogames: videogames,
+        videogamesOnScreen: paginationGetVideogames,
+        numberOfPages: pagesCount(videogames),
         platforms: Array.from(uniquePlatforms),
       };
     case GET_GENRES:
@@ -54,29 +59,38 @@ function rootReducer(state = initialState, action) {
       const updatedVideogames = [...state.videogames].filter(
         (videogame) => videogame.id !== action.payload.id
       );
-      const paginationDeleteDB = paginationForVideogames(
-        videogamesForFilter(updatedVideogames, state.activeFiltersAndSorting),
+      const filteredVideogamesDeleteDB = videogamesForFilter(
+        updatedVideogames,
+        state.activeFiltersAndSorting
+      );
+      const videogamesForPageDeleteDB = videogamesForPage(
+        filteredVideogamesDeleteDB,
         state.currentPage
       );
       return {
         ...state,
         videogames: updatedVideogames,
-        videogamesOnScreen: paginationDeleteDB.videogamesForPage,
-        numberOfPages: paginationDeleteDB.numberOfPages,
+        videogamesOnScreen: videogamesForPageDeleteDB,
+        numberOfPages: pagesCount(filteredVideogamesDeleteDB),
       };
     case SELECT_GENRE:
       var activeFilters = state.activeFiltersAndSorting;
       activeFilters.genre = action.payload === "-" ? null : action.payload;
-      const paginationSelectGenre = paginationForVideogames(
-        videogamesForFilter(state.videogames, activeFilters),
+
+      const filteredVideogamesGenre = videogamesForFilter(
+        state.videogames,
+        activeFilters
+      );
+      const paginationSelectGenre = videogamesForPage(
+        filteredVideogamesGenre,
         0
       );
       return {
         ...state,
-        videogamesOnScreen: paginationSelectGenre.videogamesForPage,
+        videogamesOnScreen: paginationSelectGenre,
         activeFilters: activeFilters,
         currentPage: 0,
-        numberOfPages: paginationSelectGenre.numberOfPages,
+        numberOfPages: pagesCount(filteredVideogamesGenre),
       };
     case POST_VIDEOGAME:
       var updatedAllVideogames = [...state.videogames];
@@ -88,80 +102,90 @@ function rootReducer(state = initialState, action) {
     case GET_CREATED:
       var activeFilters = state.activeFiltersAndSorting;
       if (action.payload === "all") {
-        activeFilters.createdIn = null;
+        activeFilters.origin = null;
       } else {
-        activeFilters.createdIn =
-          action.payload === "createdInDB" ? "DB" : "API";
+        activeFilters.origin = action.payload === "createdInDB" ? "DB" : "API";
       }
-      const paginationCreated = paginationForVideogames(
-        videogamesForFilter(state.videogames, activeFilters),
-        0
+
+      const filteredVideogamesCreated = videogamesForFilter(
+        state.videogames,
+        activeFilters
       );
+      const paginationCreated = videogamesForPage(filteredVideogamesCreated, 0);
+
       return {
         ...state,
-        videogamesOnScreen: paginationCreated.videogamesForPage,
+        videogamesOnScreen: paginationCreated,
         activeFilters: activeFilters,
         currentPage: 0,
-        numberOfPages: paginationCreated.numberOfPages,
+        numberOfPages: pagesCount(filteredVideogamesCreated),
       };
 
     case ALPH_ORDER:
       var activeFilters = state.activeFiltersAndSorting;
       activeFilters.sorting = action.payload === "-" ? null : action.payload;
-      const paginationAlph = paginationForVideogames(
-        videogamesForFilter(state.videogames, activeFilters),
-        0
+
+      const filteredVideogamesAlph = videogamesForFilter(
+        state.videogames,
+        activeFilters
       );
+      const paginationAlph = videogamesForPage(filteredVideogamesAlph, 0);
       return {
         ...state,
-        videogamesOnScreen: paginationAlph.videogamesForPage,
+        videogamesOnScreen: paginationAlph,
         activeFilters: activeFilters,
         currentPage: 0,
-        numberOfPages: paginationAlph.numberOfPages,
       };
     case RATING_ORDER:
       var activeFilters = state.activeFiltersAndSorting;
       activeFilters.sorting = action.payload === "-" ? null : action.payload;
-      const paginationRating = paginationForVideogames(
-        videogamesForFilter(state.videogames, activeFilters),
-        0
+      const filteredVideogamesRating = videogamesForFilter(
+        state.videogames,
+        activeFilters
       );
+      const paginationRating = videogamesForPage(filteredVideogamesRating, 0);
       return {
         ...state,
-        videogamesOnScreen: paginationRating.videogamesForPage,
+        videogamesOnScreen: paginationRating,
         currentPage: 0,
-        numberOfPages: paginationRating.numberOfPages,
         activeFilters: activeFilters,
       };
     case CLEAR:
       activeFilters = {
         genre: null,
-        createdIn: null,
+        origin: null,
         sorting: null,
       };
       const currentPage = 0;
-      const paginationClear = paginationForVideogames(
-        videogamesForFilter(state.videogames, activeFilters),
+      const filteredVideogamesClear = videogamesForFilter(
+        state.videogames,
+        activeFilters
+      );
+      const paginationClear = videogamesForPage(
+        filteredVideogamesClear,
         currentPage
       );
       return {
         ...state,
-        videogamesOnScreen: paginationClear.videogamesForPage,
+        videogamesOnScreen: paginationClear,
         currentPage: currentPage,
-        numberOfPages: paginationClear.numberOfPages,
+        numberOfPages: pagesCount(filteredVideogamesClear),
         activeFilters: activeFilters,
       };
     case GO_TO_PAGE:
       const page = action.payload;
-      const paginationGoToPage = paginationForVideogames(
-        videogamesForFilter(state.videogames, state.activeFiltersAndSorting),
+      const filteredVideogamesGoToPage = videogamesForFilter(
+        state.videogames,
+        state.activeFiltersAndSorting
+      );
+      const paginationGoToPage = videogamesForPage(
+        filteredVideogamesGoToPage,
         page
       );
       return {
         ...state,
-        videogamesOnScreen: paginationGoToPage.videogamesForPage,
+        videogamesOnScreen: paginationGoToPage,
         currentPage: page,
-        numberOfPages: paginationGoToPage.numberOfPages,
       };
     default:
       return { ...state };
@@ -176,8 +200,8 @@ function videogamesForFilter(videogames, activeFilters) {
       }
     }
 
-    if (activeFilters.createdIn) {
-      switch (activeFilters.createdIn) {
+    if (activeFilters.origin) {
+      switch (activeFilters.origin) {
         case "API":
           if (videogame.createdInDB) {
             return false;
@@ -191,7 +215,6 @@ function videogamesForFilter(videogames, activeFilters) {
         default:
       }
     }
-
     return true;
   });
 
@@ -215,7 +238,7 @@ function videogamesForFilter(videogames, activeFilters) {
   return videogamesForFilter;
 }
 
-function paginationForVideogames(videogames, page) {
+function videogamesForPage(videogames, page) {
   //busco los elementos a mostrar en una pagina tal
   const indexFirstVideogame = page * VIDEO_GAMES_PER_PAGE;
   const indexLastVideogame = indexFirstVideogame + VIDEO_GAMES_PER_PAGE;
@@ -223,13 +246,13 @@ function paginationForVideogames(videogames, page) {
     indexFirstVideogame,
     indexLastVideogame
   );
-  // la cantidad de paginas que me lleva el array
-  const numberOfPages = Math.ceil(videogames.length / VIDEO_GAMES_PER_PAGE);
 
-  return {
-    videogamesForPage: videogamesForPage,
-    numberOfPages: numberOfPages,
-  };
+  return videogamesForPage;
+}
+
+function pagesCount(videogames) {
+  // la cantidad de paginas que me llevan los videojuegos filtrados
+  return Math.ceil(videogames.length / VIDEO_GAMES_PER_PAGE);
 }
 
 export default rootReducer;

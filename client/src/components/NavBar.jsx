@@ -17,7 +17,8 @@ export default function NavBar() {
           <span className="material-symbols-rounded middle-align button-icon">
             add_to_photos
           </span>
-          <span className="middle-align">Add Videogame</span>
+          <span className="middle-align button-text-large">Add Videogame</span>
+          <span className="middle-align button-text-small">Add</span>
         </button>
       </NavLink>
     </div>

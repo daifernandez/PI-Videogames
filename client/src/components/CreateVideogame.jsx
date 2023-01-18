@@ -93,6 +93,25 @@ export default function CreateVideogame() {
       ...form,
       [property]: value,
     });
+    if (property === "name") {
+      const regularExpression = /[`@#$%^&*()_+\-=\[\]{};'"\\|<>\/~]/;
+      if (regularExpression.test(value)) {
+        error.name = "The name cannot containg special characters";
+        setError(error);
+      } else {
+        error.name = "";
+        setError(error);
+      }
+    }
+    if (property === "rating") {
+      if (value < 1 || value > 5) {
+        error.rating = "The rating needs to be between 1 and 5";
+        setError(error);
+      } else {
+        error.rating = "";
+        setError(error);
+      }
+    }
   };
 
   const handleSelectGenre = (e) => {
@@ -134,7 +153,7 @@ export default function CreateVideogame() {
       <NavBar />
       <div className="contenedor-create">
         <div className="contenedor-create2">
-          <h1 className="input-title">Create your own Videogame Detail</h1>
+          <h1 className="input-title">Add a new videogame</h1>
 
           <form onSubmit={handleSubmit}>
             <div>
@@ -270,9 +289,13 @@ export default function CreateVideogame() {
               value="submit"
               disabled={
                 !form.name ||
+                error.name ||
                 !form.description ||
-                !(form.rating >= 1 && form.rating <= 5) ||
-                !form.genres
+                error.description ||
+                !form.rating ||
+                error.rating ||
+                !form.platforms ||
+                error.platforms
               }
             >
               Create
