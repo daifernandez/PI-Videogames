@@ -18,11 +18,14 @@ export default function Detail() {
   const dispatch = useDispatch();
   const redirection = useHistory();
   const [detailVideogame, setDetailVideogame] = useState();
+
   const sameGenreVideogames = useSelector((state) => {
     if (detailVideogame) {
       return state.videogames
-        .filter((videogame) =>
-          videogame.genres.includes(detailVideogame.genres[0])
+        .filter(
+          (videogame) =>
+            videogame.genres.includes(detailVideogame.genres[0]) &&
+            videogame.id !== detailVideogame.id
         )
         .sort(() => 0.5 - Math.random())
         .slice(0, 4);
