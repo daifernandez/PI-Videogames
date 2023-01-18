@@ -16,6 +16,10 @@
   height: 100%;
 }
 
+.detail-text-info h1 {
+  text-align: left;
+}
+
 .detail-text-info {
   margin-top: 25%;
   padding: 32px;

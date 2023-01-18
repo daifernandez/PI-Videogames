@@ -1,6 +1,6 @@
 .search-bar {
   border-radius: 8px;
-  height: 42px;
+  height: 44px;
   border-color: var(--secondary-color-search);
   border-width: 1px;
   border-style: solid;
@@ -8,6 +8,7 @@
   background: url(../../img/search_mini.png) no-repeat scroll 8px 10px, white;
   padding-left: 35px;
   margin-top: 79px;
+  margin-right: 2px;
 }
 
 .search-contenedor:focus {
