@@ -1,17 +1,21 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory, NavLink } from "react-router-dom";
-import {
-  deleteVideogameDB,
-  getVideogameDetail,
-  getvideogames,
-} from "../Redux/actions";
+import { deleteVideogameDB, getvideogames } from "../Redux/actions";
 import NavBar from "./NavBar";
 import Loading from "./Loading";
-import banner from "../img/banner.jpg";
-import "./Styles/VideogameDetail.css";
 import Cards from "./Cards";
 import ScrollToTop from "./ScrollToTop.jsx";
+import "./Styles/VideogameDetail.css";
+import banner from "../img/banner.jpg";
+require("dotenv").config();
+const { REACT_APP_API_HOST } = process.env;
+
+async function getVideogameDetail(id) {
+  const response = await axios.get(`${REACT_APP_API_HOST}/videogame/${id}`);
+  return response.data;
+}
 
 export default function Detail() {
   const { id } = useParams();
@@ -106,12 +110,14 @@ export default function Detail() {
                 <span className="middle-align">Delete Videogame</span>
               </button>
             </div>
-            <h2 className="more-text">More similar genre games</h2>
-            <Cards
-              key="videogames-cards"
-              videogames={sameGenreVideogames}
-              direction="horizontal"
-            />
+            <div hidden={sameGenreVideogames.length === 0}>
+              <h2 className="more-text">More similar genre games</h2>
+              <Cards
+                key="videogames-cards"
+                videogames={sameGenreVideogames}
+                direction="horizontal"
+              />
+            </div>
           </div>
         </div>
       </div>

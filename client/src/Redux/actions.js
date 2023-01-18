@@ -34,12 +34,6 @@ export function getGenres() {
   };
 }
 
-//CREO QUE NO VA ACA, REVISAR, NO HAY UNA FUNCION DISPACHADORA PARA EL REDUCER
-export async function getVideogameDetail(id) {
-  const response = await axios.get(`${REACT_APP_API_HOST}/videogame/${id}`);
-  return response.data;
-}
-
 export function getVideogameByName(name) {
   return async function (dispatch) {
     await axios

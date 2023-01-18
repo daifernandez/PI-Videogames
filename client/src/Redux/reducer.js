@@ -99,7 +99,7 @@ function rootReducer(state = initialState, action) {
       updatedAllVideogames.push(action.payload);
       return {
         ...state,
-        videogames: updatedAllVideogames,
+        videogames: [...updatedAllVideogames],
       };
     case GET_CREATED:
       var activeFilters = state.activeFiltersAndSorting;
