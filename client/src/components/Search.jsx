@@ -23,7 +23,11 @@ export default function Search() {
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      handleSubmit();
+      if (search === "") {
+        alert("Please add a videogame name to search");
+      } else {
+        handleSubmit();
+      }
     }
   };
 
@@ -38,7 +42,11 @@ export default function Search() {
           onChange={(e) => handleTextChange(e)}
           onKeyDown={handleKeyDown}
         />
-        <button className="custom-button" onClick={(e) => handleSubmit(e)}>
+        <button
+          className="custom-button"
+          onClick={(e) => handleSubmit(e)}
+          disabled={search === ""}
+        >
           Search
         </button>
       </div>

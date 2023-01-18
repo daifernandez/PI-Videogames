@@ -15,6 +15,9 @@
   color: white;
 }
 
+.custom-button:disabled {
+  background-color: rgba(97, 97, 97, 0.971);
+}
 
 .custom-buttonIcon {
   background-color: var(--primary-button-color);
