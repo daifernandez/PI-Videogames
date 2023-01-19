@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getGenres,
   selectGenre,
-  alphOrder,
+  selectPlatform,
+  alphOrder,  
   ratingOrder,
   clear,
   getCreated,
@@ -15,8 +16,12 @@ import "./Styles/FiltersOrders.css";
 export default function FiltersOrders() {
   const dispatch = useDispatch();
   const genres = useSelector((state) => state.genres);
+  const platforms = useSelector((state) => state.platforms);
   const genre = useSelector(
     (state) => state.filterAndSortingState.genre ?? "-"
+  );
+  const platform = useSelector(
+    (state) => state.filterAndSortingState.platform ?? "-"
   );
   const origin = useSelector(
     (state) => state.filterAndSortingState.origin ?? "all"
@@ -49,6 +54,9 @@ export default function FiltersOrders() {
   function handleSelectGenre(e) {
     dispatch(selectGenre(e.target.value));
   }
+  function handleSelectPlatform(e) {
+    dispatch(selectPlatform(e.target.value));
+  }
   function handleSelectFrom(e) {
     dispatch(getCreated(e.target.value));
   }
@@ -71,7 +79,7 @@ export default function FiltersOrders() {
         <label>Genre:</label>
         <select
           className="dropdown"
-          id="genreOrder"
+          id="genre"
           value={genre}
           onChange={(e) => handleSelectGenre(e)}
         >
@@ -83,6 +91,23 @@ export default function FiltersOrders() {
           ))}
         </select>
       </div>
+      <div className="filter">
+        <label> Platform:</label>
+        <select
+          className="dropdown"
+          id="platform"
+          value={platform}
+          onChange={(e) => handleSelectPlatform(e)}
+        >
+          <option value="-">-</option>
+          {platforms.map((platform) => (
+            <option key={platform} value={platform}>
+              {platform}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="filter">
         <span className="material-symbols-rounded filter-icon">
           folder_open

@@ -3,6 +3,7 @@ import {
   GET_GENRES,
   GET_VIDEOGAMES,
   SELECT_GENRE,
+  SELECT_PLATFORM,
   RATING_ORDER,
   GET_CREATED,
   GET_VIDEOGAME_BY_NAME,
@@ -23,6 +24,7 @@ const initialState = {
   platforms: [],
   filterAndSortingState: {
     genre: null,
+    platform: null,
     origin: null,
     sorting: null,
   },
@@ -76,13 +78,12 @@ function rootReducer(state = initialState, action) {
         numberOfPages: pagesCount(filteredVideogamesDeleteDB),
       };
     case SELECT_GENRE:
-      var filterAndSortingState = state.filterAndSortingState;
-      filterAndSortingState.genre =
+      state.filterAndSortingState.genre =
         action.payload === "-" ? null : action.payload;
 
       const filteredVideogamesGenre = videogamesForFilter(
         state.videogames,
-        filterAndSortingState
+        state.filterAndSortingState
       );
       const paginationSelectGenre = videogamesForPage(
         filteredVideogamesGenre,
@@ -91,10 +92,30 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogamesOnScreen: paginationSelectGenre,
-        filterAndSortingState: filterAndSortingState,
+        filterAndSortingState: state.filterAndSortingState,
         currentPage: 0,
         numberOfPages: pagesCount(filteredVideogamesGenre),
       };
+    case SELECT_PLATFORM:
+      state.filterAndSortingState.platform =
+        action.payload === "-" ? null : action.payload;
+
+      const filterVideogamesPlatform = videogamesForFilter(
+        state.videogames,
+        state.filterAndSortingState
+      );
+
+      const videogamePlatformOnScreen = videogamesForPage(
+        filterVideogamesPlatform,
+        0
+      );
+      return {
+        ...state,
+        videogamesOnScreen: videogamePlatformOnScreen,
+        currentPage: 0,
+        numberOfPages: pagesCount(filterVideogamesPlatform),
+      };
+
     case POST_VIDEOGAME:
       var updatedAllVideogames = [...state.videogames];
       updatedAllVideogames.push(action.payload);
@@ -125,35 +146,33 @@ function rootReducer(state = initialState, action) {
       };
 
     case ALPH_ORDER:
-      var filterAndSortingState = state.filterAndSortingState;
-      filterAndSortingState.sorting =
+      state.filterAndSortingState.sorting =
         action.payload === "-" ? null : action.payload;
 
       const filteredVideogamesAlph = videogamesForFilter(
         state.videogames,
-        filterAndSortingState
+        state.filterAndSortingState
       );
       const paginationAlph = videogamesForPage(filteredVideogamesAlph, 0);
       return {
         ...state,
         videogamesOnScreen: paginationAlph,
-        filterAndSortingState: filterAndSortingState,
+        filterAndSortingState: state.filterAndSortingState,
         currentPage: 0,
       };
     case RATING_ORDER:
-      var filterAndSortingState = state.filterAndSortingState;
-      filterAndSortingState.sorting =
+      state.filterAndSortingState.sorting =
         action.payload === "-" ? null : action.payload;
       const filteredVideogamesRating = videogamesForFilter(
         state.videogames,
-        filterAndSortingState
+        state.filterAndSortingState
       );
       const paginationRating = videogamesForPage(filteredVideogamesRating, 0);
       return {
         ...state,
         videogamesOnScreen: paginationRating,
         currentPage: 0,
-        filterAndSortingState: filterAndSortingState,
+        filterAndSortingState: state.filterAndSortingState,
       };
     case CLEAR:
       filterAndSortingState = {
@@ -205,6 +224,12 @@ function videogamesForFilter(videogames, filterAndSortingState) {
       }
     }
 
+    if (filterAndSortingState.platform) {
+      if (!videogame.platforms.includes(filterAndSortingState.platform)) {
+        return false;
+      }
+    }
+
     if (filterAndSortingState.origin) {
       switch (filterAndSortingState.origin) {
         case "API":
@@ -239,7 +264,6 @@ function videogamesForFilter(videogames, filterAndSortingState) {
       }
     });
   }
-
   return videogamesForFilter;
 }
 

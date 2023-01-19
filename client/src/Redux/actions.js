@@ -7,6 +7,7 @@ export const GET_GENRES = "GET_GENRES";
 export const GET_VIDEOGAME_BY_NAME = "GET_VIDEOGAME_BY_NAME";
 export const POST_VIDEOGAME = "POST_VIDEOGAME";
 export const SELECT_GENRE = "SELECT_GENRE";
+export const SELECT_PLATFORM = "SELECT_PLATFORM";
 export const GET_CREATED = "GET_CREATED";
 export const ALPH_ORDER = "ALPH_ORDER";
 export const RATING_ORDER = "RATING_ORDER";
@@ -58,6 +59,12 @@ export function postVideogame(videogame, callback) {
 export function selectGenre(genre) {
   return function (dispatch) {
     dispatch({ type: SELECT_GENRE, payload: genre });
+  };
+}
+
+export function selectPlatform(platform) {
+  return function (dispatch) {
+    dispatch({ type: SELECT_PLATFORM, payload: platform });
   };
 }
 

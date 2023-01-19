@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
         allowNull: true,
       },
       rating: {
-        type: DataTypes.DOUBLE, // INT segun el PI-EXPERT
+        type: DataTypes.DOUBLE,
         allowNull: true,
       },
       platforms: {
