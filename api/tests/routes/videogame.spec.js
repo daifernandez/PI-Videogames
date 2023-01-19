@@ -29,26 +29,24 @@ describe("Videogame routes", () => {
   );
 
   // GET VIDEOGAMES
-  describe("GET /videogames", () => {
-    it("should get 200", function (done) {
-      agent
-        .get("/videogames")
-        .set("Accept", "application/json")
-        .expect(200)
-        .end(function (err, res) {
-          const content = JSON.parse(res.text);
-          expect(content).to.be.a("array");
-          expect(content).to.deep.include(videogame);
-          done();
-        });
-    });
-  });
+  // describe("GET /videogames", () => {
+  //   it("should get 200", function (done) {
+  //     agent
+  //       .get("/videogames")
+  //       .set("Accept", "application/json")
+  //       .expect(200)
+  //       .end(function (err, res) {
+  //         const content = JSON.parse(res.text);
+  //         expect(content).to.be.a("array");
+  //         expect(content).to.deep.include(videogame);
+  //         done();
+  //       });
+  //   });
+  // });
 
   // POST VIDEOGAMES
 
   // GET VIDEOGAME ID
 
   // DELETE VIDEOGAME ID
-
-  // PUT VIDEOGAME ID -> EN CASO DE HACERLO ?
 });

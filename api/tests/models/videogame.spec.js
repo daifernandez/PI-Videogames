@@ -12,7 +12,7 @@ describe("Videogame model", () => {
   describe("Validators", () => {
     beforeEach(() => Videogame.sync({ force: true }));
     describe("create", () => {
-      it("should work when its a valid", async (done) => {
+      it("should work when its valid", async (done) => {
         await Videogame.create({
           name: "Super Mario Bros",
           description: "simple game",

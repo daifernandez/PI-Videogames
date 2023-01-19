@@ -17,7 +17,6 @@ describe("Genre model", () => {
           .then(() => done(new Error("Expected to fail without a name")))
           .catch(done());
       });
-      //testear que jun genero se puede crear cuando tiene nombre
       it("should be able to create a genre with name", async (done) => {
         await Genre.create({ name: "Action" })
           .then(done())

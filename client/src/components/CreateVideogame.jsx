@@ -94,7 +94,7 @@ export default function CreateVideogame() {
       [property]: value,
     });
     if (property === "name") {
-      const regularExpression = /[`@#$%^&*()_+\-=\[\]{};'"\\|<>\/~]/;
+      const regularExpression = /[`@#$%^&*()_+\-=[\]{};'"\\|<>/~]/;
       if (regularExpression.test(value)) {
         error.name = "The name cannot containg special characters";
         setError(error);

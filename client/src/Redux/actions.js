@@ -21,7 +21,10 @@ export function getvideogames() {
       .get(`${REACT_APP_API_HOST}/videogames`)
       .then((response) =>
         dispatch({ type: GET_VIDEOGAMES, payload: response.data })
-      );
+      )
+      .catch((error) => {
+        console.log("Hubo un error en get videogames:", error);
+      });
   };
 }
 
@@ -31,7 +34,10 @@ export function getGenres() {
       .get(`${REACT_APP_API_HOST}/genres`)
       .then((response) =>
         dispatch({ type: GET_GENRES, payload: response.data })
-      );
+      )
+      .catch((error) => {
+        console.log("Hubo un error en get genres:", error);
+      });
   };
 }
 
@@ -41,7 +47,10 @@ export function getVideogameByName(name) {
       .get(`${REACT_APP_API_HOST}/videogames?name=${name}`)
       .then((response) =>
         dispatch({ type: GET_VIDEOGAME_BY_NAME, payload: response.data })
-      );
+      )
+      .catch((error) => {
+        console.log("Hubo un error en get videogame by name:", error);
+      });
   };
 }
 
@@ -52,6 +61,9 @@ export function postVideogame(videogame, callback) {
       .then((response) => {
         dispatch({ type: POST_VIDEOGAME, payload: response.data });
         callback(response.data);
+      })
+      .catch((error) => {
+        console.log("Hubo un error en post videogame:", error);
       });
   };
 }
@@ -104,6 +116,9 @@ export function deleteVideogameDB(id) {
       .delete(`${REACT_APP_API_HOST}/videogame/${id}`)
       .then(function (response) {
         dispatch({ type: DELETE_DB_VIDEOGAME, payload: response.data });
+      })
+      .catch((error) => {
+        console.log("Hubo un error en delete videogame db:", error);
       });
   };
 }
