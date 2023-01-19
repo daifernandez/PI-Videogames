@@ -16,6 +16,19 @@
   background-color: var(--secondary-color);
   color: white;
 }
+.pagination-NextPrevious {
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  margin-left: 2px;
+  margin-right: 2px;
+  color: var(--primary-button-color);
+}
+.pagination-button-NextPrevious {
+  background-color: var(--secondary-color);
+}
 
 .pagination-button-current {
   place-items: center;
@@ -32,5 +45,5 @@
 
 .pagination-button:active,
 .pagination-button:hover {
-  background-color:  var(--primary-button-color);
+  background-color: var(--primary-button-color);
 }

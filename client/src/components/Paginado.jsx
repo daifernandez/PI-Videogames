@@ -23,6 +23,13 @@ export default function Paginado() {
     <nav>
       <div className="pagination">
         <div>
+          <button
+            className="pagination-NextPrevious"
+            onClick={() => handlePageSelection(currentPage - 1)}
+            hidden={currentPage === 0}
+          >
+            <span className="material-symbols-rounded">arrow_back_ios</span>
+          </button>
           {arrayOfPages &&
             arrayOfPages.map((number) => (
               <button
@@ -37,6 +44,12 @@ export default function Paginado() {
                 {number + 1}
               </button>
             ))}
+          <button
+            className="pagination-NextPrevious"
+            onClick={() => handlePageSelection(currentPage + 1)}
+          >
+            <span className="material-symbols-rounded">arrow_forward_ios</span>
+          </button>
         </div>
       </div>
     </nav>
