@@ -12,7 +12,6 @@ export default function Landing() {
         <div className="contenedor-titulo">
           <img className="title" src={title} alt="" />
           <div className="data-contain">
-            <h4 className="contenido">PI - Henry Videogames</h4>{" "}
             <Link to="/home">
               <button className="custom-button">Home</button>
             </Link>
@@ -20,7 +19,7 @@ export default function Landing() {
         </div>
         <img id="logo" src={Logo} className="logo" alt="" />
       </div>
-      <label className="footnote">Hecho con ❤️ por Dai.</label>
+      <label className="footnote">PI Henry - Videogames</label>
     </div>
   );
 }

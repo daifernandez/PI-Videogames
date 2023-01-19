@@ -28,11 +28,6 @@
   margin: auto;
 }
 
-.contenido {
-  text-align: center;
-  justify-content: center;
-  padding-bottom: 1em;
-}
 .data-contain {
   margin-top: 10px;
   padding-bottom: 10px;
@@ -42,6 +37,8 @@
   text-align: center;
   justify-content: center;
   padding-bottom: 1em;
+  padding-left: 32px;
+  padding-right: 32px;
   color: darkgray;
   width: 100%;
 }
