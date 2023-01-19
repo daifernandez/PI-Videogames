@@ -8,6 +8,7 @@ import "./Styles/Button.css";
 
 export function validate(input) {
   let errors = {};
+  console.log(input.name);
   if (!input.name) {
     errors.name = "Name is required";
   }
@@ -101,6 +102,9 @@ export default function CreateVideogame() {
       } else {
         error.name = "";
         setError(error);
+      }
+      if (value.length > 50) {
+        error.name = "the name cannot contain more than 200 characters";
       }
     }
     if (property === "rating") {

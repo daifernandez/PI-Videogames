@@ -19,7 +19,8 @@ export default function Landing() {
         </div>
         <img id="logo" src={Logo} className="logo" alt="" />
       </div>
-      <label className="footnote">PI Henry - Videogames</label>
+        <label className="footnote">PI Henry - Videogames</label>
+        <label className="footnote"> Hecho con ❤️ por Dai.</label>
     </div>
   );
 }

@@ -268,7 +268,6 @@ function videogamesForFilter(videogames, filterAndSortingState) {
 }
 
 function videogamesForPage(videogames, page) {
-  //busco los elementos a mostrar en una pagina tal
   const indexFirstVideogame = page * VIDEO_GAMES_PER_PAGE;
   const indexLastVideogame = indexFirstVideogame + VIDEO_GAMES_PER_PAGE;
   const videogamesForPage = videogames.slice(
@@ -280,7 +279,6 @@ function videogamesForPage(videogames, page) {
 }
 
 function pagesCount(videogames) {
-  // la cantidad de paginas que me llevan los videojuegos filtrados
   return Math.ceil(videogames.length / VIDEO_GAMES_PER_PAGE);
 }
 
