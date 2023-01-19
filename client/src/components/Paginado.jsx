@@ -28,7 +28,9 @@ export default function Paginado() {
             onClick={() => handlePageSelection(currentPage - 1)}
             hidden={currentPage === 0}
           >
-            <span className="material-symbols-rounded">arrow_back_ios</span>
+            <span className="material-symbols-rounded extra-left-padding">
+              arrow_back_ios
+            </span>
           </button>
           {arrayOfPages &&
             arrayOfPages.map((number) => (
