@@ -14,8 +14,12 @@ const get_videogames = async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   } else {
-    let videogamesTotal = await get_allVideogames();
-    res.status(200).json(videogamesTotal);
+    try {
+      let videogamesTotal = await get_allVideogames();
+      res.status(200).json(videogamesTotal);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
   }
 };
 
@@ -53,15 +57,8 @@ const create_videogame = async (req, res) => {
   });
 
   res.status(200).send({
-    id: videogameWithRelation.id,
-    name: videogameWithRelation.name,
-    image: videogameWithRelation.image,
-    description: videogameWithRelation.description,
-    released: videogameWithRelation.released,
-    rating: videogameWithRelation.rating,
-    platforms: videogameWithRelation.platforms,
+    ...videogameWithRelation.dataValues,
     genres: videogameWithRelation.genres.map((genres) => genres.name),
-    createdInDB: videogameWithRelation.createdInDB,
   });
 };
 

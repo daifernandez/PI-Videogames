@@ -11,6 +11,7 @@ const get_all_genres_helper = async () => {
       .catch(function (error) {
         throw new Error(error.message);
       });
+
     const genres = apiGenres.data.results.map((el) => el.name);
 
     genres.forEach((el) => {

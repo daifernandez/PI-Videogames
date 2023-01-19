@@ -49,6 +49,7 @@ export default function Paginado() {
           <button
             className="pagination-NextPrevious"
             onClick={() => handlePageSelection(currentPage + 1)}
+            hidden={currentPage === arrayOfPages.length - 1}
           >
             <span className="material-symbols-rounded">arrow_forward_ios</span>
           </button>
