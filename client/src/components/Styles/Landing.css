@@ -37,8 +37,8 @@
   text-align: center;
   justify-content: center;
   padding-bottom: 1em;
-  padding-left: 32px;
-  padding-right: 32px;
+  padding-left: auto;
+  padding-right: auto;
   color: darkgray;
   width: 100%;
 }
