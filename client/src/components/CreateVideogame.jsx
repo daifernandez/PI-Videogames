@@ -8,7 +8,6 @@ import "./Styles/Button.css";
 
 export function validate(input) {
   let errors = {};
-  console.log(input.name);
   if (!input.name) {
     errors.name = "Name is required";
   }
@@ -78,7 +77,6 @@ export default function CreateVideogame() {
       alert("Please fill the required fileds.");
       return;
     }
-
     dispatch(
       postVideogame(form, (createdVideogame) => {
         alert(`Videogame: ${createdVideogame.name} created!`);
