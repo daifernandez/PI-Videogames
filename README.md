@@ -19,7 +19,7 @@
 El proyecto tuvo una duración de tres semanas
 
 
-__ACLARACIÓN:__ Las dependencias actuales se encuentran en las versiones que trabajamos durante el bootcamp.
+__ACLARACIÓN:__ Las dependencias se encuentran en las versiones que trabajamos durante el bootcamp.
 
 Versiones:
 
@@ -48,11 +48,9 @@ __IMPORTANTE__: Para las funcionalidades de filtrado y ordenamiento NO se pudier
 - GET <https://api.rawg.io/api/genres>
 - GET <https://api.rawg.io/api/games/{id}>
 
-### Requerimientos mínimos
+### Requerimientos mínimos para la aprobación del proyecto individial.
 
-A continuación se detallaran los requerimientos mínimos para la aprobación del proyecto individial.
-
-__IMPORTANTE__: No se permitieron el uso de librerías externas para aplicar estilos a la aplicación. Se utilizó CSS con algunas de las opciones que vimos en dicha clase (CSS puro, CSS Modules o Styled Components)
+__IMPORTANTE__: No se permitieron el uso de librerías externas para aplicar estilos a la aplicación. Se utilizó CSS con algunas de las opciones que vimos en dicha clase.
 
 #### Tecnologías
 
@@ -79,7 +77,7 @@ __Ruta principal__:
   - Géneros
 - [ ] Botones/Opciones para filtrar por género y por videojuego existente o agregado por nosotros
 - [ ] Botones/Opciones para ordenar tanto ascendentemente como descendentemente los videojuegos por orden alfabético y por rating
-- [ ] Paginado para ir buscando y mostrando los siguientes videojuegos, 15 juegos por pagina, mostrando los primeros 15 en la primer pagina.
+- [ ] Paginado para ir buscando y mostrando los videojuegos.
 
 
 __Ruta de detalle de videojuego__:
