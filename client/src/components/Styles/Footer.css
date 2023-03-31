@@ -34,4 +34,7 @@
     padding: 10px;
     margin: auto;
   }
+  .footer-section {
+    align-items: center;
+  }
 }
