@@ -9,22 +9,29 @@
 
 .footer-social {
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
   margin-right: 20px;
 }
 
 .footer-section {
-    display: flex;
-    flex-direction: column;
-  
-    align-items: flex-start;
-  
-    margin-right: 20px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 20px;
+}
 
 .footer-text {
   margin-bottom: 10px;
   font-size: 14px;
   font-family: "Roboto", sans-serif;
   align-items: flex-start;
+}
+
+@media (max-width: 1000px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin: auto;
+  }
 }

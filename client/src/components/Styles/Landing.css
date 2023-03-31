@@ -71,7 +71,13 @@
   min-width: 300px;
 }
 
-
+.text-info {
+  padding: auto;
+  margin-left: auto;
+  width: 100%;
+  min-width: 300px;
+  text-align: center;
+}
 
 @media (max-width: 1000px) {
   .landing {
@@ -93,7 +99,12 @@
     min-width: 300px;
   }
   .img-landing {
-    width: 230px;
-    height: 250px;
+    width: 180px;
+    height: 200px;
+  }
+  .text-info {
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }

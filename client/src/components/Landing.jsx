@@ -28,7 +28,7 @@ export default function Landing() {
       <div className="landing2">
         <div className="contenedor-text">
           <h3>What is GameStream?</h3>
-          <p>
+          <p className="text-info">
             GameStream is a web application that allows you to search for
             videogames. You can also create your own videogame and add it to the
             database.

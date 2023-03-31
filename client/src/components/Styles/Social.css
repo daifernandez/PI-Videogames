@@ -1,51 +1,51 @@
 .icon {
-    width: 30px;
-    height: 30px;
-    stroke-width: 1;
-    stroke: #9e9e9e;
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  
-  .icon svg {
-    display: block;
-  }
-  
-  .flex {
-    display: flex;
-  }
-  
-  .flex-row {
-    flex-direction: row;
-  }
-  
-  .mt-5 {
-    margin-top: 1.25rem;
-  }
-  
-  .transform {
-    transform: none;
-  }
-  
-  .transition {
-    transition: all 0.5s ease-in-out;
-  }
-  
-  .hover\:scale-110:hover {
-    transform: scale(1.1);
-  }
-  
-  .Link {
-    display: inline-block;
-  }
-  
-  .Link a {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  .Link a:hover {
-    text-decoration: none;
-  }
-  
+  width: 30px;
+  height: 30px;
+  stroke-width: 1;
+  stroke: #9e9e9e;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon svg {
+  display: block;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
+.transform {
+  transform: none;
+}
+
+.transition {
+  transition: all 0.5s ease-in-out;
+}
+
+.hover\:scale-110:hover {
+  transform: scale(1.1);
+}
+
+.Link {
+  display: inline-block;
+}
+
+.Link a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.Link a:hover {
+  text-decoration: none;
+}
+
