@@ -71,15 +71,7 @@
   min-width: 300px;
 }
 
-.footnote {
-  text-align: center;
-  justify-content: center;
-  padding-bottom: 1em;
-  padding-left: auto;
-  padding-right: auto;
-  color: darkgray;
-  width: 100%;
-}
+
 
 @media (max-width: 1000px) {
   .landing {
