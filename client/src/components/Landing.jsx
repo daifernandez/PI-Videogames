@@ -15,7 +15,7 @@ export default function Landing() {
         <div className="contenedor-titulo">
           <h3>Welcome to</h3>
           <img className="title" src={title} alt="" />
-          <p>Stream your favorite games online</p>
+          <p>Search your favorite games online</p>
           <div className="data-contain">
             <Link to="/home">
               <button className="custom-button">Get Started</button>
