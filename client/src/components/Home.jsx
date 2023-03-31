@@ -9,6 +9,7 @@ import Loading from "./Loading";
 import { getvideogames } from "../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import "./Styles/Home.css";
+import Footer from "./Footer";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ export default function Home() {
       <div>
         <NavBar />
         <Loading />
+        <Footer />
       </div>
     );
   } else {
@@ -53,6 +55,7 @@ export default function Home() {
         <Search />
         <FiltersOrders />
         <div className="cont">{content}</div>
+        <Footer />
       </div>
     );
   }

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { postVideogame, getGenres, getvideogames } from "../Redux/actions";
 import "./Styles/CreateVideogame.css";
 import "./Styles/Button.css";
+import Footer from "./Footer";
 
 export function validate(input) {
   let errors = {};
@@ -305,6 +306,7 @@ export default function CreateVideogame() {
           </form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
