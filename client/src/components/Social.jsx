@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "./Styles/Social.css";
 
 export default function Social() {

@@ -7,6 +7,7 @@ import "./Styles/CreateVideogame.css";
 import "./Styles/Button.css";
 import Footer from "./Footer";
 
+
 export function validate(input) {
   let errors = {};
   if (!input.name) {
@@ -306,7 +307,7 @@ export default function CreateVideogame() {
           </form>
         </div>
       </div>
-      <Footer />
+      <Footer/>
     </div>
   );
 }
