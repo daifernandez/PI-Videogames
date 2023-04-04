@@ -58,10 +58,12 @@
   width: 140px;
   margin-bottom: 10px;
 }
+
 .input-label-genres {
   display: inline-block;
   width: 115px;
 }
+
 .input-label-image {
   display: inline-block;
   width: 60px;
@@ -98,6 +100,7 @@
   background-color: darkgray;
   color: white;
 }
+
 .required-text {
   color: grey;
   text-shadow: 2em;
@@ -115,6 +118,7 @@
   width: 100%;
   background-color: rgb(247, 247, 247);
 }
+
 .barra:focus {
   outline: none !important;
 }
@@ -130,6 +134,7 @@
   width: 100%;
   background-color: rgb(247, 247, 247);
 }
+
 .barra-description:focus {
   outline: none !important;
 }
