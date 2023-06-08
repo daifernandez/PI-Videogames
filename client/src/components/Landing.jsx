@@ -25,7 +25,7 @@ export default function Landing() {
         <img id="logo" src={Logo} className="logo" alt="" />
       </div>
 
-      <div className="landing2">
+      {/* <div className="landing2">
         <div className="contenedor-text">
           <h3>What is GameStream?</h3>
           <p className="text-info">
@@ -38,7 +38,7 @@ export default function Landing() {
           <img id="imageLanding" src={image} className="img-landing" alt="" />
           <img id="imageLanding2" src={image2} className="img-landing" alt="" />
         </div>
-      </div>
+      </div> */}
       <Footer />
     </div>
   );
