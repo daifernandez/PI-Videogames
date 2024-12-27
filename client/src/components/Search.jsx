@@ -13,6 +13,7 @@ export default function Search() {
     e.preventDefault();
     setSearch(e.target.value);
   }
+  
   function handleSubmit(e) {
     if (e) {
       e.preventDefault();

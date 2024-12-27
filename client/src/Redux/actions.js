@@ -1,6 +1,9 @@
 import axios from "axios";
-require("dotenv").config();
-const { REACT_APP_API_HOST } = process.env;
+// TODO: Arreglar el error de dotenv
+// require("dotenv").config();
+// const { REACT_APP_API_HOST } = process.env;
+
+const REACT_APP_API_HOST = "http://localhost:3001";
 
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
 export const GET_GENRES = "GET_GENRES";

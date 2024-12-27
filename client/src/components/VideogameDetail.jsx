@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory, NavLink } from "react-router-dom";
+import { useParams, NavLink , useNavigate} from "react-router-dom";
 import { deleteVideogameDB, getvideogames } from "../Redux/actions";
 import NavBar from "./NavBar";
 import Loading from "./Loading";
@@ -9,8 +9,11 @@ import Cards from "./Cards";
 import ScrollToTop from "./ScrollToTop.jsx";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
-require("dotenv").config();
-const { REACT_APP_API_HOST } = process.env;
+// TODO: Arreglar el error de dotenv
+// require("dotenv").config();
+// const { REACT_APP_API_HOST } = process.env;
+
+const REACT_APP_API_HOST = "http://localhost:3001";
 
 async function getVideogameDetail(id) {
   const response = await axios.get(`${REACT_APP_API_HOST}/videogame/${id}`);
@@ -20,7 +23,7 @@ async function getVideogameDetail(id) {
 export default function Detail() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const redirection = useHistory();
+  const navigate = useNavigate();
   const [detailVideogame, setDetailVideogame] = useState();
 
   const sameGenreVideogames = useSelector((state) => {
@@ -58,7 +61,7 @@ export default function Detail() {
   const handleDeleteVideogame = (e) => {
     dispatch(deleteVideogameDB(id));
     alert("Videogame successfully deleted!!");
-    redirection.push("/home");
+    navigate("/home");
   };
 
   // const handlePutVideogame = (e) => {
