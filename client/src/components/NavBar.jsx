@@ -8,7 +8,7 @@ export default function NavBar() {
   return (
     <div className="contenedor">
       <div className="img">
-        <NavLink exact to="/home">
+        <NavLink to="/home">
           <img id="logo" src={Logo} className="img" alt="" />
         </NavLink>
       </div>

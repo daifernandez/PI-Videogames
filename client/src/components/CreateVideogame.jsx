@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { postVideogame, getGenres, getvideogames } from "../Redux/actions";
 import "./Styles/CreateVideogame.css";
@@ -31,7 +31,7 @@ export function validate(input) {
 
 export default function CreateVideogame() {
   const dispatch = useDispatch();
-  const redirection = useHistory();
+  const navigate = useNavigate();
   const genres = useSelector((state) => state.genres);
   const platforms = useSelector((state) => state.platforms);
 
@@ -82,7 +82,7 @@ export default function CreateVideogame() {
     dispatch(
       postVideogame(form, (createdVideogame) => {
         alert(`Videogame: ${createdVideogame.name} created!`);
-        redirection.push(`/videogame/${createdVideogame.id}`);
+       navigate(`/videogame/${createdVideogame.id}`);
       })
     );
   };

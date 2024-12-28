@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import "./Styles/Landing.css";
 import "./Styles/Button.css";
 import Logo from "../img/landing3.jpg";
-import image from "../img/landing5.jpg";
-import image2 from "../img/landing2.jpg";
+// import image from "../img/landing5.jpg";
+// import image2 from "../img/landing2.jpg";
 import title from "../img/title.png";
 import Footer from "./Footer";
 

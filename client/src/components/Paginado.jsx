@@ -1,18 +1,25 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { goToPage } from "../Redux/actions";
+import { createSelector } from 'reselect';
 import "./Styles/Paginado.css";
 
-export default function Paginado() {
-  const dispatch = useDispatch();
-  const arrayOfPages = useSelector((state) => {
-    var pages = [];
-    for (var i = 0; i < state.numberOfPages; i++) {
+const getPagesArray = createSelector(
+  state => state.numberOfPages,
+  numberOfPages => {
+    const pages = [];
+    for (let i = 0; i < numberOfPages; i++) {
       pages.push(i);
     }
     return pages;
-  });
+  }
+);
+
+export default function Paginado() {
+  const dispatch = useDispatch();
+  const arrayOfPages = useSelector(getPagesArray);
   const currentPage = useSelector((state) => state.currentPage);
+
 
   const handlePageSelection = (page) => {
     dispatch(goToPage(page));

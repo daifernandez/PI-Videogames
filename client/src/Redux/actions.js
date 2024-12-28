@@ -1,6 +1,6 @@
 import axios from "axios";
-require("dotenv").config();
-const { REACT_APP_API_HOST } = process.env;
+
+const apiUrl = process.env.REACT_APP_API_HOST;
 
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
 export const GET_GENRES = "GET_GENRES";
@@ -17,55 +17,68 @@ export const DELETE_DB_VIDEOGAME = "DELETE_DB_VIDEOGAME";
 
 export function getvideogames() {
   return async function (dispatch) {
-    await axios
-      .get(`${REACT_APP_API_HOST}/videogames`)
-      .then((response) =>
-        dispatch({ type: GET_VIDEOGAMES, payload: response.data })
-      )
-      .catch((error) => {
-        console.log("Hubo un error en get videogames:", error);
+    try {
+      const response = await axios.get(`${apiUrl}/videogames`);
+      dispatch({ type: GET_VIDEOGAMES, payload: response.data });
+    } catch (error) {
+      console.error("Error en get videogames:", {
+        mensaje: error.message,
+        código: error.code,
+        detalles: error.response?.data || 'Sin detalles adicionales'
       });
+      // Opcionalmente despachar una acción de error
+      dispatch({ 
+        type: "ERROR", 
+        payload: "No se pudieron cargar los videojuegos. Por favor, verifica tu conexión."
+      });
+    }
   };
 }
 
 export function getGenres() {
   return async function (dispatch) {
-    await axios
-      .get(`${REACT_APP_API_HOST}/genres`)
-      .then((response) =>
-        dispatch({ type: GET_GENRES, payload: response.data })
-      )
-      .catch((error) => {
-        console.log("Hubo un error en get genres:", error);
+    try {
+      const response = await axios.get(`${apiUrl}/genres`);
+      dispatch({ type: GET_GENRES, payload: response.data });
+    } catch (error) {
+      console.error("Error en get genres:", {
+        mensaje: error.message,
+        código: error.code,
+        detalles: error.response?.data || 'Sin detalles adicionales'
       });
+    }
   };
 }
 
 export function getVideogameByName(name) {
   return async function (dispatch) {
-    await axios
-      .get(`${REACT_APP_API_HOST}/videogames?name=${name}`)
-      .then((response) =>
-        dispatch({ type: GET_VIDEOGAME_BY_NAME, payload: response.data })
-      )
-      .catch((error) => {
-        console.log("Hubo un error en get videogame by name:", error);
+    try {
+      const response = await axios.get(`${apiUrl}/videogames?name=${name}`);
+      dispatch({ type: GET_VIDEOGAME_BY_NAME, payload: response.data });
+    } catch (error) {
+      console.error("Error en get videogame by name:", {
+        mensaje: error.message,
+        código: error.code,
+        detalles: error.response?.data || 'Sin detalles adicionales'
       });
+    }
   };
 }
 
 export function postVideogame(videogame, callback) {
   return async function (dispatch) {
-    await axios
-      .post(`${REACT_APP_API_HOST}/videogames`, videogame)
-      .then((response) => {
-        dispatch({ type: POST_VIDEOGAME, payload: response.data });
-        callback(response.data);
-      })
-      .catch((error) => {
-        console.log("Hubo un error en post videogame:", error);
+    try {
+      const response = await axios.post(`${apiUrl}/videogames`, videogame);
+      dispatch({ type: POST_VIDEOGAME, payload: response.data });
+      callback(response.data);
+    } catch (error) {
+      console.error("Error en post videogame:", {
+        mensaje: error.message,
+        código: error.code,
+        detalles: error.response?.data || 'Sin detalles adicionales'
       });
-  };
+    }
+  };    
 }
 
 export function selectGenre(genre) {
@@ -112,13 +125,15 @@ export function goToPage(page) {
 
 export function deleteVideogameDB(id) {
   return async function (dispatch) {
-    await axios
-      .delete(`${REACT_APP_API_HOST}/videogame/${id}`)
-      .then(function (response) {
-        dispatch({ type: DELETE_DB_VIDEOGAME, payload: response.data });
-      })
-      .catch((error) => {
-        console.log("Hubo un error en delete videogame db:", error);
+    try {
+      const response = await axios.delete(`${apiUrl}/videogame/${id}`);
+      dispatch({ type: DELETE_DB_VIDEOGAME, payload: response.data });
+    } catch (error) {
+      console.error("Error en delete videogame db:", {
+        mensaje: error.message,
+        código: error.code,
+        detalles: error.response?.data || 'Sin detalles adicionales'
       });
-  };
+    }
+  };   
 }

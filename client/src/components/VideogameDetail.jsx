@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory, NavLink } from "react-router-dom";
+import { useParams, NavLink , useNavigate} from "react-router-dom";
 import { deleteVideogameDB, getvideogames } from "../Redux/actions";
 import NavBar from "./NavBar";
 import Loading from "./Loading";
@@ -9,34 +9,45 @@ import Cards from "./Cards";
 import ScrollToTop from "./ScrollToTop.jsx";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
-require("dotenv").config();
-const { REACT_APP_API_HOST } = process.env;
+import { createSelector } from 'reselect';
+
+const apiUrl = process.env.REACT_APP_API_HOST;
+
+//selectores
+const selectVideogames = state => state.videogames;
+const selectDetailVideogame = (_, detailVideogame) => detailVideogame;
+
+const selectSameGenreVideogames = createSelector(
+  [selectVideogames, selectDetailVideogame],
+  (videogames, detailVideogame) => {
+    if (!detailVideogame) return [];
+    
+    return videogames
+      .filter(
+        videogame =>
+          videogame.genres.includes(detailVideogame.genres[0]) &&
+          videogame.id !== detailVideogame.id
+      )
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 4);
+  }
+);
 
 async function getVideogameDetail(id) {
-  const response = await axios.get(`${REACT_APP_API_HOST}/videogame/${id}`);
+  const response = await axios.get(`${apiUrl}/videogame/${id}`);
   return response.data;
 }
 
 export default function Detail() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const redirection = useHistory();
+  const navigate = useNavigate();
   const [detailVideogame, setDetailVideogame] = useState();
 
-  const sameGenreVideogames = useSelector((state) => {
-    if (detailVideogame) {
-      return state.videogames
-        .filter(
-          (videogame) =>
-            videogame.genres.includes(detailVideogame.genres[0]) &&
-            videogame.id !== detailVideogame.id
-        )
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 4);
-    } else {
-      return [];
-    }
-  });
+  const sameGenreVideogames = useSelector((state) => 
+    selectSameGenreVideogames(state, detailVideogame)
+  );
+
   const hasVideogames = useSelector((state) => state.videogames.length > 0);
 
   useEffect(() => {
@@ -58,7 +69,7 @@ export default function Detail() {
   const handleDeleteVideogame = (e) => {
     dispatch(deleteVideogameDB(id));
     alert("Videogame successfully deleted!!");
-    redirection.push("/home");
+    navigate("/home");
   };
 
   // const handlePutVideogame = (e) => {
