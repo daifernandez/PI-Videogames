@@ -9,11 +9,32 @@ import Cards from "./Cards";
 import ScrollToTop from "./ScrollToTop.jsx";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
+import { createSelector } from 'reselect';
 // TODO: Arreglar el error de dotenv
 // require("dotenv").config();
 // const { REACT_APP_API_HOST } = process.env;
 
 const REACT_APP_API_HOST = "http://localhost:3001";
+
+//selectores
+const selectVideogames = state => state.videogames;
+const selectDetailVideogame = (_, detailVideogame) => detailVideogame;
+
+const selectSameGenreVideogames = createSelector(
+  [selectVideogames, selectDetailVideogame],
+  (videogames, detailVideogame) => {
+    if (!detailVideogame) return [];
+    
+    return videogames
+      .filter(
+        videogame =>
+          videogame.genres.includes(detailVideogame.genres[0]) &&
+          videogame.id !== detailVideogame.id
+      )
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 4);
+  }
+);
 
 async function getVideogameDetail(id) {
   const response = await axios.get(`${REACT_APP_API_HOST}/videogame/${id}`);
@@ -26,20 +47,10 @@ export default function Detail() {
   const navigate = useNavigate();
   const [detailVideogame, setDetailVideogame] = useState();
 
-  const sameGenreVideogames = useSelector((state) => {
-    if (detailVideogame) {
-      return state.videogames
-        .filter(
-          (videogame) =>
-            videogame.genres.includes(detailVideogame.genres[0]) &&
-            videogame.id !== detailVideogame.id
-        )
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 4);
-    } else {
-      return [];
-    }
-  });
+  const sameGenreVideogames = useSelector((state) => 
+    selectSameGenreVideogames(state, detailVideogame)
+  );
+  
   const hasVideogames = useSelector((state) => state.videogames.length > 0);
 
   useEffect(() => {
