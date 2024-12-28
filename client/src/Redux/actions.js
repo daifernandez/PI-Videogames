@@ -1,9 +1,6 @@
 import axios from "axios";
-// TODO: Arreglar el error de dotenv
-// require("dotenv").config();
-// const { REACT_APP_API_HOST } = process.env;
 
-const REACT_APP_API_HOST = "http://localhost:3001";
+const apiUrl = process.env.REACT_APP_API_HOST;
 
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
 export const GET_GENRES = "GET_GENRES";
@@ -21,7 +18,7 @@ export const DELETE_DB_VIDEOGAME = "DELETE_DB_VIDEOGAME";
 export function getvideogames() {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`${REACT_APP_API_HOST}/videogames`);
+      const response = await axios.get(`${apiUrl}/videogames`);
       dispatch({ type: GET_VIDEOGAMES, payload: response.data });
     } catch (error) {
       console.error("Error en get videogames:", {
@@ -41,7 +38,7 @@ export function getvideogames() {
 export function getGenres() {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`${REACT_APP_API_HOST}/genres`);
+      const response = await axios.get(`${apiUrl}/genres`);
       dispatch({ type: GET_GENRES, payload: response.data });
     } catch (error) {
       console.error("Error en get genres:", {
@@ -56,7 +53,7 @@ export function getGenres() {
 export function getVideogameByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`${REACT_APP_API_HOST}/videogames?name=${name}`);
+      const response = await axios.get(`${apiUrl}/videogames?name=${name}`);
       dispatch({ type: GET_VIDEOGAME_BY_NAME, payload: response.data });
     } catch (error) {
       console.error("Error en get videogame by name:", {
@@ -71,7 +68,7 @@ export function getVideogameByName(name) {
 export function postVideogame(videogame, callback) {
   return async function (dispatch) {
     try {
-      const response = await axios.post(`${REACT_APP_API_HOST}/videogames`, videogame);
+      const response = await axios.post(`${apiUrl}/videogames`, videogame);
       dispatch({ type: POST_VIDEOGAME, payload: response.data });
       callback(response.data);
     } catch (error) {
@@ -129,7 +126,7 @@ export function goToPage(page) {
 export function deleteVideogameDB(id) {
   return async function (dispatch) {
     try {
-      const response = await axios.delete(`${REACT_APP_API_HOST}/videogame/${id}`);
+      const response = await axios.delete(`${apiUrl}/videogame/${id}`);
       dispatch({ type: DELETE_DB_VIDEOGAME, payload: response.data });
     } catch (error) {
       console.error("Error en delete videogame db:", {

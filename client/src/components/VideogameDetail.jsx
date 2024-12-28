@@ -10,11 +10,8 @@ import ScrollToTop from "./ScrollToTop.jsx";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
 import { createSelector } from 'reselect';
-// TODO: Arreglar el error de dotenv
-// require("dotenv").config();
-// const { REACT_APP_API_HOST } = process.env;
 
-const REACT_APP_API_HOST = "http://localhost:3001";
+const apiUrl = process.env.REACT_APP_API_HOST;
 
 //selectores
 const selectVideogames = state => state.videogames;
@@ -37,7 +34,7 @@ const selectSameGenreVideogames = createSelector(
 );
 
 async function getVideogameDetail(id) {
-  const response = await axios.get(`${REACT_APP_API_HOST}/videogame/${id}`);
+  const response = await axios.get(`${apiUrl}/videogame/${id}`);
   return response.data;
 }
 
@@ -50,7 +47,7 @@ export default function Detail() {
   const sameGenreVideogames = useSelector((state) => 
     selectSameGenreVideogames(state, detailVideogame)
   );
-  
+
   const hasVideogames = useSelector((state) => state.videogames.length > 0);
 
   useEffect(() => {
