@@ -1,13 +1,15 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { createSelector } from 'reselect';
 import NavBar from "./NavBar";
 import Cards from "./Cards";
-import { useSelector } from "react-redux";
 import ScrollToTop from "./ScrollToTop.jsx";
 import EmptyResults from "./EmptyResults";
-import { createSelector } from 'reselect';
+import Loading from "./Loading";
+import "./Styles/Platform.css";
 
-//selector
+// Selector memoizado
 const selectVideogamesForPlatform = createSelector(
   [(state) => state.videogames, (_, platformName) => platformName],
   (videogames, platformName) => 
@@ -16,30 +18,38 @@ const selectVideogamesForPlatform = createSelector(
 
 export default function Platform() {
   const { name } = useParams();
-
+  const isLoading = useSelector((state) => state.loading);
   const videogamesForPlatform = useSelector((state) => 
     selectVideogamesForPlatform(state, name)
   );
 
-  if (videogamesForPlatform.length > 0) {
+  if (isLoading) {
     return (
-      <div>
-        <ScrollToTop />
+      <div className="platform-container">
         <NavBar />
-        <h1>Videogames for {name}</h1>
-        <Cards
-          key="videogames"
-          videogames={videogamesForPlatform}
-          direction="vertical"
-        />
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <NavBar />
-        <EmptyResults isHome={false} />
+        <Loading />
       </div>
     );
   }
+
+  return (
+    <div className="platform-container">
+      <ScrollToTop />
+      <NavBar />
+      {videogamesForPlatform.length > 0 ? (
+        <>
+          <h1 className="platform-title">
+            Juegos disponibles para {name}
+          </h1>
+          <Cards
+            key="videogames"
+            videogames={videogamesForPlatform}
+            direction="vertical"
+          />
+        </>
+      ) : (
+        <EmptyResults isHome={false} />
+      )}
+    </div>
+  );
 }

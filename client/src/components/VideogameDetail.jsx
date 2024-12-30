@@ -10,6 +10,16 @@ import ScrollToTop from "./ScrollToTop.jsx";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
 import { createSelector } from 'reselect';
+import { 
+  FaPlaystation, 
+  FaXbox, 
+  FaWindows, 
+  FaApple, 
+  FaLinux, 
+  FaAndroid,
+ 
+} from 'react-icons/fa';
+import { SiAtari, SiSega, SiNintendo } from 'react-icons/si';
 
 const apiUrl = process.env.REACT_APP_API_HOST;
 
@@ -72,9 +82,22 @@ export default function Detail() {
     navigate("/home");
   };
 
-  // const handlePutVideogame = (e) => {
-  //   dispatch(putVideogameDB(id));
-  // };
+
+  const getPlatformIcon = (platform) => {
+    const platformLC = platform.toLowerCase();
+    
+    if (platformLC.includes('playstation')) return <FaPlaystation />;
+    if (platformLC.includes('xbox')) return <FaXbox />;
+    if (platformLC.includes('pc') || platformLC.includes('windows')) return <FaWindows />;
+    if (platformLC.includes('mac') || platformLC.includes('apple')) return <FaApple />;
+    if (platformLC.includes('linux')) return <FaLinux />;
+    if (platformLC.includes('android')) return <FaAndroid />;
+    if (platformLC.includes('nintendo switch')) return <SiNintendo />;
+    if (platformLC.includes('nintendo') || platformLC.includes('wii') || platformLC.includes('game boy')) return <SiNintendo />;
+    if (platformLC.includes('atari')) return <SiAtari />;
+    if (platformLC.includes('sega')) return <SiSega />;
+    return null;
+  };
 
   if (detailVideogame) {
     return (
@@ -99,17 +122,18 @@ export default function Detail() {
                   __html: detailVideogame.description,
                 }}
               />
-              <h4>
+              <div className="platforms-container">
                 {detailVideogame.platforms.map((platform) => (
                   <NavLink
                     to={`/videogames/platform/${platform}`}
                     className="platform"
                     key={platform}
                   >
-                    {platform}
+                    {getPlatformIcon(platform)}
+                    <span className="platform-name">{platform}</span>
                   </NavLink>
                 ))}
-              </h4>
+              </div>
               <button
                 className="delete-button"
                 onClick={handleDeleteVideogame}
@@ -121,13 +145,18 @@ export default function Detail() {
                 <span className="middle-align">Delete Videogame</span>
               </button>
             </div>
-            <div hidden={sameGenreVideogames.length === 0}>
-              <h2 className="more-text">More similar genre games</h2>
-              <Cards
-                key="videogames-cards"
-                videogames={sameGenreVideogames}
-                direction="horizontal"
-              />
+            <div 
+              className="similar-games-section"
+              hidden={sameGenreVideogames.length === 0}
+            >
+              <h2 className="more-text">Juegos similares del mismo género</h2>
+              <div className="similar-games-container">
+                <Cards
+                  key="videogames-cards"
+                  videogames={sameGenreVideogames}
+                  direction="horizontal"
+                />
+              </div>
             </div>
           </div>
         </div>

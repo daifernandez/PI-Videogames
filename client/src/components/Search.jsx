@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import "./Styles/Search.css";
-import "./Styles/Button.css";
 import { useDispatch } from "react-redux";
 import { getVideogameByName } from "../Redux/actions";
 
 export default function Search() {
   const dispatch = useDispatch();
-
   const [search, setSearch] = useState("");
 
   function handleTextChange(e) {
@@ -18,14 +16,16 @@ export default function Search() {
     if (e) {
       e.preventDefault();
     }
-    dispatch(getVideogameByName(search));
-    setSearch("");
+    if (search.trim()) {
+      dispatch(getVideogameByName(search.trim()));
+      setSearch("");
+    }
   }
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      if (search === "") {
-        alert("Please add a videogame name to search");
+      if (!search.trim()) {
+        alert("Por favor ingresa un nombre de videojuego para buscar");
       } else {
         handleSubmit();
       }
@@ -34,23 +34,24 @@ export default function Search() {
 
   return (
     <div className="contenedor-component">
-      <div>
+      <form className="search-container" onSubmit={handleSubmit}>
         <input
           className="search-bar"
           type="search"
-          placeholder="Search 100s of videogames..."
+          placeholder="Buscar videojuegos..."
           value={search}
-          onChange={(e) => handleTextChange(e)}
+          onChange={handleTextChange}
           onKeyDown={handleKeyDown}
+          aria-label="Buscar videojuegos"
         />
         <button
-          className="custom-button"
-          onClick={(e) => handleSubmit(e)}
-          disabled={search === ""}
+          className="search-button"
+          type="submit"
+          disabled={!search.trim()}
         >
-          Search
+          Buscar
         </button>
-      </div>
+      </form>
     </div>
   );
 }

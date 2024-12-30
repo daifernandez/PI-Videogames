@@ -75,88 +75,87 @@ export default function FiltersOrders() {
 
   return (
     <div className="contenedor-filters">
-      <div className="filter">
-        <label>Genre:</label>
-        <select
-          className="dropdown"
-          id="genre"
-          value={genre}
-          onChange={(e) => handleSelectGenre(e)}
-        >
-          <option value="-">-</option>
-          {genres.map((genre) => (
-            <option key={genre.name} value={genre.name}>
-              {genre.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="filter">
-        <label> Platform:</label>
-        <select
-          className="dropdown"
-          id="platform"
-          value={platform}
-          onChange={(e) => handleSelectPlatform(e)}
-        >
-          <option value="-">-</option>
-          {platforms.map((platform) => (
-            <option key={platform} value={platform}>
-              {platform}
-            </option>
-          ))}
-        </select>
-      </div>
+      <div className="filters-row">
+        <div className="filter">
+          <label>Genre:</label>
+          <select
+            className="dropdown"
+            id="genre"
+            value={genre}
+            onChange={(e) => handleSelectGenre(e)}
+          >
+            <option value="-">-</option>
+            {genres.map((genre) => (
+              <option key={genre.name} value={genre.name}>
+                {genre.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <div className="filter">
-        <span className="material-symbols-rounded filter-icon">
-          folder_open
-        </span>
-        <select
-          className="dropdown"
-          name="dropdown"
-          id="comesFrom"
-          value={origin}
-          onChange={(e) => handleSelectFrom(e)}
-        >
-          <option value="all"> All Videogames</option>
-          <option value="DB"> Videogames Created </option>
-          <option value="API"> Existing Videogames</option>
-        </select>
-      </div>
-      <div className="filter">
-        <span className="material-symbols-outlined filter-icon">
-          sort_by_alpha
-        </span>
-        <select
-          className="dropdown"
-          id="alphabOrder"
-          value={alph}
-          onChange={(e) => handleSelectOrderAlph(e)}
-        >
-          <option value="-">-</option>
-          <option value="A-Z">A-Z</option>
-          <option value="Z-A">Z-A</option>
-        </select>
-      </div>
-      <div className="filter">
-        <span className="material-symbols-rounded filter-icon">
-          hotel_class
-        </span>
-        <select
-          className="dropdown"
-          id="healthScoreOrder"
-          value={rating}
-          onChange={(e) => handleSelectRating(e)}
-        >
-          <option value="-">-</option>
-          <option value="5-1">Higher</option>
-          <option value="1-5">Lower</option>
-        </select>
+        <div className="filter">
+          <label>Platform:</label>
+          <select
+            className="dropdown"
+            id="platform"
+            value={platform}
+            onChange={(e) => handleSelectPlatform(e)}
+          >
+            <option value="-">-</option>
+            {platforms.map((platform) => (
+              <option key={platform} value={platform}>
+                {platform}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter">
+          <span className="material-symbols-rounded filter-icon">folder_open</span>
+          <select
+            className="dropdown"
+            name="dropdown"
+            id="comesFrom"
+            value={origin}
+            onChange={(e) => handleSelectFrom(e)}
+          >
+            <option value="all">All Videogames</option>
+            <option value="DB">Videogames Created</option>
+            <option value="API">Existing Videogames</option>
+          </select>
+        </div>
+
+        <div className="filter">
+          <span className="material-symbols-outlined filter-icon">sort_by_alpha</span>
+          <select
+            className="dropdown"
+            id="alphabOrder"
+            value={alph}
+            onChange={(e) => handleSelectOrderAlph(e)}
+          >
+            <option value="-">-</option>
+            <option value="A-Z">A-Z</option>
+            <option value="Z-A">Z-A</option>
+          </select>
+        </div>
+
+        <div className="filter">
+          <span className="material-symbols-rounded filter-icon">hotel_class</span>
+          <select
+            className="dropdown"
+            id="healthScoreOrder"
+            value={rating}
+            onChange={(e) => handleSelectRating(e)}
+          >
+            <option value="-">-</option>
+            <option value="5-1">Higher</option>
+            <option value="1-5">Lower</option>
+          </select>
+        </div>
       </div>
 
       <button
-        className="button-clear"
+        className="custom-button"
         onClick={(e) => {
           handleClearFiltersOrder(e);
         }}

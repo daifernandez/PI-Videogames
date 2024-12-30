@@ -2,19 +2,21 @@ import "./Styles/Social.css";
 
 export default function Social() {
   return (
-    <div>
+    <div className="social-container">
       <a
         href="https://github.com/daifernandez"
         target="_blank"
         rel="noopener noreferrer"
+        className="social-link github"
+        aria-label="GitHub"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="icon icon-tabler icon-tabler-brand-github mr-3"
+          className="icon-tabler icon-tabler-brand-github"
           width="30"
           height="30"
           viewBox="0 0 24 24"
-          strokeWidth="1"
+          strokeWidth="1.5"
           stroke="#9e9e9e"
           fill="none"
           strokeLinecap="round"
@@ -28,14 +30,16 @@ export default function Social() {
         href="https://twitter.com/daiofernandez"
         target="_blank"
         rel="noopener noreferrer"
+        className="social-link twitter"
+        aria-label="Twitter"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="icon icon-tabler icon-tabler-brand-twitter mr-3"
+          className="icon-tabler icon-tabler-brand-twitter"
           width="30"
           height="30"
           viewBox="0 0 24 24"
-          strokeWidth="1"
+          strokeWidth="1.5"
           stroke="#9e9e9e"
           fill="none"
           strokeLinecap="round"
@@ -49,14 +53,16 @@ export default function Social() {
         href="https://www.linkedin.com/in/daifernandez/"
         target="_blank"
         rel="noopener noreferrer"
+        className="social-link linkedin"
+        aria-label="LinkedIn"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="icon icon-tabler icon-tabler-brand-linkedin mr-3"
+          className="icon-tabler icon-tabler-brand-linkedin"
           width="30"
           height="30"
           viewBox="0 0 24 24"
-          strokeWidth="1"
+          strokeWidth="1.5"
           stroke="#9e9e9e"
           fill="none"
           strokeLinecap="round"

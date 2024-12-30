@@ -43,3 +43,148 @@ a:active {
   color: inherit;
   text-decoration: none;
 }
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s ease;
+  width: 300px;
+  margin: 10px;
+}
+
+.card-link:hover {
+  transform: translateY(-5px);
+}
+
+.card {
+  height: 350px;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  transition: background 0.3s ease;
+}
+
+.card:hover .card-gradient {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.7) 50%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+}
+
+.card-rating {
+  align-self: flex-end;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 6px 12px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.rating-star {
+  color: #ffd700;
+  font-size: 0.9em;
+}
+
+.rating-number {
+  color: white;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.card-content {
+  z-index: 2;
+}
+
+.card-title {
+  margin: 0 0 10px 0;
+  font-size: 1.3rem;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+  letter-spacing: 0.3px;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-genres {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.2px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Tooltip mejorado */
+.card-title[title],
+.card-genres[title] {
+  cursor: help;
+  position: relative;
+}
+
+.card-title[title]:hover::after,
+.card-genres[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none;
+  animation: fadeIn 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

@@ -8,17 +8,25 @@ import Logo from "../img/landing3.jpg";
 import title from "../img/title.png";
 import Footer from "./Footer";
 
+
 export default function Landing() {
   return (
     <div>
       <div className="landing">
         <div className="contenedor-titulo">
-          <h3>Welcome to</h3>
-          <img className="title" src={title} alt="" />
-          <p>Search your favorite games online</p>
+          <h3>Bienvenido a</h3>
+          <img className="title" src={title} alt="GameStream Logo" />
+          <p className="landing-description">
+            Tu portal definitivo de videojuegos
+          </p>
+          <p className="landing-description">
+            Explora una biblioteca inmensa de juegos, descubre nuevos títulos, 
+            filtra por tus géneros favoritos y únete a nuestra comunidad para 
+            crear y compartir tus propias creaciones.
+          </p>
           <div className="data-contain">
             <Link to="/home">
-              <button className="custom-button">Get Started</button>
+              <button className="custom-button">Comenzar</button>
             </Link>
           </div>
         </div>
