@@ -205,13 +205,8 @@
 }
 
 .similar-games-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-  padding: 1rem;
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
+  margin-top: 20px;
 }
 
 /* Estilos específicos para las cards */
@@ -363,5 +358,75 @@
   .similar-games-container .celda {
     width: calc(50% - 1rem);
     min-width: 180px;
+  }
+}
+
+/* Ajustes para dispositivos móviles */
+@media screen and (max-width: 768px) {
+  .similar-games-container {
+    overflow-x: auto;
+    padding: 8px;
+  }
+
+  .similar-games-section {
+    padding: 0 8px;
+  }
+
+  .similar-games-section h2 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  /* Ajustar el contenedor de cards para scroll horizontal */
+  .similar-games-container .cards-container {
+    display: flex;
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+
+  /* Reducir el tamaño de las cards individuales */
+  .similar-games-container .card {
+    min-width: 160px;
+    max-width: 160px;
+    margin: 0;
+  }
+
+  .similar-games-container .card img {
+    height: 90px;
+    object-fit: cover;
+  }
+
+  .similar-games-container .card h3 {
+    font-size: 0.8rem;
+    margin: 6px 0;
+    line-height: 1.2;
+  }
+
+  .similar-games-container .card p {
+    font-size: 0.7rem;
+    margin: 4px 0;
+    line-height: 1.1;
+  }
+}
+
+/* Ajustes para dispositivos muy pequeños */
+@media screen and (max-width: 480px) {
+  .similar-games-container .card {
+    min-width: 130px;
+    max-width: 130px;
+  }
+
+  .similar-games-container .card img {
+    height: 80px;
+  }
+
+  .similar-games-container .card h3 {
+    font-size: 0.75rem;
+    margin: 4px 0;
+  }
+
+  .similar-games-container .card p {
+    font-size: 0.65rem;
+    margin: 3px 0;
   }
 }

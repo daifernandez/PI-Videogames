@@ -39,7 +39,7 @@ export default function Platform() {
       {videogamesForPlatform.length > 0 ? (
         <>
           <h1 className="platform-title">
-            Juegos disponibles para {name}
+            Games available for {name}
           </h1>
           <Cards
             key="videogames"

@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-content">
         <p className="footer-text">
-          Desarrollado con <span className="footer-highlight">♥</span> por{" "}
+          Developed with <span className="footer-highlight">♥</span> by{" "}
           <span className="footer-highlight">Dai</span>
         </p>
         <Social />

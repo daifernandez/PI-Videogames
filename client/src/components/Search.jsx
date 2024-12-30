@@ -38,18 +38,18 @@ export default function Search() {
         <input
           className="search-bar"
           type="search"
-          placeholder="Buscar videojuegos..."
+          placeholder="Search games..."
           value={search}
           onChange={handleTextChange}
           onKeyDown={handleKeyDown}
-          aria-label="Buscar videojuegos"
+          aria-label="Search games"
         />
         <button
           className="search-button"
           type="submit"
           disabled={!search.trim()}
         >
-          Buscar
+          Search
         </button>
       </form>
     </div>
