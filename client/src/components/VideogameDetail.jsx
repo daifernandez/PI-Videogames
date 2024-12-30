@@ -149,12 +149,14 @@ export default function Detail() {
               className="similar-games-section"
               hidden={sameGenreVideogames.length === 0}
             >
-              <h2 className="more-text">Juegos similares del mismo género</h2>
+              
+              <h2 className="more-text">Games of the same genre</h2>
               <div className="similar-games-container">
                 <Cards
                   key="videogames-cards"
                   videogames={sameGenreVideogames}
                   direction="horizontal"
+                  className="similar-games-cards"
                 />
               </div>
             </div>
