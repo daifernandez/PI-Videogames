@@ -5,12 +5,20 @@ import Cards from "./Cards";
 import { useSelector } from "react-redux";
 import ScrollToTop from "./ScrollToTop.jsx";
 import EmptyResults from "./EmptyResults";
+import { createSelector } from 'reselect';
+
+//selector
+const selectVideogamesForPlatform = createSelector(
+  [(state) => state.videogames, (_, platformName) => platformName],
+  (videogames, platformName) => 
+    videogames.filter((videogame) => videogame.platforms.includes(platformName))
+);
 
 export default function Platform() {
   const { name } = useParams();
 
-  const videogamesForPlatform = useSelector((state) =>
-    state.videogames.filter((videogame) => videogame.platforms.includes(name))
+  const videogamesForPlatform = useSelector((state) => 
+    selectVideogamesForPlatform(state, name)
   );
 
   if (videogamesForPlatform.length > 0) {
