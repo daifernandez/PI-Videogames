@@ -157,34 +157,34 @@ export default function CreateVideogame() {
       <NavBar />
       <div className="contenedor-create">
         <div className="contenedor-create2">
-          <h1 className="input-title">Add a new videogame</h1>
+          <h1 className="input-title">Create New Game</h1>
 
-          <form onSubmit={handleSubmit}>
-            <div>
+          <form onSubmit={handleSubmit} className="form-grid">
+            <div className="form-group">
               <label className="input-label">Name*</label>
               <input
                 className="barra"
                 type="text"
-                key="name"
                 name="name"
-                placeholder="Videogame name"
+                placeholder="Enter game name"
                 value={form.name}
                 onChange={handleChange}
               />
               {error.name && <p className="input-forgot">{error.name}</p>}
             </div>
-            <div>
-              <label className="input-label">Released</label>
+
+            <div className="form-group">
+              <label className="input-label">Release Date</label>
               <input
                 className="barra"
                 type="date"
-                key="released"
                 name="released"
                 value={form.released}
                 onChange={handleChange}
               />
             </div>
-            <div>
+
+            <div className="form-group">
               <label className="input-label">Rating*</label>
               <input
                 className="barra"
@@ -192,118 +192,96 @@ export default function CreateVideogame() {
                 step="0.1"
                 min="1"
                 max="5"
-                key="rating"
                 name="rating"
-                placeholder="3.5"
+                placeholder="Rate from 1 to 5"
                 value={form.rating}
                 onChange={handleChange}
               />
               {error.rating && <p className="input-forgot">{error.rating}</p>}
             </div>
-            <div>
-              <label className="input-label-description">Description*</label>
+
+            <div className="form-group full-width">
+              <label className="input-label">Description*</label>
               <textarea
                 className="barra-description"
-                type="text"
-                key="description"
                 name="description"
                 value={form.description}
                 onChange={handleChange}
-                rows="4"
-                cols="50"
-                placeholder="Videogame description"
+                placeholder="Enter game description"
               ></textarea>
-              {error.description && (
-                <p className="input-forgot">{error.description}</p>
-              )}
+              {error.description && <p className="input-forgot">{error.description}</p>}
             </div>
-            <div>
-              <fieldset>
-                <legend className="input-label-genres">Choose Genres</legend>
-                <select
-                  className="barra"
-                  key="genreName"
-                  name="genreName"
-                  id=""
-                  value={genresSelected}
-                  required
-                  onChange={handleSelectGenre}
-                >
-                  <option disabled value="Genres">
-                    Genres
+
+            <fieldset className="form-group">
+              <legend>Genres</legend>
+              <select
+                className="barra"
+                name="genreName"
+                value={genresSelected}
+                onChange={handleSelectGenre}
+              >
+                <option disabled value="Genres">Select Genres</option>
+                {genres.map((genre) => (
+                  <option
+                    key={genre.id}
+                    disabled={form.genres.includes(genre.name)}
+                  >
+                    {genre.name}
                   </option>
-                  {genres.map((genre) => (
-                    <option
-                      key={genre.id}
-                      disabled={form.genres.includes(genre.name)}
-                    >
-                      {genre.name}
-                    </option>
-                  ))}
-                </select>
-                <div>
-                  <>
-                    {form.genres.map((genre) => (
-                      <button
-                        className="button-genres"
-                        key={genre}
-                        type="button"
-                        value={genre}
-                        onClick={(e) => handleDeleteGenre(e)}
-                      >
-                        {genre} x
-                      </button>
-                    ))}
-                  </>
-                </div>
-              </fieldset>
-            </div>
-
-            <br />
-
-            <fieldset>
-              <legend className="input-label-platforms">
-                Choose Platforms*
-              </legend>
-              <br />
-              {platforms.map((platform) => (
-                <label key={platform}>
-                  <input
-                    type="checkbox"
-                    name={platform}
-                    value={platform}
-                    onChange={handleSelectPlatform}
-                  />
-                  {platform}
-                  <br />
-                  {error.platforms && (
-                    <p className="input-forgot">{error.platforms}</p>
-                  )}
-                </label>
-              ))}
+                ))}
+              </select>
+              <div className="genres-container">
+                {form.genres.map((genre) => (
+                  <button
+                    className="button-genres"
+                    key={genre}
+                    type="button"
+                    value={genre}
+                    onClick={handleDeleteGenre}
+                  >
+                    {genre} ×
+                  </button>
+                ))}
+              </div>
             </fieldset>
 
-            <br />
+            <fieldset className="form-group">
+              <legend>Platforms*</legend>
+              <div className="platforms-grid">
+                {platforms.map((platform) => (
+                  <label key={platform} className="platform-checkbox">
+                    <input
+                      type="checkbox"
+                      name={platform}
+                      value={platform}
+                      onChange={handleSelectPlatform}
+                    />
+                    {platform}
+                  </label>
+                ))}
+              </div>
+              {error.platforms && <p className="input-forgot">{error.platforms}</p>}
+            </fieldset>
 
-            <p className="required-text">(*) required fields</p>
-            <button
-              className="form-button"
-              key="submit"
-              type="submit"
-              value="submit"
-              disabled={
-                !form.name ||
-                error.name ||
-                !form.description ||
-                error.description ||
-                !form.rating ||
-                error.rating ||
-                !form.platforms ||
-                error.platforms
-              }
-            >
-              Create
-            </button>
+            <div className="full-width">
+              <p className="required-text">(*) Required fields</p>
+              <button
+               className="form-button"
+                type="submit"
+                disabled={
+                  !form.name ||
+                  error.name ||
+                  !form.description ||
+                  error.description ||
+                  !form.rating ||
+                  error.rating ||
+                  !form.platforms ||
+                  error.platforms
+                }
+              >
+                Create Game
+              </button>
+            </div>
           </form>
         </div>
       </div>

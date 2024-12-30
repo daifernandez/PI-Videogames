@@ -1,58 +1,94 @@
 .pagination {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 5px;
-  margin-bottom: 50px;
+  margin: 2rem 0 3.5rem;
+}
+
+.pagination > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .pagination-button {
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  border: 0;
-  margin-left: 1px;
-  margin-right: 1px;
-  border-radius: 3px;
-  background-color: var(--secondary-color);
-  vertical-align: middle;
-  color: white;
+  min-width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #636e72;
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
-}
-.pagination-NextPrevious {
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  border: 0;
-  vertical-align: middle;
-  margin: auto;
-  color: var(--primary-button-color);
-  cursor: pointer;
-}
-
-.pagination-NextPrevious:hover {
-  background-color: var(--primary-button-color);
-  color: white;
-}
-
-.extra-left-padding {
-  margin-left: 8px;
+  transition: all 0.3s ease;
 }
 
 .pagination-button-current {
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  border: 0;
-  margin-left: 1px;
-  margin-right: 1px;
-  border-radius: 3px;
-  background-color: var(--primary-button-color);
+  min-width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 8px;
+  background-color: #6c5ce7;
   color: white;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.pagination-button:active,
+.pagination-NextPrevious {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #6c5ce7;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
 .pagination-button:hover {
-  background-color: var(--primary-button-color);
+  background-color: #f8f9fa;
+  color: #6c5ce7;
+}
+
+.pagination-NextPrevious:hover {
+  background-color: #f8f9fa;
+  color: #6c5ce7;
+}
+
+.pagination-NextPrevious[hidden] {
+  visibility: hidden;
+}
+
+.extra-left-padding {
+  margin-left: 0;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    margin: 1.5rem 0 3rem;
+  }
+
+  .pagination > div {
+    gap: 0.3rem;
+    padding: 0.4rem;
+  }
+
+  .pagination-button,
+  .pagination-button-current,
+  .pagination-NextPrevious {
+    min-width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
 }

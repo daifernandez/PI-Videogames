@@ -1,27 +1,89 @@
-.search-bar {
-  border-radius: 8px;
-  height: 44px;
-  border-color: var(--secondary-color-search);
-  border-width: 1px;
-  border-style: solid;
-  width: 40%;
-  background: url(../../img/search_mini.png) no-repeat scroll 8px 10px, white;
-  padding-left: 35px;
-  margin-top: 79px;
-  margin-right: 2px;
-}
-
-.search-contenedor:focus {
-  outline: none !important;
-  border-width: 1px;
-  border-color: var(--primary-color-search);
-}
 .contenedor-component {
   width: 100%;
   height: 200px;
   background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
     url("../../img/banner.jpg");
-}
-.icon-text {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.6rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.search-bar {
+  width: 300px;
+  height: 40px;
+  padding: 0 1rem;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #2d3436;
+  background: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: #6c5ce7;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+}
+
+.search-bar::placeholder {
+  color: #adb5bd;
+}
+
+.search-button {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #6c5ce7, #a55eea);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+  background: linear-gradient(45deg, #5c4cc7, #954ed4);
+}
+
+.search-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #adb5bd;
+}
+
+@media (max-width: 768px) {
+  .contenedor-component {
+    height: 160px;
+  }
+
+  .search-container {
+    padding: 0.5rem;
+    gap: 0.6rem;
+    margin: 0 1rem;
+  }
+
+  .search-bar {
+    width: 200px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+
+  .search-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
 }

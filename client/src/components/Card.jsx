@@ -5,22 +5,21 @@ import banner from "../img/banner.jpg";
 
 export default function Card({ videogame }) {
   return (
-    <NavLink to={`/videogame/${videogame.id}`}>
-      <div className="celda">
-        <div className="main-image">
-          <img
-            className="main-image"
-            src={videogame.image ? videogame.image : banner}
-            alt="img not found"
-          />
-        </div>
-        <div className="text-box">
-          <div className="text-info">
-            <h4>{videogame.name}</h4>
-            <p>{videogame.genres.join(" - ")}</p>
+    <NavLink to={`/videogame/${videogame.id}`} className="card-link">
+      <div 
+        className="card"
+        style={{
+          backgroundImage: `url(${videogame.image ? videogame.image : banner})`
+        }}
+      >
+        <div className="card-gradient">
+          <div className="card-rating">
+            <span className="rating-star">⭐</span>
+            <span className="rating-number">{videogame.rating}</span>
           </div>
-          <div className="star-rating">
-            <h4>⭐️ {videogame.rating}</h4>
+          <div className="card-content">
+            <h3 className="card-title" title={videogame.name}>{videogame.name}</h3>
+            <p className="card-genres" title={videogame.genres.join(" • ")}>{videogame.genres.join(" • ")}</p>
           </div>
         </div>
       </div>

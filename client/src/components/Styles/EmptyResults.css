@@ -3,3 +3,7 @@
   width: 200px;
   height: 200px;
 }
+
+.empty-results-container {
+  margin: 5rem
+}

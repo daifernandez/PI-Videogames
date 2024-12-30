@@ -14,11 +14,11 @@ export default function EmptyResults({ isHome }) {
     if (isHome) {
       dispatch(clear());
     } else {
-      navigate.goBack();
+      navigate(-1);
     }
   }
   return (
-    <div>
+    <div className="empty-results-container">
       <img
         className="empty-gif"
         src="https://media3.giphy.com/media/PgP2SoNRY3GRwuETmq/giphy.gif"
@@ -26,7 +26,7 @@ export default function EmptyResults({ isHome }) {
       />
       <p>sorry! we couldn't find videogames</p>
       <button
-        className="secondary-button"
+        className="custom-button"
         onClick={(e) => {
           handleClear(e);
         }}

@@ -34,26 +34,334 @@
 }
 
 .more-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3436;
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
   display: flex;
-  margin-left: 30px;
-  color: rgb(102, 102, 102);
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.more-text::before {
+  content: '🎮';
+  font-size: 1.4rem;
 }
 
 .platform {
-  color: #090909;
-  margin: 5px;
-  padding: 0.5em;
-  font-size: 12px;
-  border-radius: 0.5em;
-  border: 1px solid #e8e8e8ce;
-  background: linear-gradient(145deg, #e6e6e6, #ffffff);
-  box-shadow: 10px 10px 30px #d4d4d4, -10px -10x 30px #ffffff;
-  border: 1px solid #e8e8e8;
-  transition: all 0.3s;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  margin: 0.2rem;
+  background: #f8f9fa;
+  color: #636e72;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px solid #e9ecef;
+  flex: 0 1 auto;
+  min-width: fit-content;
 }
 
-.platform:active {
-  color: #666;
-  box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+.platform svg {
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.platform:hover svg {
+  transform: scale(1.1);
+  color: white;
+}
+
+.platform-name {
+  margin-left: 0.2rem;
+}
+
+/* Colores específicos para cada plataforma */
+.platform[href*="playstation"] svg { color: #006FCD; }
+.platform[href*="xbox"] svg { color: #107C10; }
+.platform[href*="pc"] svg, 
+.platform[href*="windows"] svg { color: #00A4EF; }
+.platform[href*="nintendo"] svg { color: #E60012; }
+.platform[href*="linux"] svg { color: #FCC624; }
+.platform[href*="mac"] svg { color: #555555; }
+.platform[href*="android"] svg { color: #3DDC84; }
+.platform[href*="atari"] svg { color: #E4202E; }
+.platform[href*="sega"] svg { color: #0089CF; }
+
+/* Al hacer hover, todos los iconos se vuelven blancos */
+.platform:hover svg {
+  color: white !important;
+}
+
+.platform:hover {
+  background: #6c5ce7;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.25);
+  text-decoration: none;
+}
+
+.platforms-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 2rem auto;
+  padding: 1.2rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 90%;
+}
+
+.platform {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  margin: 0.2rem;
+  background: #f8f9fa;
+  color: #636e72;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px solid #e9ecef;
+  flex: 0 1 auto;
+  min-width: fit-content;
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+  .platforms-container {
+    gap: 0.7rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .platforms-container {
+    max-width: 95%;
+  }
+
+  .platform {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.82rem;
+  }
+
+  .platform svg {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .platforms-container {
+    gap: 0.6rem;
+    padding: 0.8rem;
+    margin: 1.5rem auto;
+  }
+  
+  .platform {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .platform svg {
+    font-size: 0.9rem;
+  }
+
+  .platform-name {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .platforms-container {
+    gap: 0.5rem;
+    padding: 0.6rem;
+    margin: 1rem auto;
+  }
+  
+  .platform {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .platform svg {
+    font-size: 0.85rem;
+  }
+}
+
+.similar-games-section {
+  margin-top: 3rem;
+  padding: 2rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.similar-games-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Estilos específicos para las cards */
+.similar-games-container .celda {
+  width: 250px;
+  transform: scale(0.95);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.similar-games-container .main-image {
+  width: 250px;
+  height: 160px;
+}
+
+.similar-games-container .text-box {
+  padding: 1rem;
+}
+
+.similar-games-container .text-info h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.similar-games-container .text-info p {
+  font-size: 0.85rem;
+}
+
+.similar-games-container .star-rating {
+  padding-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Media Queries */
+@media (max-width: 1400px) {
+  .similar-games-container {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .similar-games-container .celda {
+    width: 230px;
+  }
+
+  .similar-games-container .main-image {
+    width: 230px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 992px) {
+  .similar-games-section {
+    padding: 1.5rem;
+  }
+
+  .similar-games-container {
+    gap: 1.2rem;
+  }
+
+  .similar-games-container .celda {
+    width: 210px;
+  }
+
+  .similar-games-container .main-image {
+    width: 210px;
+    height: 140px;
+  }
+}
+
+@media (max-width: 768px) {
+  .similar-games-section {
+    margin-top: 2rem;
+    padding: 1rem;
+  }
+
+  .similar-games-container {
+    gap: 1rem;
+  }
+
+  .similar-games-container .celda {
+    width: calc(50% - 1rem);
+    min-width: 180px;
+  }
+
+  .similar-games-container .main-image {
+    width: 100%;
+    height: 130px;
+  }
+
+  .similar-games-container .text-box {
+    padding: 0.8rem;
+  }
+
+  .similar-games-container .text-info h4 {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .similar-games-section {
+    padding: 0.8rem;
+  }
+
+  .similar-games-container {
+    gap: 0.8rem;
+    max-height: 500px; /* Altura máxima para móviles */
+    overflow-y: auto;
+    padding-right: 0.5rem; /* Espacio para el scrollbar */
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .similar-games-container::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .similar-games-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+  }
+
+  .similar-games-container::-webkit-scrollbar-thumb {
+    background: #6c5ce7;
+    border-radius: 2px;
+  }
+
+  .similar-games-container .celda {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto; /* Centrar las cards */
+  }
+
+  .similar-games-container .main-image {
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .similar-games-container .text-info h4 {
+    font-size: 1rem;
+  }
+}
+
+/* Ajuste específico para tablets en vertical */
+@media (min-width: 577px) and (max-width: 768px) {
+  .similar-games-container {
+    gap: 1rem;
+  }
+
+  .similar-games-container .celda {
+    width: calc(50% - 1rem);
+    min-width: 180px;
+  }
 }
