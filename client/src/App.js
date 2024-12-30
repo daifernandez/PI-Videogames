@@ -14,7 +14,7 @@ export default function App() {
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/createVideogame" element={<CreateVideogame />} />
         <Route exact path="/videogame/:id" element={<VideogameDetail />} />
-        <Route exact path="/videogames/platform/:name" element={<Platform />} />
+        <Route exact path="/videogames/platform/:name/*" element={<Platform />} />
       </Routes>
     </div>
   );
