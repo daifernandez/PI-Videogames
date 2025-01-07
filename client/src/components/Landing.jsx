@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Styles/Landing.css";
 import "./Styles/Button.css";
-import Logo from "../img/landing3.jpg";
+import Logo from "../img/landing.png";
 import title from "../img/title.png";
 import Footer from "./Footer";
 

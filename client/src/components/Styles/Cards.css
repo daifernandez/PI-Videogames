@@ -1,20 +1,62 @@
 .cont-cards-vertical {
-  display: flex;
-  justify-content: space-around;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin: 1rem;
-  padding: 2rem;
-  gap: 3rem;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 1400px;
+  width: 95%;
+}
+
+/* Tablets (iPad) - Mínimo 2 columnas */
+@media screen and (min-width: 768px) {
+  .cont-cards-vertical {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    padding: 2rem;
+  }
+}
+
+/* Pantallas grandes */
+@media screen and (min-width: 1024px) {
+  .cont-cards-vertical {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+}
+
+/* Pantallas extra grandes */
+@media screen and (min-width: 1440px) {
+  .cont-cards-vertical {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .cont-cards-horizontal {
   display: flex;
-  overflow: auto;
+  overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 10px 30px;
-  gap: 10px;
-  scroll-padding: 20px;
-  height: auto;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  scroll-padding: 1rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.cont-cards-horizontal::-webkit-scrollbar {
+  height: 8px;
+}
+
+.cont-cards-horizontal::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.cont-cards-horizontal::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.cont-cards-horizontal::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
