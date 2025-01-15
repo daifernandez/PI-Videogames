@@ -34,10 +34,34 @@ module.exports = (sequelize) => {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
       },
+      website: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      trailers: {
+        type: DataTypes.ARRAY(DataTypes.JSON),
+        allowNull: true,
+      },
+      screenshots: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
+      },
+      esrb_rating: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      publishers: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
+      },
+      developers: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
+      },
       createdInDB: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        default: true,
+        defaultValue: true,
       },
     },
     { timestamps: false }

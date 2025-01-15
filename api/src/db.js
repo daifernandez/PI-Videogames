@@ -23,7 +23,6 @@ fs.readdirSync(path.join(__dirname, "/models"))
     modelDefiners.push(require(path.join(__dirname, "/models", file)));
   });
 
-
 modelDefiners.forEach((model) => model(sequelize));
 
 let entries = Object.entries(sequelize.models);
@@ -38,7 +37,19 @@ const { Videogame, Genre } = sequelize.models;
 Videogame.belongsToMany(Genre, { through: "Videogame_Genre" });
 Genre.belongsToMany(Videogame, { through: "Videogame_Genre" });
 
+// Función para sincronizar la base de datos
+const syncDatabase = async (force = false) => {
+  try {
+    await sequelize.sync({ force });
+    console.log('Base de datos sincronizada correctamente');
+  } catch (error) {
+    console.error('Error al sincronizar la base de datos:', error);
+    throw error;
+  }
+};
+
 module.exports = {
   ...sequelize.models, 
-  conn: sequelize, 
+  conn: sequelize,
+  syncDatabase
 };

@@ -6,6 +6,8 @@
   margin: 0 auto;
   max-width: 1400px;
   width: 95%;
+  justify-content: center;
+  place-items: center;
 }
 
 /* Tablets (iPad) - Mínimo 2 columnas */

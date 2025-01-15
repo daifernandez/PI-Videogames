@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getGenres,
+  getgenres,
   selectGenre,
   selectPlatform,
   alphOrder,  
@@ -48,7 +48,7 @@ export default function FiltersOrders() {
   });
 
   useEffect(() => {
-    dispatch(getGenres());
+    dispatch(getgenres());
   }, [dispatch]);
 
   function handleSelectGenre(e) {
