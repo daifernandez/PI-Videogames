@@ -55,7 +55,9 @@ const get_videogames = async (req, res) => {
 const create_videogame = async (req, res) => {
   const { 
     name, 
-    image, 
+    image,
+    images,
+    video, 
     description, 
     released, 
     rating, 
@@ -74,6 +76,8 @@ const create_videogame = async (req, res) => {
     const videogame = await Videogame.create({
       name,
       image,
+      images,
+      video,
       description,
       released: released === "" ? null : released,
       rating,
@@ -169,12 +173,24 @@ const get_media = async (req, res) => {
       mediaItems = response.data.results.map(trailer => {
         const videoData = trailer.data;
         let videoUrl = '';
+        let isYoutube = false;
 
-        // Si tenemos un ID de YouTube, usarlo
+        // Primero intentamos obtener el ID de YouTube
         if (trailer.external_id && trailer.external_id.includes('youtube')) {
-          videoUrl = `https://www.youtube.com/embed/${trailer.external_id}`;
-        } else if (videoData) {
-          // Buscar la mejor calidad disponible
+          const youtubeId = trailer.external_id.replace('youtube-', '');
+          videoUrl = `https://www.youtube.com/embed/${youtubeId}`;
+          isYoutube = true;
+        } 
+        // Luego intentamos procesar una URL de YouTube del preview
+        else if (trailer.preview && trailer.preview.includes('youtube')) {
+          const youtubeMatch = trailer.preview.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+          if (youtubeMatch) {
+            videoUrl = `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+            isYoutube = true;
+          }
+        }
+        // Si no es YouTube, buscamos la mejor calidad de video directa
+        else if (videoData) {
           const qualities = ['max', '1080p', '720p', '480p', '360p', '240p'];
           for (const quality of qualities) {
             if (videoData[quality]) {
@@ -182,6 +198,23 @@ const get_media = async (req, res) => {
               break;
             }
           }
+
+          // Si no encontramos calidad estándar, usar cualquier URL disponible
+          if (!videoUrl) {
+            const availableQualities = Object.keys(videoData);
+            if (availableQualities.length > 0) {
+              videoUrl = videoData[availableQualities[0]];
+            }
+          }
+        }
+
+        // Si aún no tenemos URL y hay una preview que parece ser un video
+        if (!videoUrl && trailer.preview && (
+          trailer.preview.endsWith('.mp4') || 
+          trailer.preview.includes('/videos/') ||
+          trailer.preview.includes('cloudinary')
+        )) {
+          videoUrl = trailer.preview;
         }
 
         return {
@@ -190,7 +223,7 @@ const get_media = async (req, res) => {
           preview: trailer.preview,
           url: videoUrl || null,
           thumbnail: trailer.preview,
-          isYoutube: videoUrl?.includes('youtube.com/embed/')
+          isYoutube: isYoutube
         };
       }).filter(trailer => trailer.url);
     }
@@ -198,9 +231,13 @@ const get_media = async (req, res) => {
     // Si no hay items, devolver un mensaje específico
     if (mediaItems.length === 0) {
       return res.status(404).json({
+        [type]: [],
         error: type === 'screenshots' 
           ? 'No hay capturas de pantalla disponibles para este juego'
-          : 'No hay videos disponibles para este juego'
+          : 'No hay videos disponibles para este juego',
+        pages: 0,
+        currentPage: 1,
+        totalItems: 0
       });
     }
 
@@ -223,13 +260,21 @@ const get_media = async (req, res) => {
     
     if (error.response?.status === 404) {
       return res.status(404).json({ 
-        error: `No se encontró contenido multimedia para este juego` 
+        [type]: [],
+        error: `No se encontró contenido multimedia para este juego`,
+        pages: 0,
+        currentPage: 1,
+        totalItems: 0
       });
     }
 
     return res.status(500).json({ 
+      [type]: [],
       error: `Error al obtener ${type}`,
-      details: error.message 
+      details: error.message,
+      pages: 0,
+      currentPage: 1,
+      totalItems: 0
     });
   }
 };

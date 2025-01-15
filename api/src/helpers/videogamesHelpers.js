@@ -25,6 +25,8 @@ const get_videogame_db = async () => {
         'id',
         'name',
         'image',
+        'images',
+        'video',
         'description',
         'released',
         'rating',
@@ -273,12 +275,46 @@ const get_videogame_detail = async (id) => {
       };
 
       // Agregamos campos opcionales si existen
-      const optionalFields = ['website', 'trailers', 'screenshots', 'esrb_rating', 'publishers', 'developers'];
+      const optionalFields = ['website', 'esrb_rating', 'publishers', 'developers'];
       optionalFields.forEach(field => {
         if (videogameDBFind.dataValues[field] !== undefined) {
           baseGame[field] = videogameDBFind.dataValues[field];
         }
       });
+
+      // Procesamos screenshots y trailers
+      baseGame.screenshots = [
+        ...(videogameDBFind.dataValues.screenshots || []),
+        ...(videogameDBFind.dataValues.images || [])
+      ];
+
+      // Procesamos el video como trailer si existe
+      if (videogameDBFind.dataValues.video) {
+        const videoUrl = videogameDBFind.dataValues.video;
+        const isYoutube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
+        let processedUrl = videoUrl;
+
+        if (isYoutube) {
+          // Extraer el ID del video de YouTube
+          const youtubeMatch = videoUrl.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+          if (youtubeMatch) {
+            processedUrl = `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+          }
+        }
+
+        baseGame.trailers = [
+          ...(videogameDBFind.dataValues.trailers || []),
+          {
+            id: 'custom-video',
+            name: 'Video del juego',
+            url: processedUrl,
+            preview: videoUrl,
+            isYoutube: isYoutube
+          }
+        ];
+      } else {
+        baseGame.trailers = videogameDBFind.dataValues.trailers || [];
+      }
 
       return baseGame;
 
@@ -290,7 +326,7 @@ const get_videogame_detail = async (id) => {
         axios.get(`https://api.rawg.io/api/games/${id}/movies?key=${process.env.API_KEY}`)
       ]);
 
-      console.log('Respuesta de trailers:', JSON.stringify(trailers.data, null, 2));
+
 
       // Procesar la respuesta principal
       const gameData = gameDetails.data;
