@@ -15,7 +15,10 @@ const MediaGallery = ({ gameId, type, onLoadComplete }) => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [type]);
+    // Limpiar el caché cuando cambia el tipo
+    const cacheKey = `${gameId}-${type}`;
+    sessionStorage.removeItem(cacheKey);
+  }, [type, gameId]);
 
   useEffect(() => {
     const fetchMedia = async () => {
@@ -44,8 +47,8 @@ const MediaGallery = ({ gameId, type, onLoadComplete }) => {
         setTotalPages(Math.ceil(response.data[type].length / itemsPerPage));
         setError(null);
       } catch (err) {
+        console.error('Error al cargar trailers:', err);
         setError('Error al cargar el contenido multimedia');
-        console.error(err);
       } finally {
         setLoading(false);
         if (onLoadComplete) onLoadComplete();
@@ -153,45 +156,49 @@ const MediaGallery = ({ gameId, type, onLoadComplete }) => {
           </>
         ) : (
           // Renderizado de trailers
-          getCurrentPageItems().map((trailer, index) => (
-            <div key={index} className="trailer-item">
-              <div className="trailer-container">
-                <h3 className="trailer-title">{trailer.name}</h3>
-                <div className="video-wrapper">
-                  {trailer.isYoutube ? (
-                    <iframe
-                      src={trailer.url}
-                      title={trailer.name}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="trailer-video"
-                    />
-                  ) : trailer.url?.endsWith('.mp4') ? (
-                    <video
-                      controls
-                      poster={trailer.thumbnail}
-                      className="trailer-video"
-                      preload="metadata"
-                    >
-                      <source src={trailer.url} type="video/mp4" />
-                      <p>Tu navegador no soporta el elemento de video.</p>
-                    </video>
-                  ) : (
-                    <div className="trailer-preview-container">
-                      <img 
-                        src={trailer.preview} 
-                        alt={trailer.name}
-                        className="trailer-preview"
+          getCurrentPageItems().map((trailer, index) => {
+            return (
+              <div key={index} className="trailer-item">
+                <div className="trailer-container">
+                  <h3 className="trailer-title">{trailer.name}</h3>
+                  <div className="video-wrapper">
+                    {trailer.isYoutube ? (
+                      <iframe
+                        src={trailer.url}
+                        title={trailer.name}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="trailer-video"
                       />
-                      <div className="play-button" />
-                      <p className="trailer-error-text">Video no disponible</p>
-                    </div>
-                  )}
+                    ) : trailer.url?.endsWith('.mp4') || !trailer.isYoutube ? (
+                      <video
+                        controls
+                        poster={trailer.thumbnail}
+                        className="trailer-video"
+                        preload="metadata"
+                        playsInline
+                      >
+                        <source src={trailer.url} type="video/mp4" />
+                        <source src={trailer.url} type="video/webm" />
+                        <p>Tu navegador no soporta el elemento de video.</p>
+                      </video>
+                    ) : (
+                      <div className="trailer-preview-container">
+                        <img 
+                          src={trailer.preview} 
+                          alt={trailer.name}
+                          className="trailer-preview"
+                        />
+                        <div className="play-button" />
+                        <p className="trailer-error-text">Video no disponible</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 

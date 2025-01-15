@@ -53,8 +53,14 @@ export default function CreateVideogame() {
     rating: "",
     released: "",
     image: "",
+    images: [],
+    video: "",
     genres: [],
     platforms: [],
+    website: "",
+    esrb_rating: "",
+    developers: [],
+    publishers: []
   });
 
   const [error, setError] = useState({
@@ -90,10 +96,24 @@ export default function CreateVideogame() {
   const handleChange = (e) => {
     const property = e.target.name;
     const value = e.target.value;
-    setForm({
-      ...form,
-      [property]: value,
-    });
+
+    if (property === 'developers' || property === 'publishers') {
+      setForm({
+        ...form,
+        [property]: value.split(',').map(item => item.trim()).filter(item => item !== '')
+      });
+    } else if (property === 'images') {
+      setForm({
+        ...form,
+        images: value.split(',').map(url => url.trim()).filter(url => url !== '')
+      });
+    } else {
+      setForm({
+        ...form,
+        [property]: value,
+      });
+    }
+
     if (property === "name") {
       const regularExpression = /[`@#$%^&*()_+\-=[\]{};'"\\|<>/~]/;
       if (regularExpression.test(value)) {
@@ -262,6 +282,96 @@ export default function CreateVideogame() {
               </div>
               {error.platforms && <p className="input-forgot">{error.platforms}</p>}
             </fieldset>
+
+            <div className="form-group">
+              <label className="input-label">Website</label>
+              <input
+                className="barra"
+                type="url"
+                name="website"
+                placeholder="Enter game website"
+                value={form.website}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="input-label">ESRB Rating</label>
+              <select
+                className="barra"
+                name="esrb_rating"
+                value={form.esrb_rating}
+                onChange={handleChange}
+              >
+                <option value="">Select ESRB Rating</option>
+                <option value="E">E (Everyone)</option>
+                <option value="E10+">E10+ (Everyone 10+)</option>
+                <option value="T">T (Teen)</option>
+                <option value="M">M (Mature)</option>
+                <option value="AO">AO (Adults Only)</option>
+                <option value="RP">RP (Rating Pending)</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="input-label">Developers</label>
+              <input
+                className="barra"
+                type="text"
+                name="developers"
+                placeholder="Enter developers (separated by commas)"
+                value={form.developers.join(', ')}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="input-label">Publishers</label>
+              <input
+                className="barra"
+                type="text"
+                name="publishers"
+                placeholder="Enter publishers (separated by commas)"
+                value={form.publishers.join(', ')}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="input-label">Imagen Principal</label>
+              <input
+                className="barra"
+                type="url"
+                name="image"
+                placeholder="Ingresa la URL de la imagen principal"
+                value={form.image}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="input-label">Imágenes Adicionales</label>
+              <input
+                className="barra"
+                type="text"
+                name="images"
+                placeholder="Ingresa URLs de imágenes adicionales (separadas por comas)"
+                value={form.images.join(', ')}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="input-label">Video</label>
+              <input
+                className="barra"
+                type="url"
+                name="video"
+                placeholder="Ingresa la URL del video (YouTube, Vimeo, etc.)"
+                value={form.video}
+                onChange={handleChange}
+              />
+            </div>
 
             <div className="full-width">
               <p className="required-text">(*) Required fields</p>

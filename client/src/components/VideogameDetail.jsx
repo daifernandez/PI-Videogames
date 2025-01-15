@@ -23,6 +23,7 @@ import {
   FaStar,
   FaStarHalf
 } from 'react-icons/fa';
+import { RiDeleteBinLine } from 'react-icons/ri';
 import { SiAtari, SiSega, SiNintendo } from 'react-icons/si';
 
 const apiUrl = process.env.REACT_APP_API_HOST;
@@ -172,7 +173,24 @@ export default function Detail() {
           <div className="detail-content">
             <div className="detail-text-info">
               <header className="game-header">
-                <h1>{detailVideogame.name}</h1>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                  <h1>{detailVideogame.name}</h1>
+                  {detailVideogame.createdInDB && (
+                    <div className="actions-section">
+                      <button
+                        className="delete-icon-button"
+                        onClick={(e) => {
+                          if (window.confirm('¿Estás seguro que deseas eliminar este juego?')) {
+                            handleDeleteVideogame(e);
+                          }
+                        }}
+                        aria-label="Eliminar juego"
+                      >
+                        <RiDeleteBinLine />
+                      </button>
+                    </div>
+                  )}
+                </div>
                 <StarRating rating={detailVideogame.rating} />
               </header>
 
@@ -280,21 +298,6 @@ export default function Detail() {
                     <Cards videogames={sameGenreVideogames} direction="horizontal" />
                   </div>
                 </section>
-              )}
-
-              {detailVideogame.createdInDB && (
-                <div className="actions-section">
-                  <button
-                    className="delete-button"
-                    onClick={(e) => {
-                      if (window.confirm('Are you sure you want to delete this game?')) {
-                        handleDeleteVideogame(e);
-                      }
-                    }}
-                  >
-                    Delete Game
-                  </button>
-                </div>
               )}
             </div>
           </div>
