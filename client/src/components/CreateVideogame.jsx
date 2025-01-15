@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { postVideogame, getGenres, getvideogames } from "../Redux/actions";
+import { postVideogame, getgenres, getvideogames } from "../Redux/actions";
 import "./Styles/CreateVideogame.css";
 import "./Styles/Button.css";
 import Footer from "./Footer";
@@ -37,7 +37,7 @@ export default function CreateVideogame() {
 
   useEffect(() => {
     if (genres.length === 0) {
-      dispatch(getGenres());
+      dispatch(getgenres());
     }
   }, [dispatch, genres]);
 

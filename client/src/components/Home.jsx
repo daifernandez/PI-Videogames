@@ -9,54 +9,56 @@ import Loading from "./Loading";
 import { getvideogames } from "../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import "./Styles/Home.css";
+import "./Styles/Paginado.css";
 import Footer from "./Footer";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const videogames = useSelector((state) => state.videogamesOnScreen);
-  const needsToFetchVideogames = useSelector(
-    (state) => state.videogames.length === 0
-  );
+  const videogames = useSelector((state) => state.videogamesOnScreen || []);
+  const allVideogames = useSelector((state) => state.videogames || []);
+  const loading = useSelector((state) => state.loading);
+  const error = useSelector((state) => state.error);
 
   useEffect(() => {
-    if (needsToFetchVideogames) {
+    if (allVideogames.length === 0 && !loading && !error) {
       dispatch(getvideogames());
     }
-  }, [dispatch, needsToFetchVideogames]);
+  }, [dispatch, allVideogames.length, loading, error]);
 
-  if (needsToFetchVideogames) {
-    return (
-      <div>
-        <NavBar />
-        <Loading />
-        <Footer />
-      </div>
-    );
-  } else {
-    let content;
-    if (videogames.length) {
-      content = (
-        <div>
-          <Cards
-            key="videogames-cards"
-            videogames={videogames}
-            direction="vertical"
-          />
-          <Paginado />
-        </div>
-      );
-    } else {
-      content = <EmptyResults isHome={true} />;
+  const renderContent = () => {
+    if (loading) {
+      return <Loading />;
+    }
+
+    if (error) {
+      return <EmptyResults message={error} isHome={true} />;
+    }
+
+    if (videogames.length === 0) {
+      return <EmptyResults isHome={true} />;
     }
 
     return (
-      <div>
-        <NavBar />
-        <Search />
-        <FiltersOrders />
-        <div className="cont">{content}</div>
-        <Footer />
-      </div>
+      <>
+        <Cards
+          key="videogames-cards"
+          videogames={videogames}
+          direction="vertical"
+        />
+        <Paginado />
+      </>
     );
-  }
+  };
+
+  return (
+    <div>
+      <NavBar />
+      <Search />
+      <FiltersOrders />
+      <div className="cont">
+        {renderContent()}
+      </div>
+      <Footer />
+    </div>
+  );
 }

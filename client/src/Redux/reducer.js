@@ -15,12 +15,76 @@ import {
 
 const VIDEO_GAMES_PER_PAGE = 15;
 
+// Funciones auxiliares
+function videogamesForFilter(videogames, filterAndSortingState) {
+  var videogamesForFilter = videogames.filter((videogame) => {
+    if (filterAndSortingState.genre) {
+      if (!videogame.genres.includes(filterAndSortingState.genre)) {
+        return false;
+      }
+    }
+
+    if (filterAndSortingState.platform) {
+      if (!videogame.platforms.includes(filterAndSortingState.platform)) {
+        return false;
+      }
+    }
+
+    if (filterAndSortingState.origin) {
+      switch (filterAndSortingState.origin) {
+        case "API":
+          if (videogame.createdInDB) {
+            return false;
+          }
+          break;
+        case "DB":
+          if (!videogame.createdInDB) {
+            return false;
+          }
+          break;
+        default:
+      }
+    }
+    return true;
+  });
+
+  if (filterAndSortingState.sorting) {
+    videogamesForFilter.sort((a, b) => {
+      switch (filterAndSortingState.sorting) {
+        case "A-Z":
+          return a.name.localeCompare(b.name);
+        case "Z-A":
+          return b.name.localeCompare(a.name);
+        case "1-5":
+          return a.rating - b.rating;
+        case "5-1":
+          return b.rating - a.rating;
+        default:
+          return 0;
+      }
+    });
+  }
+  return videogamesForFilter;
+}
+
+function videogamesForPage(videogames, page) {
+  const indexFirstVideogame = page * VIDEO_GAMES_PER_PAGE;
+  const indexLastVideogame = indexFirstVideogame + VIDEO_GAMES_PER_PAGE;
+  const videogamesForPage = videogames.slice(
+    indexFirstVideogame,
+    indexLastVideogame
+  );
+  return videogamesForPage;
+}
+
+function pagesCount(videogames) {
+  return Math.ceil(videogames.length / VIDEO_GAMES_PER_PAGE);
+}
+
 const initialState = {
   videogames: [],
-  genres: [],
   videogamesOnScreen: [],
-  currentPage: 0,
-  numberOfPages: 0,
+  genres: [],
   platforms: [],
   filterAndSortingState: {
     genre: null,
@@ -28,25 +92,65 @@ const initialState = {
     origin: null,
     sorting: null,
   },
+  currentPage: 0,
+  numberOfPages: 0,
+  loading: false,
+  error: null
 };
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_VIDEOGAMES:
-      const platforms = action.payload.map((el) => el.platforms).flat();
-      const uniquePlatforms = new Set(platforms);
-      const videogames = action.payload;
-      const paginationGetVideogames = videogamesForPage(
-        videogames,
-        state.currentPage
-      );
+    case "LOADING_VIDEOGAMES":
       return {
         ...state,
-        videogames: videogames,
-        videogamesOnScreen: paginationGetVideogames,
-        numberOfPages: pagesCount(videogames),
-        platforms: Array.from(uniquePlatforms),
+        loading: true,
+        error: null
       };
+
+    case "FINISH_LOADING_VIDEOGAMES":
+      return {
+        ...state,
+        loading: false
+      };
+
+    case "ERROR_VIDEOGAMES":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        videogames: [],
+        videogamesOnScreen: []
+      };
+
+    case GET_VIDEOGAMES:
+      const platforms = new Set();
+      action.payload.forEach((videogame) => {
+        videogame.platforms.forEach((platform) => {
+          platforms.add(platform);
+        });
+      });
+
+      const initialPage = 0;
+      const filteredVideogamesInitial = videogamesForFilter(
+        action.payload,
+        state.filterAndSortingState
+      );
+      const initialPagination = videogamesForPage(
+        filteredVideogamesInitial,
+        initialPage
+      );
+
+      return {
+        ...state,
+        videogames: action.payload,
+        videogamesOnScreen: initialPagination,
+        platforms: Array.from(platforms).sort(),
+        numberOfPages: pagesCount(filteredVideogamesInitial),
+        currentPage: initialPage,
+        loading: false,
+        error: null
+      };
+
     case GET_GENRES:
       return {
         ...state,
@@ -175,15 +279,16 @@ function rootReducer(state = initialState, action) {
         filterAndSortingState: state.filterAndSortingState,
       };
     case CLEAR:
-      filterAndSortingState = {
+      const newFilterState = {
         genre: null,
+        platform: null,
         origin: null,
         sorting: null,
       };
       const currentPage = 0;
       const filteredVideogamesClear = videogamesForFilter(
         state.videogames,
-        filterAndSortingState
+        newFilterState
       );
       const paginationClear = videogamesForPage(
         filteredVideogamesClear,
@@ -194,7 +299,7 @@ function rootReducer(state = initialState, action) {
         videogamesOnScreen: paginationClear,
         currentPage: currentPage,
         numberOfPages: pagesCount(filteredVideogamesClear),
-        filterAndSortingState: filterAndSortingState,
+        filterAndSortingState: newFilterState,
       };
     case GO_TO_PAGE:
       const page = action.payload;
@@ -212,74 +317,8 @@ function rootReducer(state = initialState, action) {
         currentPage: page,
       };
     default:
-      return { ...state };
+      return state;
   }
-}
-
-function videogamesForFilter(videogames, filterAndSortingState) {
-  var videogamesForFilter = videogames.filter((videogame) => {
-    if (filterAndSortingState.genre) {
-      if (!videogame.genres.includes(filterAndSortingState.genre)) {
-        return false;
-      }
-    }
-
-    if (filterAndSortingState.platform) {
-      if (!videogame.platforms.includes(filterAndSortingState.platform)) {
-        return false;
-      }
-    }
-
-    if (filterAndSortingState.origin) {
-      switch (filterAndSortingState.origin) {
-        case "API":
-          if (videogame.createdInDB) {
-            return false;
-          }
-          break;
-        case "DB":
-          if (!videogame.createdInDB) {
-            return false;
-          }
-          break;
-        default:
-      }
-    }
-    return true;
-  });
-
-  if (filterAndSortingState.sorting) {
-    videogamesForFilter.sort((a, b) => {
-      switch (filterAndSortingState.sorting) {
-        case "A-Z":
-          return a.name.localeCompare(b.name);
-        case "Z-A":
-          return b.name.localeCompare(a.name);
-        case "1-5":
-          return a.rating - b.rating;
-        case "5-1":
-          return b.rating - a.rating;
-        default:
-          return 0;
-      }
-    });
-  }
-  return videogamesForFilter;
-}
-
-function videogamesForPage(videogames, page) {
-  const indexFirstVideogame = page * VIDEO_GAMES_PER_PAGE;
-  const indexLastVideogame = indexFirstVideogame + VIDEO_GAMES_PER_PAGE;
-  const videogamesForPage = videogames.slice(
-    indexFirstVideogame,
-    indexLastVideogame
-  );
-
-  return videogamesForPage;
-}
-
-function pagesCount(videogames) {
-  return Math.ceil(videogames.length / VIDEO_GAMES_PER_PAGE);
 }
 
 export default rootReducer;

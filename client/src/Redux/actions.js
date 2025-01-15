@@ -18,37 +18,75 @@ export const DELETE_DB_VIDEOGAME = "DELETE_DB_VIDEOGAME";
 export function getvideogames() {
   return async function (dispatch) {
     try {
+      dispatch({ type: "LOADING_VIDEOGAMES" });
       const response = await axios.get(`${apiUrl}/videogames`);
+      
+      if (!response.data || response.data.length === 0) {
+        throw new Error("No se encontraron videojuegos disponibles");
+      }
+      
       dispatch({ type: GET_VIDEOGAMES, payload: response.data });
     } catch (error) {
-      console.error("Error en get videogames:", {
+      console.error("Error al obtener videojuegos:", {
         mensaje: error.message,
         código: error.code,
         detalles: error.response?.data || 'Sin detalles adicionales'
       });
-      // Opcionalmente despachar una acción de error
+
+      let errorMessage = "Error al cargar los videojuegos";
+
+      if (error.response) {
+        switch (error.response.status) {
+          case 404:
+            errorMessage = "No se encontraron videojuegos";
+            break;
+          case 500:
+            errorMessage = "Error en el servidor. Por favor, inténtalo más tarde";
+            break;
+          case 503:
+            errorMessage = "Servicio temporalmente no disponible";
+            break;
+          default:
+            errorMessage = error.response.data?.error || errorMessage;
+        }
+      }
+
       dispatch({ 
-        type: "ERROR", 
-        payload: "No se pudieron cargar los videojuegos. Por favor, verifica tu conexión."
+        type: "ERROR_VIDEOGAMES", 
+        payload: errorMessage
       });
+    } finally {
+      dispatch({ type: "FINISH_LOADING_VIDEOGAMES" });
     }
   };
 }
 
-export function getGenres() {
+export const getgenres = () => {
   return async function (dispatch) {
     try {
+      // Verificar si tenemos los géneros en caché
+      const cachedGenres = sessionStorage.getItem('genres');
+      if (cachedGenres) {
+        return dispatch({
+          type: GET_GENRES,
+          payload: JSON.parse(cachedGenres),
+        });
+      }
+
       const response = await axios.get(`${apiUrl}/genres`);
-      dispatch({ type: GET_GENRES, payload: response.data });
-    } catch (error) {
-      console.error("Error en get genres:", {
-        mensaje: error.message,
-        código: error.code,
-        detalles: error.response?.data || 'Sin detalles adicionales'
+      
+      // Guardar en caché
+      sessionStorage.setItem('genres', JSON.stringify(response.data));
+      
+      return dispatch({
+        type: GET_GENRES,
+        payload: response.data,
       });
+    } catch (error) {
+      console.error("Error al obtener géneros:", error);
     }
   };
-}
+};
 
 export function getVideogameByName(name) {
   return async function (dispatch) {

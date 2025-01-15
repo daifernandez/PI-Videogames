@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, NavLink , useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { deleteVideogameDB, getvideogames } from "../Redux/actions";
 import NavBar from "./NavBar";
 import Loading from "./Loading";
 import Cards from "./Cards";
 import ScrollToTop from "./ScrollToTop.jsx";
+import MediaGallery from "./MediaGallery";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
 import { createSelector } from 'reselect';
@@ -17,7 +18,10 @@ import {
   FaApple, 
   FaLinux, 
   FaAndroid,
- 
+  FaGlobe,
+  FaGamepad,
+  FaStar,
+  FaStarHalf
 } from 'react-icons/fa';
 import { SiAtari, SiSega, SiNintendo } from 'react-icons/si';
 
@@ -48,11 +52,36 @@ async function getVideogameDetail(id) {
   return response.data;
 }
 
+const StarRating = ({ rating }) => {
+  const stars = [];
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 >= 0.5;
+
+  for (let i = 0; i < 5; i++) {
+    if (i < fullStars) {
+      stars.push(<FaStar key={i} className="star filled" />);
+    } else if (i === fullStars && hasHalfStar) {
+      stars.push(<FaStarHalf key={i} className="star half" />);
+    } else {
+      stars.push(<FaStar key={i} className="star empty" />);
+    }
+  }
+
+  return (
+    <div className="star-rating-container">
+      <div className="stars">{stars}</div>
+      <span className="rating-number">{rating}/5</span>
+    </div>
+  );
+};
+
 export default function Detail() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [detailVideogame, setDetailVideogame] = useState();
+  const [activeTab, setActiveTab] = useState('screenshots');
+  const [isLoading, setIsLoading] = useState(true);
 
   const sameGenreVideogames = useSelector((state) => 
     selectSameGenreVideogames(state, detailVideogame)
@@ -62,9 +91,16 @@ export default function Detail() {
 
   useEffect(() => {
     setDetailVideogame();
+    setIsLoading(true);
     const fetchVideogameDetail = async () => {
-      const videgameDetail = await getVideogameDetail(id);
-      setDetailVideogame(videgameDetail);
+      try {
+        const videgameDetail = await getVideogameDetail(id);
+        setDetailVideogame(videgameDetail);
+      } catch (error) {
+        console.error("Error fetching game details:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchVideogameDetail();
@@ -99,77 +135,183 @@ export default function Detail() {
     return null;
   };
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
+  const handlePlatformClick = (platform) => {
+    navigate(`/platform/${encodeURIComponent(platform)}`);
+  };
+
+  if (isLoading) {
+    return (
+      <>
+        <NavBar />
+        <div className="loading-container">
+          <Loading />
+        </div>
+      </>
+    );
+  }
+
   if (detailVideogame) {
     return (
-      <div>
+      <div className="detail-page">
         <ScrollToTop />
         <NavBar />
+        
         <div className="detail-container">
-          <img
-            className="detail-main-image"
-            src={detailVideogame.image ? detailVideogame.image : banner}
-            alt="img not found"
-          />
+          <div className="detail-header">
+            <img
+              className="detail-main-image"
+              src={detailVideogame.image || banner}
+              alt={detailVideogame.name}
+            />
+          </div>
 
           <div className="detail-content">
             <div className="detail-text-info">
-              <h1>{detailVideogame.name}</h1>
-              <h5>{detailVideogame.genres.join(" - ")}</h5>
-              <h4 className="star-rating">⭐️ {detailVideogame.rating}</h4>
-              <h6>Released: {detailVideogame.released}</h6>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: detailVideogame.description,
-                }}
-              />
-              <div className="platforms-container">
-                {detailVideogame.platforms.map((platform) => (
-                  <NavLink
-                    to={`/videogames/platform/${platform}`}
-                    className="platform"
-                    key={platform}
+              <header className="game-header">
+                <h1>{detailVideogame.name}</h1>
+                <StarRating rating={detailVideogame.rating} />
+              </header>
+
+              <section className="game-info-section">
+                <div className="description-container">
+                  <h2>Description</h2>
+                  <div 
+                    className="description-text"
+                    dangerouslySetInnerHTML={{ 
+                      __html: detailVideogame.description.replace(/\n/g, '<br />') 
+                    }}
+                  />
+                </div>
+
+                <div className="metadata-grid">
+                  {detailVideogame.website && (
+                    <div className="metadata-item">
+                      <a 
+                        href={detailVideogame.website} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="website-link"
+                      >
+                        <span>Website</span>
+                        <FaGlobe />
+                      </a>
+                    </div>
+                  )}
+
+                  {detailVideogame.esrb_rating && (
+                    <div className="metadata-item">
+                      <div className="esrb-rating">
+                        <FaGamepad />
+                        <span>ESRB Rating: {detailVideogame.esrb_rating}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {(detailVideogame.developers?.length > 0 || detailVideogame.publishers?.length > 0) && (
+                  <div className="credits-section">
+                    {detailVideogame.developers?.length > 0 && (
+                      <div className="developers">
+                        <h3>Developers</h3>
+                        <p>{detailVideogame.developers.join(', ')}</p>
+                      </div>
+                    )}
+                    
+                    {detailVideogame.publishers?.length > 0 && (
+                      <div className="publishers">
+                        <h3>Publishers</h3>
+                        <p>{detailVideogame.publishers.join(', ')}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="platforms-container">
+                  {detailVideogame.platforms.map((platform, index) => (
+                    <span 
+                      key={index} 
+                      className="platform"
+                      onClick={() => handlePlatformClick(platform)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {getPlatformIcon(platform)}
+                      <span className="platform-name">{platform}</span>
+                    </span>
+                  ))}
+                </div>
+              </section>
+
+              <section className="media-section">
+                <div className="media-tabs">
+                  <button 
+                    className={`tab-button ${activeTab === 'screenshots' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveTab('screenshots');
+                    }}
                   >
-                    {getPlatformIcon(platform)}
-                    <span className="platform-name">{platform}</span>
-                  </NavLink>
-                ))}
-              </div>
-              <button
-                className="delete-button"
-                onClick={handleDeleteVideogame}
-                hidden={!detailVideogame.createdInDB}
-              >
-                <i className="material-symbols-rounded middle-align button-icon">
-                  delete
-                </i>
-                <span className="middle-align">Delete Videogame</span>
-              </button>
-            </div>
-            <div 
-              className="similar-games-section"
-              hidden={sameGenreVideogames.length === 0}
-            >
-              
-              <h2 className="more-text">Games of the same genre</h2>
-              <div className="similar-games-container">
-                <Cards
-                  key="videogames-cards"
-                  videogames={sameGenreVideogames}
-                  direction="horizontal"
-                  className="similar-games-cards"
-                />
-              </div>
+                    Screenshots
+                  </button>
+                  <button 
+                    className={`tab-button ${activeTab === 'trailers' ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveTab('trailers');
+                    }}
+                  >
+                    Trailers
+                  </button>
+                </div>
+
+                <div className="media-content">
+                  <MediaGallery 
+                    gameId={id} 
+                    type={activeTab}
+                  />
+                </div>
+              </section>
+
+              {sameGenreVideogames.length > 0 && (
+                <section className="similar-games-section">
+                  <h2>Similar Games</h2>
+                  <div className="similar-games-grid">
+                    <Cards videogames={sameGenreVideogames} direction="horizontal" />
+                  </div>
+                </section>
+              )}
+
+              {detailVideogame.createdInDB && (
+                <div className="actions-section">
+                  <button
+                    className="delete-button"
+                    onClick={(e) => {
+                      if (window.confirm('Are you sure you want to delete this game?')) {
+                        handleDeleteVideogame(e);
+                      }
+                    }}
+                  >
+                    Delete Game
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
     );
-  } else {
-    return (
-      <>
-        <NavBar />
-        <Loading />
-      </>
-    );
   }
+
+  return (
+    <>
+      <NavBar />
+      <div className="error-container">
+        <h2>Could not load game</h2>
+        <button onClick={handleGoBack} className="back-button">
+          Back to Home
+        </button>
+      </div>
+    </>
+  );
 }

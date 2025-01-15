@@ -3,8 +3,8 @@ import "./Styles/Loading.css";
 
 export default function Loading() {
   return (
-    <div>
-      <div className="loader-container">
+    <div className="loader-container">
+      <div className="loader-content">
         <h1>Loading</h1>
         <img
           className="img-loading"

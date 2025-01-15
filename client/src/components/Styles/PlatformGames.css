@@ -1,0 +1,180 @@
+.platform-games {
+  min-height: 100vh;
+  background: var(--background-color);
+  color: var(--text-color);
+  padding: 20px;
+}
+
+.platform-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px);
+}
+
+.platform-header {
+  margin: 4rem 0 2.5rem;
+  text-align: center;
+  position: relative;
+  animation: fadeInDown 0.8s ease-in-out;
+}
+
+.platform-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.platform-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #6c5ce7, #8e44ad);
+  border-radius: 2px;
+}
+
+.platform-stats {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+}
+
+.games-count {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background: #6c5ce7;
+  color: white;
+  border-radius: 25px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+  transition: all 0.3s ease;
+}
+
+.games-count:hover {
+  background: #8e44ad;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(108, 92, 231, 0.3);
+}
+
+.platform-cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.platform-cards-container > div:first-child {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  margin-bottom: 2rem;
+}
+
+.no-games-found {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--card-background);
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(108, 92, 231, 0.1);
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+.no-games-found h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #6c5ce7;
+  font-weight: 600;
+}
+
+.no-games-found p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  width: 100%;
+  background-color: var(--background-color);
+}
+
+/* Estilos específicos para el paginado */
+.platform-cards-container nav {
+  margin: 2rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .platform-content {
+    padding: 1rem;
+  }
+  
+  .platform-header {
+    margin: 3rem 0 2rem;
+  }
+
+  .platform-title {
+    font-size: 2.2rem;
+    padding-bottom: 12px;
+  }
+
+  .platform-title::after {
+    width: 80px;
+    height: 3px;
+  }
+
+  .platform-cards-container > div:first-child {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .games-count {
+    padding: 0.4rem 1.2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .platform-cards-container > div:first-child {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .platform-cards-container > div:first-child {
+    grid-template-columns: repeat(4, 1fr);
+  }
+} 
