@@ -1,14 +1,22 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clear } from "../Redux/actions";
 import Logo from "../img/navbar.png";
 import "./Styles/Button.css";
 import "./Styles/NavBar.css";
 
 export default function NavBar() {
+  const dispatch = useDispatch();
+
+  const handleHomeClick = () => {
+    dispatch(clear());
+  };
+
   return (
     <div className="contenedor">
       <div className="img">
-        <NavLink to="/home">
+        <NavLink to="/home" onClick={handleHomeClick}>
           <img id="logo" src={Logo} className="img" alt="" />
         </NavLink>
       </div>
