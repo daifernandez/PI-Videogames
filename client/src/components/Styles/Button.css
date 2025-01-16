@@ -1,6 +1,6 @@
 .custom-button {
   background-color: var(--primary-button-color);
-  border-radius: 8px;
+  border-radius: 8px !important;
   padding: 12px 32px;
   height: 44px;
   text-align: center;
@@ -85,4 +85,10 @@
 .icon-emptyResults {
   width: 60px;
   height: 60px;
+}
+
+.custom-button span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

@@ -48,28 +48,29 @@ a:active {
   text-decoration: none;
   color: inherit;
   display: block;
-  transition: transform 0.2s ease;
-  width: 300px;
+  width: 280px;
   margin: 10px;
+  transform: translateY(0);
+  transition: all 0.3s ease;
 }
 
 .card-link:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
 }
 
 .card {
-  height: 350px;
-  border-radius: 15px;
+  height: 380px;
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
   background-size: cover;
   background-position: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
 }
 
 .card:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .card-gradient {
@@ -79,112 +80,203 @@ a:active {
   right: 0;
   bottom: 0;
   background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.2) 0%,
-    rgba(0, 0, 0, 0.6) 50%,
-    rgba(0, 0, 0, 0.8) 100%
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.75) 100%
   );
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  transition: background 0.3s ease;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
 }
 
 .card:hover .card-gradient {
   background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.3) 0%,
-    rgba(0, 0, 0, 0.7) 50%,
-    rgba(0, 0, 0, 0.9) 100%
+    180deg,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.8) 100%
   );
 }
 
 .card-rating {
-  align-self: flex-end;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 6px 12px;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 0.7rem;
   border-radius: 25px;
   display: flex;
   align-items: center;
-  gap: 5px;
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  gap: 0.3rem;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover .card-rating {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .rating-star {
-  color: #ffd700;
-  font-size: 0.9em;
+  color: #FFE082;
+  font-size: 0.9rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+  transition: all 0.3s ease;
+}
+
+.card:hover .rating-star {
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+  transform: scale(1.05);
 }
 
 .rating-number {
-  color: white;
-  font-weight: bold;
-  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 0 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .card-content {
   z-index: 2;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card:hover .card-content {
+  transform: translateY(-2px);
 }
 
 .card-title {
-  margin: 0 0 10px 0;
-  font-size: 1.3rem;
+  margin: 0;
+  font-size: 1.25rem;
   color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.3;
-  letter-spacing: 0.3px;
-  font-weight: 600;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.2px;
+  font-weight: 500;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  padding-bottom: 0.25rem;
+}
+
+.card-metadata {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0.25rem 0;
+}
+
+.metadata-tag {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.35rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.metadata-tag:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.calendar-icon {
+  opacity: 0.9;
+  margin-top: 1px;
+  transition: all 0.3s ease;
+}
+
+.metadata-tag:hover .calendar-icon {
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 .card-genres {
   margin: 0;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   letter-spacing: 0.2px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+  padding-top: 0.25rem;
 }
 
-/* Tooltip mejorado */
-.card-title[title],
-.card-genres[title] {
-  cursor: help;
+.game-status {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.35rem 0.625rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.game-status.new {
+  background: rgba(76, 175, 80, 0.75);
+  color: white;
+}
+
+.game-status.coming-soon {
+  background: rgba(33, 150, 243, 0.75);
+  color: white;
+}
+
+.game-status i {
+  font-size: 0.85rem;
+}
+
+/* Tooltip más delicado */
+[title] {
   position: relative;
+  cursor: help;
 }
 
-.card-title[title]:hover::after,
-.card-genres[title]:hover::after {
+[title]:hover::after {
   content: attr(title);
   position: absolute;
-  bottom: 100%;
+  bottom: 120%;
   left: 50%;
   transform: translateX(-50%);
-  padding: 5px 10px;
-  background: rgba(0, 0, 0, 0.8);
+  padding: 0.375rem 0.625rem;
+  background: rgba(0, 0, 0, 0.75);
   color: white;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 0.8rem;
   white-space: nowrap;
   z-index: 1000;
   pointer-events: none;
-  animation: fadeIn 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, 10px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
+  animation: tooltipFadeIn 0.2s ease;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

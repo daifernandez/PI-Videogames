@@ -144,29 +144,30 @@
 }
 
 .form-button {
-  background-color: var(--primary-button-color);
-  border-radius: 8px;
-  padding: 12px 32px;
-  height: 44px;
-  text-align: center;
+  padding: 0.7rem 1.6rem;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(45deg, #8c7ae6, #9b59b6);
   color: white;
-  font-size: 14px;
-  border: 0;
-  font-weight: 600;
-  margin: 4rem auto;
-  width: 100%;
-  max-width: 250px;
-  display: block;
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  letter-spacing: 0.3px;
+  width: auto;
+  margin: 1rem 0;
 }
 
 .form-button:hover:not(:disabled) {
-  background-color: var(--secondary-color);
-  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(140, 122, 230, 0.2);
+  background: linear-gradient(45deg, #7f6ee3, #8e44ad);
 }
 
 .form-button:disabled {
-  background-color: rgba(97, 97, 97, 0.971);
+  opacity: 0.6;
   cursor: not-allowed;
+  background: #ced4da;
 }
 
 .required-text {
