@@ -55,19 +55,19 @@ export default function PlatformGames() {
 
   if (loading) {
     return (
-      <div className="platform-games">
+      <>
         <NavBar />
         <div className="loading-container">
           <Loading />
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="platform-games">
+    <>
       <NavBar />
-      <div className="platform-content">
+      <div className="platform-games">
         <div className="platform-header">
           <h1 className="platform-title">{decodeURIComponent(platform)} Games</h1>
           <div className="platform-stats">
@@ -95,6 +95,6 @@ export default function PlatformGames() {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 } 
