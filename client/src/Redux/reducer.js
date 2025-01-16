@@ -13,7 +13,7 @@ import {
   DELETE_DB_VIDEOGAME,
 } from "./actions";
 
-const VIDEO_GAMES_PER_PAGE = 15;
+const VIDEO_GAMES_PER_PAGE = 16;
 
 // Funciones auxiliares
 function videogamesForFilter(videogames, filterAndSortingState) {
