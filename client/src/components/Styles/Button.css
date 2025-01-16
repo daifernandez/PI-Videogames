@@ -9,6 +9,8 @@
   border: 0;
   font-weight: 600;
   margin: 0.1rem;
+  cursor: pointer;
+  animation: none;
 }
 
 .custom-button:hover {
@@ -30,6 +32,8 @@
   font-size: 14px;
   border: 0;
   font-weight: 600;
+  cursor: pointer;
+  animation: none;
 }
 
 .custom-buttonIcon:hover {

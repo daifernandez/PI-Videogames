@@ -16,11 +16,10 @@
 .img {
   width: 200px;
   height: 35px;
-  transition: transform 0.3s ease;
 }
 
 .img:hover {
-  transform: scale(1.02);
+  transform: none;
 }
 
 .nav-links {
@@ -33,7 +32,6 @@
   text-decoration: none;
   color: #2d3436;
   font-weight: 500;
-  transition: color 0.3s ease;
   padding: 0.5rem 1rem;
   border-radius: 8px;
 }
@@ -46,7 +44,6 @@
 .nav-button {
   padding: 0.7rem 1.5rem;
   font-size: 1rem;
-  transition: all 0.3s ease;
   background: linear-gradient(45deg, #6c5ce7, #a55eea);
   border: none;
   border-radius: 25px;
@@ -57,7 +54,6 @@
 }
 
 .nav-button:hover {
-  transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
 }
 

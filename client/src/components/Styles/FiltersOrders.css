@@ -9,6 +9,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   margin: 1.5rem auto;
   max-width: 1200px;
+  animation: none;
 }
 
 .filters-row {
@@ -47,7 +48,6 @@
   font-size: 0.9rem;
   width: 130px;
   cursor: pointer;
-  transition: all 0.3s ease;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23636e72' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
