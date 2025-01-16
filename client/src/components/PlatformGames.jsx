@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import Cards from './Cards';
 import Loading from './Loading';
 import Paginado from './Paginado';
+import ScrollToTop from './ScrollToTop';
 import './Styles/Cards.css';
 import './Styles/PlatformGames.css';
 
@@ -67,6 +68,7 @@ export default function PlatformGames() {
   return (
     <>
       <NavBar />
+      <ScrollToTop />
       <div className="platform-games">
         <div className="platform-header">
           <h1 className="platform-title">{decodeURIComponent(platform)} Games</h1>
