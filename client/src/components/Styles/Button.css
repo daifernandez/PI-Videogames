@@ -1,6 +1,6 @@
 .custom-button {
   background-color: var(--primary-button-color);
-  border-radius: 8px;
+  border-radius: 8px !important;
   padding: 12px 32px;
   height: 44px;
   text-align: center;
@@ -9,6 +9,8 @@
   border: 0;
   font-weight: 600;
   margin: 0.1rem;
+  cursor: pointer;
+  animation: none;
 }
 
 .custom-button:hover {
@@ -30,6 +32,8 @@
   font-size: 14px;
   border: 0;
   font-weight: 600;
+  cursor: pointer;
+  animation: none;
 }
 
 .custom-buttonIcon:hover {
@@ -81,4 +85,10 @@
 .icon-emptyResults {
   width: 60px;
   height: 60px;
+}
+
+.custom-button span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

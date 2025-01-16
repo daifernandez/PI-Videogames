@@ -160,7 +160,10 @@ export default function FiltersOrders() {
           handleClearFiltersOrder(e);
         }}
       >
-        Clear Filters
+        <span>
+          <span className="material-symbols-rounded">filter_list_off</span>
+          Clear Filters
+        </span>
       </button>
     </div>
   );

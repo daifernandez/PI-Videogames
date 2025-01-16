@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import Cards from './Cards';
 import Loading from './Loading';
 import Paginado from './Paginado';
+import ScrollToTop from './ScrollToTop';
 import './Styles/Cards.css';
 import './Styles/PlatformGames.css';
 
@@ -55,19 +56,20 @@ export default function PlatformGames() {
 
   if (loading) {
     return (
-      <div className="platform-games">
+      <>
         <NavBar />
         <div className="loading-container">
           <Loading />
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="platform-games">
+    <>
       <NavBar />
-      <div className="platform-content">
+      <ScrollToTop />
+      <div className="platform-games">
         <div className="platform-header">
           <h1 className="platform-title">{decodeURIComponent(platform)} Games</h1>
           <div className="platform-stats">
@@ -95,6 +97,6 @@ export default function PlatformGames() {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 } 

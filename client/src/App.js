@@ -9,13 +9,15 @@ import PlatformGames from "./components/PlatformGames.jsx";
 export default function App() {
   return (
     <div className="App">
-      <Routes>
-        <Route exact path="/" element={<Landing />} />
-        <Route exact path="/home" element={<Home />} />
-        <Route exact path="/createVideogame" element={<CreateVideogame />} />
-        <Route exact path="/videogame/:id" element={<VideogameDetail />} />
-        <Route exact path="/platform/:platform" element={<PlatformGames />} />
-      </Routes>
+      <div className="main-content">
+        <Routes>
+          <Route exact path="/" element={<Landing />} />
+          <Route exact path="/home" element={<Home />} />
+          <Route exact path="/createVideogame" element={<CreateVideogame />} />
+          <Route exact path="/videogame/:id" element={<VideogameDetail />} />
+          <Route exact path="/platform/:platform" element={<PlatformGames />} />
+        </Routes>
+      </div>
     </div>
   );
 }

@@ -334,29 +334,29 @@
 }
 
 .media-section {
-  margin: 2rem 0;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  padding: 2rem;
+  margin: 3rem 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .media-tabs {
   display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  border-bottom: 2px solid rgba(108, 92, 231, 0.1);
-  padding-bottom: 1rem;
+  gap: 3rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(108, 92, 231, 0.15);
+  padding-bottom: 0;
   position: relative;
 }
 
 .tab-button {
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 0;
   background: none;
   border: none;
   color: #718096;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -365,10 +365,10 @@
 .tab-button::after {
   content: '';
   position: absolute;
-  bottom: -1rem;
+  bottom: -1px;
   left: 0;
   width: 100%;
-  height: 3px;
+  height: 2px;
   background: transparent;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -383,7 +383,6 @@
 
 .tab-button:hover {
   color: #6c5ce7;
-  transform: translateY(-2px);
 }
 
 .tab-button:hover::after {
@@ -394,20 +393,21 @@
   position: relative;
   min-height: 200px;
   transition: all 0.3s ease;
+  margin-top: 1rem;
 }
 
 @media (max-width: 768px) {
   .media-section {
-    padding: 1rem;
+    margin: 2rem 0;
   }
 
   .media-tabs {
-    gap: 1rem;
+    gap: 2rem;
   }
 
   .tab-button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
+    padding: 0.5rem 0;
+    font-size: 0.95rem;
   }
 }
 
