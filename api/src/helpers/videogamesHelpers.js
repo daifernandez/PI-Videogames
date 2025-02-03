@@ -499,6 +499,47 @@ const get_upcoming_games_api = async () => {
   }
 };
 
+const get_recent_games_api = async () => {
+  if (!process.env.API_KEY) {
+    throw new Error("API_KEY no configurada");
+  }
+
+  try {
+    const currentDate = new Date();
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(currentDate.getMonth() - 3);
+
+    const formattedCurrentDate = currentDate.toISOString().split('T')[0];
+    const formattedThreeMonthsAgo = threeMonthsAgo.toISOString().split('T')[0];
+
+    const response = await axios.get(
+      `https://api.rawg.io/api/games`,
+      {
+        params: {
+          key: process.env.API_KEY,
+          dates: `${formattedThreeMonthsAgo},${formattedCurrentDate}`,
+          ordering: '-released',
+          page_size: 6
+        }
+      }
+    );
+
+    if (!response.data || !response.data.results) {
+      throw new Error("Formato de respuesta inválido de la API de RAWG");
+    }
+
+    const recentGames = response.data.results.map(game => api_videogameParse(game));
+    return recentGames;
+
+  } catch (error) {
+    console.error("Error al obtener juegos recientes:", error);
+    if (error.response?.status === 401) {
+      throw new Error("API_KEY inválida o expirada");
+    }
+    throw new Error(`Error al obtener juegos recientes: ${error.message}`);
+  }
+};
+
 module.exports = {
   get_videogame_db,
   get_videogame_api,
@@ -506,5 +547,6 @@ module.exports = {
   get_videogame_byName,
   get_videogame_detail,
   delete_videogameDB,
-  get_upcoming_games_api
+  get_upcoming_games_api,
+  get_recent_games_api
 };

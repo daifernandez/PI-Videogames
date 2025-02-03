@@ -15,6 +15,7 @@ export const CLEAR = "CLEAR";
 export const GO_TO_PAGE = "GO_TO_PAGE";
 export const DELETE_DB_VIDEOGAME = "DELETE_DB_VIDEOGAME";
 export const GET_UPCOMING_GAMES = "GET_UPCOMING_GAMES";
+export const GET_RECENT_GAMES = "GET_RECENT_GAMES";
 
 export function getvideogames() {
   return async function (dispatch) {
@@ -201,6 +202,34 @@ export function getUpcomingGames() {
       });
     } finally {
       dispatch({ type: "FINISH_LOADING_UPCOMING_GAMES" });
+    }
+  };
+}
+
+export function getRecentGames() {
+  return async function (dispatch) {
+    try {
+      dispatch({ type: "LOADING_RECENT_GAMES" });
+      const response = await axios.get(`${apiUrl}/videogames/recent`);
+      
+      if (!response.data || response.data.length === 0) {
+        throw new Error("No se encontraron lanzamientos recientes");
+      }
+      
+      dispatch({ type: GET_RECENT_GAMES, payload: response.data });
+    } catch (error) {
+      console.error("Error al obtener lanzamientos recientes:", {
+        mensaje: error.message,
+        código: error.code,
+        detalles: error.response?.data || 'Sin detalles adicionales'
+      });
+
+      dispatch({ 
+        type: "ERROR_RECENT_GAMES", 
+        payload: error.response?.data?.error || "Error al cargar los lanzamientos recientes"
+      });
+    } finally {
+      dispatch({ type: "FINISH_LOADING_RECENT_GAMES" });
     }
   };
 }

@@ -11,6 +11,7 @@ import {
   POST_VIDEOGAME,
   GO_TO_PAGE,
   DELETE_DB_VIDEOGAME,
+  GET_RECENT_GAMES,
 } from "./actions";
 
 const VIDEO_GAMES_PER_PAGE = 16;
@@ -98,7 +99,10 @@ const initialState = {
   error: null,
   upcomingGames: [],
   loadingUpcoming: false,
-  errorUpcoming: null
+  errorUpcoming: null,
+  recentGames: [],
+  loadingRecentGames: false,
+  recentGamesError: null,
 };
 
 function rootReducer(state = initialState, action) {
@@ -345,6 +349,32 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         loadingUpcoming: false
+      };
+
+    case "LOADING_RECENT_GAMES":
+      return {
+        ...state,
+        loadingRecentGames: true,
+        recentGamesError: null
+      };
+    
+    case GET_RECENT_GAMES:
+      return {
+        ...state,
+        recentGames: action.payload,
+        recentGamesError: null
+      };
+    
+    case "ERROR_RECENT_GAMES":
+      return {
+        ...state,
+        recentGamesError: action.payload
+      };
+    
+    case "FINISH_LOADING_RECENT_GAMES":
+      return {
+        ...state,
+        loadingRecentGames: false
       };
 
     default:
