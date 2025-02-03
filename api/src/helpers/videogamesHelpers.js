@@ -433,6 +433,72 @@ const delete_videogameDB = async (id) => {
   }
 };
 
+const get_upcoming_games_api = async () => {
+  if (!process.env.API_KEY) {
+    throw new Error("API_KEY no configurada");
+  }
+
+  try {
+    const currentDate = new Date().toISOString().split('T')[0];
+    const nextYear = new Date();
+    nextYear.setFullYear(nextYear.getFullYear() + 1);
+    const nextYearDate = nextYear.toISOString().split('T')[0];
+
+    const response = await axios.get(
+      `https://api.rawg.io/api/games`,
+      {
+        params: {
+          key: process.env.API_KEY,
+          dates: `${currentDate},${nextYearDate}`,
+          ordering: 'released',
+          page_size: 20,
+          platforms: "187,186,18,16,15,27,19,17,1,14,80,83"
+        }
+      }
+    );
+
+    if (!response.data || !response.data.results) {
+      console.error("Respuesta inesperada de la API:", response.data);
+      throw new Error("Formato de respuesta inválido de la API de RAWG");
+    }
+
+    const upcomingGames = response.data.results
+      .filter(game => {
+        const releaseDate = new Date(game.released);
+        const currentDate = new Date();
+        return releaseDate > currentDate && !isNaN(releaseDate.getTime()) && game.platforms;
+      })
+      .map(apiObject => {
+        try {
+          return {
+            id: apiObject.id,
+            name: apiObject.name,
+            image: apiObject.background_image,
+            rating: apiObject.rating,
+            released: apiObject.released,
+            platforms: apiObject.platforms?.map(p => p.platform.name) || [],
+            genres: apiObject.genres?.map(g => g.name) || []
+          };
+        } catch (parseError) {
+          console.error("Error al parsear videojuego:", parseError);
+          return null;
+        }
+      })
+      .filter(game => game !== null && game.image && game.platforms.length > 0)
+      .slice(0, 6);
+
+    return upcomingGames;
+  } catch (error) {
+    console.error("Error en get_upcoming_games_api:", error);
+    
+    if (error.response?.status === 401) {
+      throw new Error("API_KEY inválida o expirada");
+    }
+    
+    throw new Error(`Error al obtener próximos lanzamientos: ${error.message}`);
+  }
+};
+
 module.exports = {
   get_videogame_db,
   get_videogame_api,
@@ -440,4 +506,5 @@ module.exports = {
   get_videogame_byName,
   get_videogame_detail,
   delete_videogameDB,
+  get_upcoming_games_api
 };
