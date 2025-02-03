@@ -7,6 +7,7 @@ import Paginado from "./Paginado";
 import EmptyResults from "./EmptyResults";
 import Loading from "./Loading";
 import RecentGames from "./RecentGames";
+import UpcomingGames from "./UpcomingGames";
 import { getvideogames } from "../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import "./Styles/Home.css";
@@ -52,15 +53,19 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="home-container">
       <NavBar />
-    
-      <Search />
-      <FiltersOrders />
-      <div className="cont">
-        {renderContent()}
-      </div>
-      <RecentGames />
+      <main>
+        <Search />
+        <FiltersOrders />
+        <div className="cont">
+          {renderContent()}
+        </div>
+        <div className="featured-sections">
+          <RecentGames />  
+          <UpcomingGames />
+        </div>
+      </main>
       <Footer />
     </div>
   );

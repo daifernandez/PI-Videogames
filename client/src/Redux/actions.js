@@ -14,6 +14,7 @@ export const RATING_ORDER = "RATING_ORDER";
 export const CLEAR = "CLEAR";
 export const GO_TO_PAGE = "GO_TO_PAGE";
 export const DELETE_DB_VIDEOGAME = "DELETE_DB_VIDEOGAME";
+export const GET_UPCOMING_GAMES = "GET_UPCOMING_GAMES";
 
 export function getvideogames() {
   return async function (dispatch) {
@@ -174,4 +175,32 @@ export function deleteVideogameDB(id) {
       });
     }
   };   
+}
+
+export function getUpcomingGames() {
+  return async function (dispatch) {
+    try {
+      dispatch({ type: "LOADING_UPCOMING_GAMES" });
+      const response = await axios.get(`${apiUrl}/videogames/upcoming`);
+      
+      if (!response.data || response.data.length === 0) {
+        throw new Error("No se encontraron próximos lanzamientos");
+      }
+      
+      dispatch({ type: GET_UPCOMING_GAMES, payload: response.data });
+    } catch (error) {
+      console.error("Error al obtener próximos lanzamientos:", {
+        mensaje: error.message,
+        código: error.code,
+        detalles: error.response?.data || 'Sin detalles adicionales'
+      });
+
+      dispatch({ 
+        type: "ERROR_UPCOMING_GAMES", 
+        payload: error.response?.data?.error || "Error al cargar los próximos lanzamientos"
+      });
+    } finally {
+      dispatch({ type: "FINISH_LOADING_UPCOMING_GAMES" });
+    }
+  };
 }

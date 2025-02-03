@@ -95,7 +95,10 @@ const initialState = {
   currentPage: 0,
   numberOfPages: 0,
   loading: false,
-  error: null
+  error: null,
+  upcomingGames: [],
+  loadingUpcoming: false,
+  errorUpcoming: null
 };
 
 function rootReducer(state = initialState, action) {
@@ -316,6 +319,34 @@ function rootReducer(state = initialState, action) {
         videogamesOnScreen: paginationGoToPage,
         currentPage: page,
       };
+    case "LOADING_UPCOMING_GAMES":
+      return {
+        ...state,
+        loadingUpcoming: true,
+        errorUpcoming: null
+      };
+
+    case "GET_UPCOMING_GAMES":
+      return {
+        ...state,
+        upcomingGames: action.payload,
+        loadingUpcoming: false,
+        errorUpcoming: null
+      };
+
+    case "ERROR_UPCOMING_GAMES":
+      return {
+        ...state,
+        errorUpcoming: action.payload,
+        loadingUpcoming: false
+      };
+
+    case "FINISH_LOADING_UPCOMING_GAMES":
+      return {
+        ...state,
+        loadingUpcoming: false
+      };
+
     default:
       return state;
   }
