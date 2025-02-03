@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import { deleteVideogameDB, getvideogames } from "../Redux/actions";
 import NavBar from "./NavBar";
 import Loading from "./Loading";
-import Cards from "./Cards";
 import ScrollToTop from "./ScrollToTop.jsx";
 import MediaGallery from "./MediaGallery";
 import "./Styles/VideogameDetail.css";
@@ -25,6 +24,7 @@ import {
 } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { SiAtari, SiSega, SiNintendo } from 'react-icons/si';
+import SimilarGames from './SimilarGames';
 
 const apiUrl = process.env.REACT_APP_API_HOST;
 
@@ -35,12 +35,14 @@ const selectDetailVideogame = (_, detailVideogame) => detailVideogame;
 const selectSameGenreVideogames = createSelector(
   [selectVideogames, selectDetailVideogame],
   (videogames, detailVideogame) => {
-    if (!detailVideogame) return [];
+    if (!detailVideogame || !videogames) return [];
     
     return videogames
       .filter(
         videogame =>
-          videogame.genres.includes(detailVideogame.genres[0]) &&
+          videogame.genres?.some(genre => 
+            detailVideogame.genres?.includes(typeof genre === 'string' ? genre : genre.name)
+          ) &&
           videogame.id !== detailVideogame.id
       )
       .sort(() => 0.5 - Math.random())
@@ -267,17 +269,13 @@ export default function Detail() {
                 <div className="media-tabs">
                   <button 
                     className={`tab-button ${activeTab === 'screenshots' ? 'active' : ''}`}
-                    onClick={() => {
-                      setActiveTab('screenshots');
-                    }}
+                    onClick={() => setActiveTab('screenshots')}
                   >
                     Screenshots
                   </button>
                   <button 
                     className={`tab-button ${activeTab === 'trailers' ? 'active' : ''}`}
-                    onClick={() => {
-                      setActiveTab('trailers');
-                    }}
+                    onClick={() => setActiveTab('trailers')}
                   >
                     Trailers
                   </button>
@@ -291,14 +289,7 @@ export default function Detail() {
                 </div>
               </section>
 
-              {sameGenreVideogames.length > 0 && (
-                <section className="similar-games-section">
-                  <h2>Similar Games</h2>
-                  <div className="similar-games-grid">
-                    <Cards videogames={sameGenreVideogames} direction="horizontal" />
-                  </div>
-                </section>
-              )}
+              <SimilarGames games={sameGenreVideogames} />
             </div>
           </div>
         </div>
