@@ -6,6 +6,7 @@ import Cards from "./Cards";
 import Paginado from "./Paginado";
 import EmptyResults from "./EmptyResults";
 import Loading from "./Loading";
+import RecentGames from "./RecentGames";
 import { getvideogames } from "../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import "./Styles/Home.css";
@@ -53,11 +54,13 @@ export default function Home() {
   return (
     <div>
       <NavBar />
+    
       <Search />
       <FiltersOrders />
       <div className="cont">
         {renderContent()}
       </div>
+      <RecentGames />
       <Footer />
     </div>
   );
