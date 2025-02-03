@@ -1,17 +1,18 @@
-import React, { useRef } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { SiNintendogamecube } from 'react-icons/si';
+import { getRecentGames } from '../Redux/actions';
 import './Styles/RecentGames.css';
 
 const RecentGames = () => {
-    const allVideogames = useSelector((state) => state.videogames || []);
+    const dispatch = useDispatch();
+    const { recentGames, loadingRecentGames, recentGamesError } = useSelector((state) => state);
     const scrollContainerRef = useRef(null);
     
-    // Ordenar los juegos por fecha de lanzamiento y tomar los 6 más recientes
-    const recentGames = [...allVideogames]
-        .sort((a, b) => new Date(b.released) - new Date(a.released))
-        .slice(0, 6);
+    useEffect(() => {
+        dispatch(getRecentGames());
+    }, [dispatch]);
 
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'short' };
@@ -28,7 +29,28 @@ const RecentGames = () => {
         }
     };
 
-    if (recentGames.length === 0) return null;
+    if (loadingRecentGames) {
+        return (
+            <div className="recent-games-container">
+                <div className="recent-games-header">
+                    <h2><span className="game-icon"><SiNintendogamecube /></span> Gaming World Updates <span className="subtitle">Cargando...</span></h2>
+                </div>
+            </div>
+        );
+    }
+
+    if (recentGamesError) {
+        return (
+            <div className="recent-games-container">
+                <div className="recent-games-header">
+                    <h2><span className="game-icon"><SiNintendogamecube /></span> Gaming World Updates <span className="subtitle">Error al cargar</span></h2>
+                </div>
+                <p className="error-message">{recentGamesError}</p>
+            </div>
+        );
+    }
+
+    if (!recentGames || recentGames.length === 0) return null;
 
     return (
         <div className="recent-games-container"
@@ -49,7 +71,7 @@ const RecentGames = () => {
              }}
         >
             <div className="recent-games-header">
-                <h2><span className="game-icon"><SiNintendogamecube /></span> Gaming World Updates <span className="subtitle">Latest Releases</span></h2>
+                <h2><span className="game-icon"><SiNintendogamecube /></span> Gaming World Updates <span className="subtitle">Últimos Lanzamientos</span></h2>
             </div>
             <div 
                 className="recent-games-grid" 

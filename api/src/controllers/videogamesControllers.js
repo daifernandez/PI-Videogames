@@ -3,7 +3,8 @@ const {
   get_allVideogames,
   get_videogame_byName,
   get_videogame_detail,
-  get_upcoming_games_api
+  get_upcoming_games_api,
+  get_recent_games_api
 } = require("../helpers/videogamesHelpers.js");
 const axios = require("axios");
 
@@ -311,9 +312,41 @@ const get_upcoming_games = async (req, res) => {
   }
 };
 
+const get_recent_games = async (req, res) => {
+  try {
+    const recentGames = await get_recent_games_api();
+    if (!recentGames || recentGames.length === 0) {
+      return res.status(404).json({ 
+        error: "No se encontraron lanzamientos recientes" 
+      });
+    }
+    return res.status(200).json(recentGames);
+  } catch (error) {
+    console.error("Error en get_recent_games:", error);
+    
+    if (error.message.includes("API_KEY")) {
+      return res.status(500).json({ 
+        error: "Error de configuración del servidor: API_KEY no válida" 
+      });
+    }
+    
+    if (error.message.includes("RAWG")) {
+      return res.status(503).json({ 
+        error: "Error al comunicarse con el servicio externo" 
+      });
+    }
+
+    return res.status(500).json({ 
+      error: "Error interno del servidor al obtener los lanzamientos recientes",
+      details: error.message 
+    });
+  }
+};
+
 module.exports = {
   get_videogames,
   create_videogame,
   get_media,
-  get_upcoming_games
+  get_upcoming_games,
+  get_recent_games,
 };
