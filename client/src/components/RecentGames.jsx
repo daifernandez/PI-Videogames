@@ -7,7 +7,9 @@ import './Styles/RecentGames.css';
 
 const RecentGames = () => {
     const dispatch = useDispatch();
-    const { recentGames, loadingRecentGames, recentGamesError } = useSelector((state) => state);
+    const recentGames = useSelector((state) => state.recentGames);
+    const loadingRecentGames = useSelector((state) => state.loadingRecentGames);
+    const recentGamesError = useSelector((state) => state.recentGamesError);
     const scrollContainerRef = useRef(null);
     
     useEffect(() => {
