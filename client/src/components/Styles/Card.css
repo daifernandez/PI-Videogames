@@ -280,3 +280,160 @@ a:active {
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* Mejoras responsive para tablets */
+@media (max-width: 768px) {
+  .card {
+    height: 340px;
+  }
+
+  .card-gradient {
+    padding: 1.25rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .card-metadata {
+    gap: 0.4rem;
+  }
+
+  .metadata-tag {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .card-genres {
+    font-size: 0.8rem;
+  }
+
+  .card-rating {
+    padding: 0.35rem 0.6rem;
+  }
+
+  .rating-number {
+    font-size: 0.85rem;
+  }
+}
+
+/* Mejoras responsive para móviles */
+@media (max-width: 480px) {
+  .card {
+    height: 260px;
+  }
+
+  .card-gradient {
+    padding: 0.85rem;
+  }
+
+  .card-content {
+    gap: 0.4rem;
+  }
+
+  .card-title {
+    font-size: 0.95rem;
+    padding-bottom: 0.1rem;
+  }
+
+  .card-metadata {
+    gap: 0.25rem;
+  }
+
+  .metadata-tag {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.65rem;
+    border-radius: 8px;
+  }
+
+  .card-genres {
+    font-size: 0.7rem;
+    padding-top: 0.1rem;
+  }
+
+  .card-rating {
+    top: 0.6rem;
+    right: 0.6rem;
+    padding: 0.25rem 0.4rem;
+    border-radius: 16px;
+  }
+
+  .rating-star {
+    font-size: 0.75rem;
+  }
+
+  .rating-number {
+    font-size: 0.75rem;
+  }
+
+  .game-status {
+    top: 0.6rem;
+    left: 0.6rem;
+    padding: 0.25rem 0.4rem;
+    font-size: 0.7rem;
+  }
+
+  .card-link {
+    width: 260px;
+    margin: 8px;
+  }
+
+  .celda {
+    width: 260px;
+  }
+
+  .main-image {
+    width: 260px;
+    height: 160px;
+  }
+}
+
+/* Optimizaciones para dispositivos muy pequeños */
+@media (max-width: 360px) {
+  .card {
+    height: 240px;
+  }
+
+  .card-gradient {
+    padding: 0.75rem;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+  }
+
+  .metadata-tag {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.6rem;
+  }
+
+  .card-genres {
+    font-size: 0.65rem;
+  }
+
+  .card-rating {
+    padding: 0.2rem 0.35rem;
+  }
+
+  .rating-star {
+    font-size: 0.7rem;
+  }
+
+  .rating-number {
+    font-size: 0.7rem;
+  }
+
+  .card-link {
+    width: 240px;
+    margin: 6px;
+  }
+
+  .celda {
+    width: 240px;
+  }
+
+  .main-image {
+    width: 240px;
+    height: 140px;
+  }
+}

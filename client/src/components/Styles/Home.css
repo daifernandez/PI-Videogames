@@ -26,11 +26,159 @@ main {
 
 @media (max-width: 768px) {
   main {
-    padding: 0 0.5rem;
+    padding: 0.75rem;
   }
-  
+
+  .cont {
+    margin: 0;
+  }
+
+  .featured-sections {
+    margin: 1.5rem 0;
+    gap: 1.5rem;
+  }
+
+  .loading-skeleton {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+    padding: 0.75rem;
+  }
+
+  .skeleton-card {
+    border-radius: 10px;
+  }
+
+  .skeleton-image {
+    height: 160px;
+  }
+}
+
+/* Mejoras para dispositivos pequeños (móviles) */
+@media (max-width: 480px) {
+  main {
+    padding: 0.5rem;
+  }
+
   .featured-sections {
     margin: 1rem 0;
     gap: 1rem;
   }
+
+  .loading-skeleton {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .skeleton-image {
+    height: 140px;
+  }
+
+  .loading-message p {
+    font-size: 0.95rem;
+  }
+
+  .error-state {
+    padding: 2rem 1rem;
+  }
+}
+
+/* Optimizaciones para dispositivos muy pequeños */
+@media (max-width: 360px) {
+  main {
+    padding: 0.25rem;
+  }
+
+  .loading-skeleton {
+    padding: 0.25rem;
+  }
+
+  .skeleton-image {
+    height: 120px;
+  }
+
+  .loading-message p {
+    font-size: 0.9rem;
+  }
+}
+
+.loading-state {
+  width: 100%;
+  padding: 2rem;
+}
+
+.loading-message {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.loading-message p {
+  color: #2d3436;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+.loading-skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.skeleton-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 200px;
+  background: #f0f0f0;
+}
+
+.skeleton-content {
+  padding: 1rem;
+}
+
+.skeleton-title {
+  height: 24px;
+  background: #f0f0f0;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  width: 80%;
+}
+
+.skeleton-text {
+  height: 16px;
+  background: #f0f0f0;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  width: 60%;
+}
+
+.skeleton-rating {
+  height: 16px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  width: 40%;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.error-state {
+  text-align: center;
+  padding: 3rem 1rem;
 }

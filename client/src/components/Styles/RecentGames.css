@@ -19,7 +19,9 @@
     width: 100%;
 }
 
-.recent-games-container h2 {
+.recent-games-container h2,
+.upcoming-games-container h2,
+.similar-games-container h2 {
     color: #322d69;
     font-size: 1.8rem;
     font-weight: 700;
@@ -30,7 +32,9 @@
     letter-spacing: -0.025em;
 }
 
-.recent-games-container h2 .game-icon {
+.recent-games-container h2 .game-icon,
+.upcoming-games-container h2 .game-icon,
+.similar-games-container h2 .game-icon {
     color: #8c7ae6;
     font-size: 1.6rem;
     animation: float 3s ease-in-out infinite;
@@ -39,7 +43,9 @@
     align-items: center;
 }
 
-.recent-games-container h2 .subtitle {
+.recent-games-container h2 .subtitle,
+.upcoming-games-container h2 .subtitle,
+.similar-games-container h2 .subtitle {
     font-size: 1rem;
     color: #8c7ae6;
     font-weight: 500;
@@ -388,80 +394,286 @@
     transform: translateX(20px);
 }
 
+/* Mejoras responsive para tablets y móviles */
 @media (max-width: 768px) {
     .recent-games-container, .upcoming-games-container {
-        padding: 1rem;
-        margin: 1rem auto;
+        padding: 0.5rem 0.25rem;
+        margin: 0.5rem auto;
     }
 
-    .recent-games-container h2 {
-        font-size: 1.3rem;
+    .recent-games-header, .upcoming-games-header {
+        padding: 0 0.25rem 0.25rem;
+        margin-bottom: 0.5rem;
     }
 
-    .game-card {
-        width: 300px;
-        padding: 1rem;
-    }
-    
-    .game-card::before {
-        border-radius: 16px;
+    .recent-games-container h2,
+    .upcoming-games-container h2,
+    .similar-games-container h2 {
+        font-size: 1.2rem;
     }
 
-    .game-card-image {
-        width: 90px;
-        height: 130px;
+    .recent-games-container h2 .game-icon,
+    .upcoming-games-container h2 .game-icon,
+    .similar-games-container h2 .game-icon {
+        font-size: 1.1rem;
     }
 
-    .game-card-title {
-        font-size: 1rem;
+    .recent-games-container h2 .subtitle,
+    .upcoming-games-container h2 .subtitle,
+    .similar-games-container h2 .subtitle {
+        font-size: 0.8rem;
     }
 
-    .game-card-info {
-        font-size: 0.85rem;
+    .game-list-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0.75rem;
+        gap: 1rem;
+        background: rgba(255, 255, 255, 0.5);
     }
 
-    .game-card-genre {
-        font-size: 0.75rem;
-        padding: 0.25rem 0.5rem;
+    .game-thumbnail {
+        width: 120px;
+        height: 68px;
+        margin-right: 1rem;
+        flex-shrink: 0;
     }
 
-    .scroll-button {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
+    .game-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .game-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.6rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .game-details {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.8rem;
+        flex-wrap: nowrap;
+    }
+
+    .platforms-list {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        width: auto;
     }
 }
 
 @media (max-width: 480px) {
-    .game-card {
-        width: 280px;
-        padding: 0.9rem;
-        gap: 1rem;
+    .recent-games-container, .upcoming-games-container {
+        padding: 0.35rem 0.25rem;
+        margin: 0.35rem auto;
     }
-    
-    .game-card::before {
-        border-radius: 14px;
+
+    .month-header-container {
+        padding: 0.35rem;
+        gap: 0.25rem;
+        margin-bottom: 0.35rem;
+        background: rgba(255, 255, 255, 0.3);
     }
-    
-    .game-card-content {
+
+    .month-year-badge {
+        padding: 0.25rem 0.4rem;
+        font-size: 0.8rem;
+    }
+
+    .games-list {
+        gap: 0.25rem;
+        padding: 0;
+    }
+
+    .game-list-item {
+        display: flex;
+        flex-direction: column;
+        padding: 0.75rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
         gap: 0.5rem;
+        box-shadow: 0 2px 8px rgba(140, 122, 230, 0.08);
+        margin-bottom: 0.75rem;
+        border: 1px solid rgba(140, 122, 230, 0.1);
     }
-    
-    .game-card-title {
+
+    .game-info {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .game-details {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .game-title {
         font-size: 1rem;
+        line-height: 1.3;
+        margin: 0;
+        color: #322d69;
+        font-weight: 700;
+        text-align: left;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        letter-spacing: -0.01em;
     }
-    
-    .game-card-rating {
-        padding: 0.3rem 0.6rem;
+
+    .release-date {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.75rem;
+        background: rgba(140, 122, 230, 0.08);
+        border-radius: 20px;
+        color: #8c7ae6;
+        align-self: flex-start;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
     }
-    
-    .game-card-genre {
+
+    .game-image-container {
+        width: 100%;
+        height: 180px;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 2px 8px rgba(50, 45, 105, 0.12);
+    }
+
+    .game-thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .game-image-container img {
+        all: unset;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .game-hover-info {
+        display: none;
+    }
+
+    .game-list-item:active .game-image-container img {
+        transform: scale(1.02);
+    }
+
+    .platforms-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        padding: 0;
+        width: 100%;
+    }
+
+    .platform-tag {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        background: rgba(50, 45, 105, 0.04);
+        color: #554769;
+        font-weight: 500;
+        border: 1px solid rgba(140, 122, 230, 0.08);
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
+    }
+
+    .month-header-container {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 12px;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(140, 122, 230, 0.15);
+    }
+
+    .month-year-badge {
+        background: linear-gradient(135deg, #8c7ae6, #322d69);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 6px rgba(140, 122, 230, 0.2);
+    }
+
+    .empty-state {
+        padding: 1rem;
+        margin: 0.5rem 0;
+    }
+
+    .empty-state p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .recent-games-container, .upcoming-games-container {
+        padding: 0.25rem 0.15rem;
+    }
+
+    .game-list-item {
+        padding: 0.6rem;
+        gap: 0.4rem;
+    }
+
+    .game-title {
+        font-size: 0.95rem;
+    }
+
+    .release-date {
+        font-size: 0.75rem;
         padding: 0.3rem 0.6rem;
     }
 
-    .game-card-image {
-        width: 80px;
-        height: 120px;
+    .game-image-container {
+        height: 150px;
+    }
+
+    .game-thumbnail {
+        height: 100%;
+    }
+
+    .game-image-container img {
+        height: 100%;
+    }
+
+    .platform-tag {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .month-header-container {
+        padding: 0.6rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .month-year-badge {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .games-count {
+        font-size: 0.7rem;
+        padding: 0.15rem 0.3rem;
     }
 }
 
@@ -594,44 +806,6 @@
     font-weight: 500;
 }
 
-/* Estilos para Upcoming Games List */
-.upcoming-games-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 auto 1.5rem;
-    padding: 0 1rem 1rem;
-    border-bottom: 1px solid rgba(231, 231, 237, 0.8);
-}
-
-.upcoming-games-header h2 {
-    color: #322d69;
-    font-size: 1.8rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0;
-    letter-spacing: -0.025em;
-}
-
-.upcoming-games-header h2 .game-icon {
-    color: #8c7ae6;
-    font-size: 1.6rem;
-    animation: float 3s ease-in-out infinite;
-    opacity: 0.85;
-    display: flex;
-    align-items: center;
-}
-
-.upcoming-games-header h2 .subtitle {
-    font-size: 1rem;
-    color: #8c7ae6;
-    font-weight: 500;
-    margin-left: 0.5rem;
-    opacity: 0.8;
-}
-
 .month-group {
     margin-bottom: 2.5rem;
     border-radius: 16px;
@@ -738,22 +912,49 @@
         padding: 1rem;
     }
 
-    .game-list-item {
-        flex-direction: column;
-        align-items: flex-start;
+    .month-header {
+        font-size: 1.3rem;
+        padding-bottom: 0.8rem;
+        margin-bottom: 1.2rem;
     }
 
-    .game-thumbnail {
-        width: 100%;
-        height: 180px;
-        margin-right: 0;
+    .month-group {
+        padding: 1.2rem;
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .upcoming-games-container {
+        padding: 0.75rem;
+    }
+
+    .month-header {
+        font-size: 1.2rem;
+        padding-bottom: 0.6rem;
         margin-bottom: 1rem;
     }
 
-    .game-details {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
+    .month-group {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .upcoming-games-container {
+        padding: 0.5rem;
+    }
+
+    .month-header {
+        font-size: 1.1rem;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .month-group {
+        padding: 0.8rem;
+        margin-bottom: 1.2rem;
     }
 }
 
