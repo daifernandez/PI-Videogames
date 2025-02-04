@@ -27,17 +27,56 @@ export default function Home() {
     }
   }, [dispatch, allVideogames.length, loading, error]);
 
+  const renderLoadingSkeleton = () => {
+    return (
+      <div className="loading-skeleton">
+        {[1, 2, 3, 4, 5, 6].map((n) => (
+          <div key={n} className="skeleton-card">
+            <div className="skeleton-image"></div>
+            <div className="skeleton-content">
+              <div className="skeleton-title"></div>
+              <div className="skeleton-text"></div>
+              <div className="skeleton-rating"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   const renderContent = () => {
     if (loading) {
-      return <Loading />;
+      return (
+        <div className="loading-state">
+          <div className="loading-message">
+            <Loading />
+            <p>Loading the best games for you...</p>
+          </div>
+          {renderLoadingSkeleton()}
+        </div>
+      );
     }
 
     if (error) {
-      return <EmptyResults message={error} isHome={true} />;
+      return (
+        <div className="error-state">
+          <EmptyResults 
+            message={error} 
+            isHome={true}
+            suggestion="Try refreshing the page or come back later"
+          />
+        </div>
+      );
     }
 
     if (videogames.length === 0) {
-      return <EmptyResults isHome={true} />;
+      return (
+        <EmptyResults 
+          isHome={true}
+          message="No games found matching your search"
+          suggestion="Try different filters or search terms"
+        />
+      );
     }
 
     return (

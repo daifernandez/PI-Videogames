@@ -5,7 +5,7 @@ import { clear } from "../Redux/actions";
 import "./Styles/Button.css";
 import "./Styles/EmptyResults.css";
 
-export default function EmptyResults({ isHome }) {
+export default function EmptyResults({ isHome, message, suggestion }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ export default function EmptyResults({ isHome }) {
       navigate(-1);
     }
   }
+  
   return (
     <div className="empty-results-container">
       <img
@@ -24,14 +25,19 @@ export default function EmptyResults({ isHome }) {
         src="https://media3.giphy.com/media/PgP2SoNRY3GRwuETmq/giphy.gif"
         alt="not found"
       />
-      <p>sorry! we couldn't find videogames</p>
+      <p className="empty-message">
+        {message || "Sorry! We couldn't find any games"}
+      </p>
+      {suggestion && (
+        <p className="empty-suggestion">{suggestion}</p>
+      )}
       <button
         className="custom-button"
         onClick={(e) => {
           handleClear(e);
         }}
       >
-        Return
+        {isHome ? "Clear Filters" : "Go Back"}
       </button>
     </div>
   );
