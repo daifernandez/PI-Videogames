@@ -1,7 +1,7 @@
 .platform-games {
   min-height: 100vh;
-  background: var(--background-color);
-  color: var(--text-color);
+  background: #ffffff;
+  color: #2d3436;
   padding: 20px;
 }
 
@@ -16,56 +16,46 @@
 }
 
 .platform-header {
-  margin: 4rem 0 2.5rem;
+  margin: 1rem 0 3rem;
   text-align: center;
   position: relative;
-  animation: fadeInDown 0.8s ease-in-out;
+  padding: 30px 20px;
+  background: #ffffff;
 }
 
 .platform-title {
   font-size: 2.8rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: capitalize;
-  margin-bottom: 1rem;
-  color: var(--text-color);
+  font-weight: 800;
+  color: #2d3436;
+  margin-bottom: 20px;
   position: relative;
-  padding-bottom: 15px;
+  display: inline-block;
 }
 
 .platform-title::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, #6c5ce7, #8e44ad);
+  background: linear-gradient(90deg, #6c5ce7 0%, #a29bfe 100%);
   border-radius: 2px;
+  transform-origin: left;
+  animation: lineGrow 0.6s ease-out forwards;
 }
 
 .platform-stats {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  margin-top: 1rem;
+  margin: 25px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .games-count {
-  display: inline-block;
-  padding: 0.5rem 1.5rem;
-  background: #6c5ce7;
-  color: white;
-  border-radius: 25px;
+  font-size: 1.1rem;
+  color: #6c5ce7;
   font-weight: 500;
-  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
-  transition: all 0.3s ease;
-}
-
-.games-count:hover {
-  background: #8e44ad;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(108, 92, 231, 0.3);
 }
 
 .platform-cards-container {
@@ -74,6 +64,7 @@
   align-items: center;
   width: 100%;
   flex-grow: 1;
+  padding: 20px 0;
 }
 
 .platform-cards-container > div:first-child {
@@ -87,25 +78,25 @@
 
 .no-games-found {
   text-align: center;
-  padding: 4rem 2rem;
-  background: var(--card-background);
-  border-radius: 15px;
-  box-shadow: 0 8px 30px rgba(108, 92, 231, 0.1);
+  padding: 3rem 2rem;
+  background: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 12px;
   margin: 2rem auto;
-  max-width: 600px;
+  max-width: 500px;
 }
 
 .no-games-found h2 {
-  font-size: 2rem;
+  font-size: 1.8rem;
   margin-bottom: 1rem;
-  color: #6c5ce7;
+  color: #333;
   font-weight: 600;
 }
 
 .no-games-found p {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
 }
 
 .loading-container {
@@ -114,62 +105,52 @@
   align-items: center;
   min-height: calc(100vh - 80px);
   width: 100%;
-  background-color: var(--background-color);
+  background-color: #ffffff;
 }
 
-/* Estilos específicos para el paginado */
-.platform-cards-container nav {
-  margin: 2rem 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-@keyframes fadeInDown {
+@keyframes lineGrow {
   from {
-    opacity: 0;
-    transform: translateY(-20px);
+    transform: scaleX(0);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: scaleX(1);
   }
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .platform-content {
     padding: 1rem;
   }
   
   .platform-header {
-    margin: 3rem 0 2rem;
+    margin: 0.5rem 0 2rem;
+    padding: 20px 15px;
   }
 
   .platform-title {
-    font-size: 2.2rem;
-    padding-bottom: 12px;
+    font-size: 2rem;
+    margin-bottom: 15px;
   }
 
   .platform-title::after {
-    width: 80px;
+    bottom: -8px;
     height: 3px;
   }
 
-  .platform-cards-container > div:first-child {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+  .platform-stats {
+    gap: 10px;
   }
 
   .games-count {
-    padding: 0.4rem 1.2rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 }
 
 @media (min-width: 1024px) {
   .platform-cards-container > div:first-child {
     grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
+    gap: 2rem;
   }
 }
 

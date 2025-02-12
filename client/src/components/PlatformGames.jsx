@@ -9,6 +9,7 @@ import Paginado from './Paginado';
 import ScrollToTop from './ScrollToTop';
 import './Styles/Cards.css';
 import './Styles/PlatformGames.css';
+import './Styles/Paginado.css';
 
 export default function PlatformGames() {
   const { platform } = useParams();
@@ -71,9 +72,13 @@ export default function PlatformGames() {
       <ScrollToTop />
       <div className="platform-games">
         <div className="platform-header">
-          <h1 className="platform-title">{decodeURIComponent(platform)} Games</h1>
+          <h1 className="platform-title">{decodeURIComponent(platform)}</h1>
           <div className="platform-stats">
-            <span className="games-count">{filteredGames.length} games found</span>
+            <span className="games-count">
+              {filteredGames.length === 0 
+                ? 'No games available' 
+                : `${filteredGames.length} ${filteredGames.length === 1 ? 'game available' : 'games available'}`}
+            </span>
           </div>
         </div>
         <div className="platform-cards-container">
@@ -81,18 +86,21 @@ export default function PlatformGames() {
             <>
               <Cards videogames={currentGames} direction="vertical" />
               {filteredGames.length > gamesPerPage && (
-                <Paginado
-                  gamesPerPage={gamesPerPage}
-                  allGames={filteredGames.length}
-                  paginado={paginado}
-                  currentPage={currentPage}
-                />
+                <div className="pagination">
+                  <Paginado
+                    gamesPerPage={gamesPerPage}
+                    allGames={filteredGames.length}
+                    paginado={paginado}
+                    currentPage={currentPage}
+                  />
+                </div>
               )}
             </>
           ) : (
             <div className="no-games-found">
               <h2>No games found</h2>
               <p>We couldn't find any games for {decodeURIComponent(platform)}.</p>
+              <p>Try searching on another platform or come back later.</p>
             </div>
           )}
         </div>

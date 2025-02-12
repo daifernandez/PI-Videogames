@@ -10,19 +10,10 @@ import MediaGallery from "./MediaGallery";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
 import { createSelector } from 'reselect';
-import { 
-  FaPlaystation, 
-  FaXbox, 
-  FaWindows, 
-  FaApple, 
-  FaLinux, 
-  FaAndroid,
-  FaGlobe,
-  FaGamepad,
-} from 'react-icons/fa';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { platformIcons } from '../utils/platformIcons';
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import { SiAtari, SiSega, SiNintendo } from 'react-icons/si';
 import SimilarGames from './SimilarGames';
 
 const apiUrl = process.env.REACT_APP_API_HOST;
@@ -124,19 +115,8 @@ export default function Detail() {
 
 
   const getPlatformIcon = (platform) => {
-    const platformLC = platform.toLowerCase();
-    
-    if (platformLC.includes('playstation')) return <FaPlaystation />;
-    if (platformLC.includes('xbox')) return <FaXbox />;
-    if (platformLC.includes('pc') || platformLC.includes('windows')) return <FaWindows />;
-    if (platformLC.includes('mac') || platformLC.includes('apple')) return <FaApple />;
-    if (platformLC.includes('linux')) return <FaLinux />;
-    if (platformLC.includes('android')) return <FaAndroid />;
-    if (platformLC.includes('nintendo switch')) return <SiNintendo />;
-    if (platformLC.includes('nintendo') || platformLC.includes('wii') || platformLC.includes('game boy')) return <SiNintendo />;
-    if (platformLC.includes('atari')) return <SiAtari />;
-    if (platformLC.includes('sega')) return <SiSega />;
-    return null;
+    const icon = platformIcons[platform] || platformIcons['Default'];
+    return <FontAwesomeIcon icon={icon} />;
   };
 
   const handleGoBack = () => {
@@ -218,7 +198,7 @@ export default function Detail() {
                         className="website-link"
                       >
                         <span>Website</span>
-                        <FaGlobe />
+                        <FontAwesomeIcon icon={platformIcons['Web']} />
                       </a>
                     </div>
                   )}
@@ -226,7 +206,7 @@ export default function Detail() {
                   {detailVideogame.esrb_rating && (
                     <div className="metadata-item">
                       <div className="esrb-rating">
-                        <FaGamepad />
+                        <FontAwesomeIcon icon={platformIcons['Default']} />
                         <span>ESRB Rating: {detailVideogame.esrb_rating}</span>
                       </div>
                     </div>
