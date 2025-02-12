@@ -90,6 +90,12 @@ export default function Detail() {
     const fetchVideogameDetail = async () => {
       try {
         const videgameDetail = await getVideogameDetail(id);
+        console.log('Detalles completos del videojuego:', {
+          ...videgameDetail,
+          website: videgameDetail.website,
+          websiteType: typeof videgameDetail.website,
+          websiteLength: videgameDetail.website ? videgameDetail.website.length : 0
+        });
         setDetailVideogame(videgameDetail);
       } catch (error) {
         console.error("Error fetching game details:", error);
@@ -189,18 +195,21 @@ export default function Detail() {
                 </div>
 
                 <div className="metadata-grid">
-                  {detailVideogame.website && (
-                    <div className="metadata-item">
-                      <a 
-                        href={detailVideogame.website} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="website-link"
-                      >
-                        <span>Website</span>
-                        <FontAwesomeIcon icon={platformIcons['Web']} />
-                      </a>
-                    </div>
+                  {detailVideogame.website && detailVideogame.website.startsWith('http') && (
+                    <a 
+                      href={detailVideogame.website} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="website-link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(detailVideogame.website, '_blank');
+                      }}
+                    >
+                     <FontAwesomeIcon icon={platformIcons['Web']} />
+                      <span>Website</span>
+                      
+                    </a>
                   )}
 
                   {detailVideogame.esrb_rating && (
