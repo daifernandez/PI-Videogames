@@ -30,7 +30,7 @@ export default function Home() {
   const renderLoadingSkeleton = () => {
     return (
       <div className="loading-skeleton">
-        {[1, 2, 3, 4, 5, 6].map((n) => (
+        {[1, 2, 3, 4].map((n) => (
           <div key={n} className="skeleton-card">
             <div className="skeleton-image"></div>
             <div className="skeleton-content">
@@ -44,19 +44,7 @@ export default function Home() {
     );
   };
 
-  const renderContent = () => {
-    if (loading) {
-      return (
-        <div className="loading-state">
-          <div className="loading-message">
-            <Loading />
-            <p>Loading the best games for you...</p>
-          </div>
-          {renderLoadingSkeleton()}
-        </div>
-      );
-    }
-
+  const renderGameContent = () => {
     if (error) {
       return (
         <div className="error-state">
@@ -69,7 +57,7 @@ export default function Home() {
       );
     }
 
-    if (videogames.length === 0) {
+    if (videogames.length === 0 && !loading) {
       return (
         <EmptyResults 
           isHome={true}
@@ -97,8 +85,17 @@ export default function Home() {
       <main>
         <Search />
         <FiltersOrders />
-        <div className="cont">
-          {renderContent()}
+        <div className="games-section">
+          {renderGameContent()}
+          {loading && (
+            <div className="loader-container">
+              <div className="loader-content">
+                <Loading />
+                <p>Loading the best games for you...</p>
+              </div>
+              {renderLoadingSkeleton()}
+            </div>
+          )}
         </div>
         <div className="featured-sections">
           <RecentGames />  
