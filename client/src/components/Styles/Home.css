@@ -7,9 +7,8 @@
 main {
   flex: 1;
   width: 100%;
-  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 1rem;
+  position: relative;
 }
 
 .games-section {
@@ -115,10 +114,6 @@ main {
 }
 
 @media (max-width: 768px) {
-  main {
-    padding: 0.75rem;
-  }
-
   .games-section {
     margin: 1.5rem 0;
   }
@@ -167,5 +162,26 @@ main {
 
   .loading-container p {
     font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1921px) {
+  main {
+    max-width: 1800px;
+    padding: 0 2rem;
+  }
+
+  .games-section {
+    margin: 3rem 0;
+  }
+
+  .featured-sections {
+    margin: 3rem 0;
+    gap: 3rem;
+  }
+
+  .loading-skeleton {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2.5rem;
   }
 }

@@ -458,4 +458,115 @@ video.trailer-video:hover {
 .media-container > *:nth-child(3) { animation-delay: 0.3s; }
 .media-container > *:nth-child(4) { animation-delay: 0.4s; }
 
+/* Mejoras para dispositivos móviles */
+@media (max-width: 480px) {
+  .media-container {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .screenshot-item {
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .screenshot-item::before {
+    display: none;
+  }
+
+  .screenshot-item:active {
+    transform: scale(0.98);
+    transition: transform 0.2s ease;
+  }
+
+  /* Mejoras para el modal en móviles */
+  .screenshot-modal {
+    background: rgba(0, 0, 0, 0.95);
+  }
+
+  .modal-content {
+    max-width: 100%;
+    max-height: 100vh;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .modal-content img {
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 0;
+  }
+
+  .modal-close {
+    top: env(safe-area-inset-top, 10px);
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1001;
+  }
+
+  /* Gestos táctiles para zoom */
+  .modal-content img {
+    touch-action: pinch-zoom;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Indicador de scroll horizontal */
+  .media-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+      rgba(108, 92, 231, 0.5) var(--scroll, 0%), 
+      rgba(108, 92, 231, 0.1) var(--scroll, 0%)
+    );
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .media-container:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Optimizaciones adicionales para dispositivos muy pequeños */
+@media (max-width: 360px) {
+  .screenshot-item {
+    aspect-ratio: 16/9;
+    margin: 0 auto;
+  }
+
+  .modal-close {
+    top: env(safe-area-inset-top, 5px);
+    right: 5px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+
+  .media-container {
+    gap: 0.5rem;
+    padding: 0.35rem;
+  }
+}
+
 /* ... existing styles ... */ 

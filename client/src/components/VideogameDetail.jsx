@@ -19,9 +19,8 @@ import {
   FaAndroid,
   FaGlobe,
   FaGamepad,
-  FaStar,
-  FaStarHalf
 } from 'react-icons/fa';
+import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { SiAtari, SiSega, SiNintendo } from 'react-icons/si';
 import SimilarGames from './SimilarGames';
@@ -62,18 +61,20 @@ const StarRating = ({ rating }) => {
 
   for (let i = 0; i < 5; i++) {
     if (i < fullStars) {
-      stars.push(<FaStar key={i} className="star filled" />);
+      stars.push(<BsStarFill key={i} className="star filled" />);
     } else if (i === fullStars && hasHalfStar) {
-      stars.push(<FaStarHalf key={i} className="star half" />);
+      stars.push(<BsStarHalf key={i} className="star half" />);
     } else {
-      stars.push(<FaStar key={i} className="star empty" />);
+      stars.push(<BsStar key={i} className="star empty" />);
     }
   }
 
   return (
     <div className="star-rating-container">
-      <div className="stars">{stars}</div>
-      <span className="rating-number">{rating}/5</span>
+      <div className="stars" title={`${rating} de 5 estrellas`}>
+        {stars}
+      </div>
+      <span className="rating-number">{rating.toFixed(1)}</span>
     </div>
   );
 };

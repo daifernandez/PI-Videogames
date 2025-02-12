@@ -108,3 +108,26 @@
     white-space: nowrap;
   }
 }
+
+@media (min-width: 1921px) {
+  .contenedor-component {
+    height: 380px;
+  }
+
+  .search-container {
+    max-width: 800px;
+    padding: 0.8rem 1rem;
+  }
+
+  .search-bar {
+    width: 600px;
+    height: 48px;
+    font-size: 1.1rem;
+    padding: 0 1.5rem;
+  }
+
+  .search-button {
+    padding: 0.85rem 2rem;
+    font-size: 1.1rem;
+  }
+}
