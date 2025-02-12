@@ -204,7 +204,7 @@ export default function Detail() {
                   )}
 
                   {detailVideogame.esrb_rating && (
-                    <div className="metadata-item">
+                    <div className="esrb-container">
                       <div className="esrb-rating">
                         <FontAwesomeIcon icon={platformIcons['Default']} />
                         <span>ESRB Rating: {detailVideogame.esrb_rating}</span>

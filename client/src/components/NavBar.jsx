@@ -23,10 +23,6 @@ export default function NavBar() {
         </div>
 
         <div className="navbar-right">
-          <NavLink to="/home" className="nav-link home-button" onClick={handleHomeClick}>
-            <span className="material-symbols-rounded">home</span>
-          </NavLink>
-          
           <NavLink to="/createVideogame" className="nav-link create-button">
             <span className="material-symbols-rounded">add_to_photos</span>
             <span className="button-text-large">Add Videogame</span>

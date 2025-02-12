@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { platformIcons } from '../utils/platformIcons';
 import "./Styles/CreateVideogame.css";
 import "./Styles/Button.css";
-import "../styles/PlatformStyles.css";
+import "./Styles/PlatformStyles.css";
 import Footer from "./Footer";
 
 export function validate(input) {
@@ -124,6 +124,9 @@ export default function CreateVideogame() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Solo proceder si el evento fue un clic o un submit real
+    if (e.type !== 'submit' && e.type !== 'click') return;
+    
     setIsSubmitting(true);
     const newErrors = validate(form);
     setError(newErrors);
@@ -257,6 +260,15 @@ export default function CreateVideogame() {
       <div className="contenedor-create">
         <div className="contenedor-create2">
           <h1 className="input-title">Create New Game</h1>
+          <div className="header-content">
+            <p className="input-subtitle">
+              Bienvenido al creador de juegos. En este formulario podrás dar vida a tu propio videojuego añadiendo toda la información necesaria, desde los detalles básicos hasta el contenido multimedia y características especiales.
+            </p>
+            <div className="required-info">
+              <span className="required-mark">*</span>
+              <p className="input-subtitle-note">Los campos marcados son obligatorios para completar la creación.</p>
+            </div>
+          </div>
           
           <div className="progress-bar">
             <div 
@@ -268,18 +280,21 @@ export default function CreateVideogame() {
 
           <div className="form-steps">
             <button 
+              type="button"
               className={`step-button ${formStep === 1 ? 'active' : ''}`}
               onClick={() => setFormStep(1)}
             >
               Basic Information
             </button>
             <button 
+              type="button"
               className={`step-button ${formStep === 2 ? 'active' : ''}`}
               onClick={() => setFormStep(2)}
             >
               Media
             </button>
             <button 
+              type="button"
               className={`step-button ${formStep === 3 ? 'active' : ''}`}
               onClick={() => setFormStep(3)}
             >
@@ -612,6 +627,12 @@ export default function CreateVideogame() {
                 <button
                   className="form-button"
                   type="submit"
+                  onClick={(e) => {
+                    // Asegurar que solo se procese el clic directo en el botón
+                    if (e.target === e.currentTarget) {
+                      handleSubmit(e);
+                    }
+                  }}
                   disabled={
                     isSubmitting ||
                     !form.name ||
