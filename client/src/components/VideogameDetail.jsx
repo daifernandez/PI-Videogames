@@ -90,12 +90,6 @@ export default function Detail() {
     const fetchVideogameDetail = async () => {
       try {
         const videgameDetail = await getVideogameDetail(id);
-        console.log('Detalles completos del videojuego:', {
-          ...videgameDetail,
-          website: videgameDetail.website,
-          websiteType: typeof videgameDetail.website,
-          websiteLength: videgameDetail.website ? videgameDetail.website.length : 0
-        });
         setDetailVideogame(videgameDetail);
       } catch (error) {
         console.error("Error fetching game details:", error);
