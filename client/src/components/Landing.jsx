@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { MagnifyingGlassIcon, InformationCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon, InformationCircleIcon, PlusCircleIcon, ArrowUpIcon } from "@heroicons/react/24/outline";
 import "./Styles/Landing.css";
 import "./Styles/Button.css";
 import Logo from "../img/landing.png";
@@ -17,15 +17,53 @@ const Feature = ({ icon: Icon, title, description }) => (
   </div>
 );
 
+const ScrollToTop = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  return (
+    <button
+      className={`scroll-to-top ${isVisible ? 'visible' : ''}`}
+      onClick={scrollToTop}
+      aria-label="Volver arriba"
+    >
+      <ArrowUpIcon className="w-6 h-6" />
+    </button>
+  );
+};
+
 const StatsCounter = ({ end, duration = 2000, label }) => {
   const [count, setCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let startTime;
     let animationFrame;
 
     const animate = (timestamp) => {
-      if (!startTime) startTime = timestamp;
+      if (!startTime) {
+        startTime = timestamp;
+        setIsLoading(false);
+      }
       const progress = timestamp - startTime;
       const percentage = Math.min(progress / duration, 1);
       
@@ -41,8 +79,14 @@ const StatsCounter = ({ end, duration = 2000, label }) => {
   }, [end, duration]);
 
   return (
-    <div className="stat-item">
-      <div className="stat-number">{count}+</div>
+    <div className="stat-item" role="status" aria-busy={isLoading}>
+      <div className="stat-number">
+        {isLoading ? (
+          <div className="loading-spinner" />
+        ) : (
+          <>{count}+</>
+        )}
+      </div>
       <div className="stat-label">{label}</div>
     </div>
   );
@@ -71,6 +115,18 @@ export default function Landing() {
     }
   ];
 
+  const [parallaxOffset, setParallaxOffset] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    const offset = window.pageYOffset;
+    setParallaxOffset(offset * 0.5);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
   return (
     <main className="landing-container">
       <div className="landing">
@@ -86,9 +142,9 @@ export default function Landing() {
           </p>
           
           <div className="stats-container animate-fade-in">
-            <StatsCounter end={1000} label="Available Games" />
-            <StatsCounter end={50} label="Genres" />
-            <StatsCounter end={100} label="New Releases" />
+            <StatsCounter end={500} label="Available Games" />
+            <StatsCounter end={19} label="Genres" />
+            <StatsCounter end={25} label="New Releases" />
           </div>
 
           <div className="cta-container">
@@ -108,6 +164,7 @@ export default function Landing() {
           src={Logo} 
           className="logo animate-float" 
           alt="Gaming illustration" 
+          style={{ transform: `translateY(${parallaxOffset}px)` }}
         />
       </div>
 
@@ -125,6 +182,7 @@ export default function Landing() {
         </div>
       </section>
 
+      <ScrollToTop />
       <Footer />
     </main>
   );
