@@ -83,11 +83,9 @@ export default function CreateVideogame() {
   });
 
   const [genresSelected, setGenresSelected] = useState("Genres");
-
   const [imagePreview, setImagePreview] = useState(null);
   const [imagesPreview, setImagesPreview] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [formStep, setFormStep] = useState(1);
   const [formProgress, setFormProgress] = useState(0);
 
@@ -124,7 +122,7 @@ export default function CreateVideogame() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Solo proceder si el evento fue un clic o un submit real
+    // Solo proceder si el evento fue un click o un submit real
     if (e.type !== 'submit' && e.type !== 'click') return;
     
     setIsSubmitting(true);
@@ -628,7 +626,7 @@ export default function CreateVideogame() {
                   className="form-button"
                   type="submit"
                   onClick={(e) => {
-                    // Asegurar que solo se procese el clic directo en el botón
+                    // Asegurar que solo se procese el click directo en el botón
                     if (e.target === e.currentTarget) {
                       handleSubmit(e);
                     }
