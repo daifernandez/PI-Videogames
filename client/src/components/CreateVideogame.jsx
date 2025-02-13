@@ -98,6 +98,9 @@ export default function CreateVideogame() {
 
   const [showTooltip, setShowTooltip] = useState("");
 
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [createdGameId, setCreatedGameId] = useState(null);
+
   useEffect(() => {
     const calculateProgress = () => {
       let progress = 0;
@@ -122,7 +125,6 @@ export default function CreateVideogame() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Solo proceder si el evento fue un click o un submit real
     if (e.type !== 'submit' && e.type !== 'click') return;
     
     setIsSubmitting(true);
@@ -134,22 +136,27 @@ export default function CreateVideogame() {
       newErrors.rating ||
       newErrors.platforms
     ) {
-      alert("Please complete all required fields.");
+      alert("Por favor completa todos los campos requeridos.");
       setIsSubmitting(false);
       return;
     }
     try {
       dispatch(
         postVideogame(form, (createdVideogame) => {
-          alert(`¡Game: ${createdVideogame.name} created successfully!`);
-          navigate(`/videogame/${createdVideogame.id}`);
+          setCreatedGameId(createdVideogame.id);
+          setShowSuccessModal(true);
         })
       );
     } catch (error) {
-      alert("There was an error creating the game. Please try again.");
+      alert("Hubo un error al crear el juego. Por favor intenta de nuevo.");
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+    navigate(`/videogame/${createdGameId}`);
   };
 
   const handleBlur = (field) => {
@@ -657,6 +664,22 @@ export default function CreateVideogame() {
           </form>
         </div>
       </div>
+
+      <div className={`success-modal-overlay ${showSuccessModal ? 'active' : ''}`}>
+        <div className="success-modal">
+          <div className="success-icon"></div>
+          <div className="success-content">
+            <h2 className="success-title">¡Juego Creado con Éxito!</h2>
+            <p className="success-message">
+              Tu videojuego ha sido creado correctamente. ¿Deseas ver los detalles?
+            </p>
+            <button className="success-button" onClick={handleCloseSuccessModal}>
+              Ver Detalles del Juego
+            </button>
+          </div>
+        </div>
+      </div>
+
       <Footer/>
     </div>
   );
