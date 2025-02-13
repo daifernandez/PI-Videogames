@@ -77,6 +77,7 @@ export default function Detail() {
   const [detailVideogame, setDetailVideogame] = useState();
   const [activeTab, setActiveTab] = useState('screenshots');
   const [isLoading, setIsLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const sameGenreVideogames = useSelector((state) => 
     selectSameGenreVideogames(state, detailVideogame)
@@ -107,12 +108,10 @@ export default function Detail() {
     }
   }, [dispatch, hasVideogames]);
 
-  const handleDeleteVideogame = (e) => {
+  const handleDeleteVideogame = () => {
     dispatch(deleteVideogameDB(id));
-    alert("Videogame successfully deleted!!");
     navigate("/home");
   };
-
 
   const getPlatformIcon = (platform) => {
     const icon = platformIcons[platform] || platformIcons['Default'];
@@ -162,11 +161,7 @@ export default function Detail() {
                     <div className="actions-section">
                       <button
                         className="delete-icon-button"
-                        onClick={(e) => {
-                          if (window.confirm('¿Estás seguro que deseas eliminar este juego?')) {
-                            handleDeleteVideogame(e);
-                          }
-                        }}
+                        onClick={() => setShowDeleteModal(true)}
                         aria-label="Eliminar juego"
                       >
                         <RiDeleteBinLine />
@@ -274,6 +269,35 @@ export default function Detail() {
               </section>
 
               <SimilarGames games={sameGenreVideogames} />
+            </div>
+          </div>
+        </div>
+
+        {/* Delete Modal */}
+        <div className={`delete-modal-overlay ${showDeleteModal ? 'active' : ''}`}>
+          <div className="delete-modal">
+            <div className="delete-icon">
+              <RiDeleteBinLine />
+            </div>
+            <div className="delete-content">
+              <h2 className="delete-title">¿Eliminar {detailVideogame.name}?</h2>
+              <p className="delete-message">
+                Esta acción no se puede deshacer. ¿Estás seguro que deseas eliminar este juego?
+              </p>
+              <div className="delete-buttons">
+                <button 
+                  className="delete-button cancel-button" 
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button 
+                  className="delete-button" 
+                  onClick={handleDeleteVideogame}
+                >
+                  Eliminar
+                </button>
+              </div>
             </div>
           </div>
         </div>

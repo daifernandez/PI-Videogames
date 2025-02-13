@@ -1459,3 +1459,254 @@
     display: none !important;
   }
 }
+
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.delete-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.delete-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 24px;
+  max-width: 90%;
+  width: 400px;
+  position: relative;
+  transform: scale(0.95) translateY(20px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 
+    0 20px 60px -20px rgba(255, 68, 68, 0.15),
+    0 0 0 1px rgba(255, 68, 68, 0.05);
+  text-align: center;
+}
+
+.delete-modal-overlay.active .delete-modal {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.delete-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(45deg, #ff4444, #ff6b6b);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  position: relative;
+  color: white;
+  font-size: 2rem;
+  animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.delete-icon svg {
+  font-size: 2rem;
+  animation: fadeInIcon 0.3s ease forwards 0.2s;
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+@keyframes fadeInIcon {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.delete-title {
+  color: #1f2937;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.delete-message {
+  color: #6b7280;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.delete-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.delete-button {
+  background: linear-gradient(45deg, #ff4444, #ff6b6b);
+  color: white;
+  border: none;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 160px;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.cancel-button {
+  background: #e5e7eb;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.delete-button::before,
+.cancel-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.delete-button:hover::before,
+.cancel-button:hover::before {
+  transform: translateX(100%);
+}
+
+.delete-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 68, 68, 0.2);
+}
+
+.cancel-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Tablets y dispositivos medianos */
+@media (max-width: 768px) {
+  .delete-modal {
+    width: 85%;
+    padding: 1.75rem;
+  }
+}
+
+/* Dispositivos móviles */
+@media (max-width: 480px) {
+  .delete-modal {
+    padding: 1.5rem;
+    width: 90%;
+    border-radius: 20px;
+    margin: 1rem;
+  }
+
+  .delete-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 1.25rem;
+  }
+
+  .delete-icon svg {
+    font-size: 1.75rem;
+  }
+
+  .delete-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .delete-message {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .delete-buttons {
+    gap: 0.75rem;
+  }
+
+  .delete-button,
+  .cancel-button {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    max-width: 130px;
+    min-width: 100px;
+  }
+}
+
+/* Dispositivos pequeños */
+@media (max-width: 360px) {
+  .delete-modal {
+    padding: 1.25rem;
+    width: 95%;
+    border-radius: 16px;
+    margin: 0.75rem;
+  }
+
+  .delete-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+  }
+
+  .delete-icon svg {
+    font-size: 1.5rem;
+  }
+
+  .delete-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    padding: 0 0.25rem;
+  }
+
+  .delete-message {
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+    padding: 0 0.25rem;
+    line-height: 1.4;
+  }
+
+  .delete-button,
+  .cancel-button {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    max-width: 110px;
+    min-width: 90px;
+  }
+}
