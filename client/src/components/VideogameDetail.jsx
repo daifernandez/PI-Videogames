@@ -15,6 +15,7 @@ import { platformIcons } from '../utils/platformIcons';
 import { BsStarFill, BsStarHalf, BsStar } from 'react-icons/bs';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import SimilarGames from './SimilarGames';
+import DeleteModal from './DeleteModal';
 
 const apiUrl = process.env.REACT_APP_API_HOST;
 
@@ -273,34 +274,12 @@ export default function Detail() {
           </div>
         </div>
 
-        {/* Delete Modal */}
-        <div className={`delete-modal-overlay ${showDeleteModal ? 'active' : ''}`}>
-          <div className="delete-modal">
-            <div className="delete-icon">
-              <RiDeleteBinLine />
-            </div>
-            <div className="delete-content">
-              <h2 className="delete-title">¿Eliminar {detailVideogame.name}?</h2>
-              <p className="delete-message">
-                Esta acción no se puede deshacer. ¿Estás seguro que deseas eliminar este juego?
-              </p>
-              <div className="delete-buttons">
-                <button 
-                  className="delete-button cancel-button" 
-                  onClick={() => setShowDeleteModal(false)}
-                >
-                  Cancelar
-                </button>
-                <button 
-                  className="delete-button" 
-                  onClick={handleDeleteVideogame}
-                >
-                  Eliminar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <DeleteModal 
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          onDelete={handleDeleteVideogame}
+          itemName={detailVideogame.name}
+        />
       </div>
     );
   }

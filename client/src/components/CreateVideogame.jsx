@@ -9,6 +9,7 @@ import "./Styles/CreateVideogame.css";
 import "./Styles/Button.css";
 import "./Styles/PlatformStyles.css";
 import Footer from "./Footer";
+import SuccessModal from './SuccessModal';
 
 export function validate(input) {
   let errors = {};
@@ -665,20 +666,13 @@ export default function CreateVideogame() {
         </div>
       </div>
 
-      <div className={`success-modal-overlay ${showSuccessModal ? 'active' : ''}`}>
-        <div className="success-modal">
-          <div className="success-icon"></div>
-          <div className="success-content">
-            <h2 className="success-title">¡Juego Creado con Éxito!</h2>
-            <p className="success-message">
-              Tu videojuego ha sido creado correctamente. ¿Deseas ver los detalles?
-            </p>
-            <button className="success-button" onClick={handleCloseSuccessModal}>
-              Ver Detalles del Juego
-            </button>
-          </div>
-        </div>
-      </div>
+      <SuccessModal 
+        isOpen={showSuccessModal}
+        onClose={handleCloseSuccessModal}
+        title="¡Juego Creado con Éxito!"
+        message="Tu videojuego ha sido creado correctamente. ¿Deseas ver los detalles?"
+        buttonText="Ver Detalles del Juego"
+      />
 
       <Footer/>
     </div>
