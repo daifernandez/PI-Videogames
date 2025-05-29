@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="footer-content">
         <p className="footer-text">
           Developed with <span className="footer-highlight">♥</span> by{" "}
-          <span className="footer-highlight">Dai</span>
+          <a href="https://daifernandez.com/" target="_blank" rel="noopener noreferrer" className="footer-highlight">Dai</a>
         </p>
         <Social />
       </div>
