@@ -16,8 +16,48 @@ const UpcomingGames = () => {
     }, [dispatch]);
 
     const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString('en-US', options);
+        const date = new Date(dateString);
+        const today = new Date();
+        const diffTime = date - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        // Si es hoy
+        if (diffDays === 0) {
+            return 'Disponible hoy';
+        }
+        
+        // Si es mañana
+        if (diffDays === 1) {
+            return 'Disponible mañana';
+        }
+        
+        // Si es esta semana
+        if (diffDays <= 7) {
+            return `En ${diffDays} días`;
+        }
+        
+        // Si es este mes
+        if (date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+            const day = date.getDate();
+            const month = date.toLocaleString('es-ES', { month: 'short' });
+            return `${day} ${month}`;
+        }
+        
+        // Si es el próximo mes
+        const nextMonth = new Date(today);
+        nextMonth.setMonth(today.getMonth() + 1);
+        if (date.getMonth() === nextMonth.getMonth() && date.getFullYear() === nextMonth.getFullYear()) {
+            const day = date.getDate();
+            const month = date.toLocaleString('es-ES', { month: 'short' });
+            return `${day} ${month}`;
+        }
+        
+        // Para fechas más lejanas
+        const day = date.getDate();
+        const month = date.toLocaleString('es-ES', { month: 'short' });
+        const year = date.getFullYear();
+        
+        return `${day} ${month} ${year}`;
     };
 
     if (loading) {
@@ -138,30 +178,30 @@ const UpcomingGames = () => {
                                             </div>
                                         </div>
                                         <div className="game-info">
-                                            <h4 className="game-title">{game.name}</h4>
-                                            <div className="game-details">
+                                            <div className="game-title-container">
+                                                <h4 className="game-title">{game.name}</h4>
                                                 <span className="release-date" title={`Release date: ${formatDate(game.released)}`}>
                                                     {formatDate(game.released)}
                                                 </span>
-                                                {game.platforms && game.platforms.length > 0 && (
-                                                    <div className="platforms-list" aria-label="Available platforms">
-                                                        {game.platforms.slice(0, 3).map((platform, index) => (
-                                                            <span 
-                                                                key={index} 
-                                                                className="platform-tag"
-                                                                title={platform}
-                                                            >
-                                                                {platform}
-                                                            </span>
-                                                        ))}
-                                                        {game.platforms.length > 3 && (
-                                                            <span className="platform-tag more" title="More platforms available">
-                                                                +{game.platforms.length - 3}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                )}
                                             </div>
+                                            {game.platforms && game.platforms.length > 0 && (
+                                                <div className="platforms-list" aria-label="Available platforms">
+                                                    {game.platforms.slice(0, 3).map((platform, index) => (
+                                                        <span 
+                                                            key={index} 
+                                                            className="platform-tag"
+                                                            title={platform}
+                                                        >
+                                                            {platform}
+                                                        </span>
+                                                    ))}
+                                                    {game.platforms.length > 3 && (
+                                                        <span className="platform-tag more" title="More platforms available">
+                                                            +{game.platforms.length - 3}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     </Link>
                                 ))}
