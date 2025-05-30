@@ -8,7 +8,7 @@ import title from "../img/title.png";
 import Footer from "./Footer";
 
 const Feature = ({ icon: Icon, title, description }) => (
-  <div className="feature-item">
+  <div className="feature-item" role="listitem">
     <div className="feature-icon">
       <Icon className="feature-svg" aria-hidden="true" />
     </div>
@@ -168,9 +168,9 @@ export default function Landing() {
         />
       </div>
 
-      <section className="features-section">
-        <h2 className="features-title">Why Choose Us</h2>
-        <div className="features-grid">
+      <section className="features-section" aria-labelledby="features-title">
+        <h2 id="features-title" className="features-title">Why Choose Us</h2>
+        <div className="features-grid" role="list">
           {features.map((feature, index) => (
             <Feature
               key={index}

@@ -1,11 +1,11 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translate3d(0, 20px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -86,7 +86,7 @@ body {
 }
 
 .landing-description {
-  color: #6c7a89;
+  color: #4a5568;
   font-size: 1.1rem;
   line-height: 1.8;
   margin: 1.5rem 0;
@@ -103,6 +103,9 @@ body {
   margin: 0 auto;
   transition: transform 0.3s ease;
   filter: drop-shadow(0 4px 12px rgba(140, 122, 230, 0.15));
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 /* Animaciones */
@@ -175,9 +178,9 @@ body {
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -15px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 
 @keyframes bounce {
@@ -671,6 +674,9 @@ body {
 .stat-item {
   text-align: center;
   padding: 0.5rem;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .stat-number {
@@ -678,14 +684,18 @@ body {
   font-weight: 300;
   color: #8c7ae6;
   margin-bottom: 0.5rem;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .stat-label {
   font-size: 0.85rem;
-  color: #8c9bab;
+  color: #4a5568;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   font-weight: 400;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .cta-container {
@@ -714,22 +724,24 @@ body {
   font-size: 0.92rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   letter-spacing: 0.3px;
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .cta-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(140, 122, 230, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   background: linear-gradient(45deg, #7f6ee3, #8e44ad);
 }
 
 .cta-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(140, 122, 230, 0.15);
+  transform: translateY(1px);
 }
 
 .arrow-icon {
@@ -805,12 +817,12 @@ body {
 }
 
 .features-grid {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
   display: grid;
-  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .feature-item {
@@ -822,6 +834,10 @@ body {
   margin: 0 auto;
   width: 100%;
   max-width: 300px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .feature-item:nth-child(1) { animation-delay: 0.2s; }
@@ -838,6 +854,9 @@ body {
   background: rgba(140, 122, 230, 0.05);
   border-radius: 20px;
   position: relative;
+  transition: transform 0.3s ease;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .feature-svg {
@@ -846,6 +865,8 @@ body {
   stroke: #8c7ae6;
   stroke-width: 1.5;
   opacity: 0.9;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .feature-item:hover .feature-icon {
@@ -865,7 +886,7 @@ body {
 }
 
 .feature-description {
-  color: #6c7a89;
+  color: #4a5568;
   font-size: 0.95rem;
   line-height: 1.7;
   max-width: 300px;
@@ -880,8 +901,8 @@ body {
 
   .features-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 0 1rem;
+    gap: 1.5rem;
+    padding: 1rem;
   }
 
   .feature-item {
@@ -1027,11 +1048,11 @@ body {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translate3d(0, 20px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -1059,9 +1080,9 @@ body {
   }
 
   .features-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3rem;
-    padding: 0 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem;
   }
 
   .stats-container {
@@ -1520,7 +1541,7 @@ body {
 .cta-button {
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   cursor: pointer;
 }
 
@@ -1575,4 +1596,114 @@ body {
 /* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Testimonials Section */
+.testimonials-section,
+.testimonials-title,
+.testimonials-grid,
+.testimonial-card,
+.testimonial-content,
+.testimonial-quote,
+.testimonial-author {
+  display: none;
+}
+
+/* Eliminar estilos de hover y focus para testimonios */
+.testimonial-card:focus-within {
+  outline: none;
+  box-shadow: none;
+}
+
+.testimonial-card {
+  transition: none;
+}
+
+@media (max-width: 768px) {
+  .testimonials-grid {
+    display: none;
+  }
+  
+  .testimonials-title {
+    display: none;
+  }
+}
+
+/* Mejoras en estados interactivos */
+.cta-button:focus-visible {
+  outline: 3px solid #8c7ae6;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(140, 122, 230, 0.2);
+}
+
+.feature-item:focus-within {
+  outline: 3px solid #8c7ae6;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(140, 122, 230, 0.2);
+}
+
+.testimonial-card:focus-within {
+  outline: 3px solid #8c7ae6;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(140, 122, 230, 0.2);
+}
+
+/* Mejora en la transición de hover */
+.cta-button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.feature-item {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.testimonial-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Mejora en el contraste para mejor legibilidad */
+.landing-description {
+  color: #4a5568;
+}
+
+.feature-description {
+  color: #4a5568;
+}
+
+.stat-label {
+  color: #4a5568;
+}
+
+/* Mejora en el feedback táctil para móviles */
+@media (hover: none) {
+  .cta-button:active,
+  .feature-item:active,
+  .testimonial-card:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Optimización de transiciones */
+.feature-item,
+.testimonial-card,
+.cta-button {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Optimización de imágenes */
+.logo {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Reducción de repaints */
+.feature-icon,
+.feature-svg,
+.stat-number,
+.stat-label {
+  will-change: transform;
+  backface-visibility: hidden;
 }
