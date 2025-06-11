@@ -2,8 +2,12 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { SiNintendogamecube } from 'react-icons/si';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { platformIcons } from '../utils/platformIcons';
 import { getUpcomingGames } from '../Redux/actions';
+import { FaCalendarAlt } from 'react-icons/fa';
 import './Styles/RecentGames.css';
+import './Styles/GameCardElements.css';
 
 const UpcomingGames = () => {
     const dispatch = useDispatch();
@@ -141,7 +145,7 @@ const UpcomingGames = () => {
                 {Object.entries(groupedGames).map(([monthYear, games]) => {
                     const [month, year] = monthYear.split(' ');
                     return (
-                        <div key={monthYear} className="month-group" role="group" aria-label={monthYear}>
+                        <div key={monthYear}  role="group" aria-label={monthYear}>
                             <div className="month-header-container">
                                 <div className="month-year-badge">
                                     <span className="month">{month}</span>
@@ -181,23 +185,29 @@ const UpcomingGames = () => {
                                             <div className="game-title-container">
                                                 <h4 className="game-title">{game.name}</h4>
                                                 <span className="release-date" title={`Release date: ${formatDate(game.released)}`}>
+                                                    <FaCalendarAlt className="date-icon" />
                                                     {formatDate(game.released)}
                                                 </span>
                                             </div>
                                             {game.platforms && game.platforms.length > 0 && (
                                                 <div className="platforms-list" aria-label="Available platforms">
-                                                    {game.platforms.slice(0, 3).map((platform, index) => (
+                                                    {game.platforms.slice(0, 4).map((platform, index) => (
                                                         <span 
                                                             key={index} 
-                                                            className="platform-tag"
+                                                            className="platform-icon"
                                                             title={platform}
                                                         >
-                                                            {platform}
+                                                            <FontAwesomeIcon 
+                                                                icon={platformIcons[platform] || platformIcons['Default']} 
+                                                            />
                                                         </span>
                                                     ))}
-                                                    {game.platforms.length > 3 && (
-                                                        <span className="platform-tag more" title="More platforms available">
-                                                            +{game.platforms.length - 3}
+                                                    {game.platforms.length > 4 && (
+                                                        <span 
+                                                            className="platform-icon more" 
+                                                            title={`${game.platforms.length - 4} more platforms`}
+                                                        >
+                                                            +{game.platforms.length - 4}
                                                         </span>
                                                     )}
                                                 </div>

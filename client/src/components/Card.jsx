@@ -45,10 +45,10 @@ export default function Card({ videogame }) {
             
             <div className="card-rating" title={`Calificación: ${rating}/5`}>
               <svg className="rating-star" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12.9 3.6C12.4 2.6 11 2.6 10.5 3.6L8.1 8.5L2.7 9.2C1.6 9.4 1.2 10.7 1.9 11.5L5.8 15.3L4.9 20.6C4.7 21.7 5.8 22.5 6.8 22L12 19.2L17.2 22C18.2 22.5 19.3 21.7 19.1 20.6L18.2 15.3L22.1 11.5C22.8 10.7 22.3 9.4 21.3 9.2L15.9 8.5L13.5 3.6C13.2 3.1 12.7 2.8 12.2 2.8C11.7 2.8 11.2 3.1 10.9 3.6L12.9 3.6Z" 
+                <path d="M12 2L14.5 8.5L21.5 9.5L16.5 14L18 21L12 17.5L6 21L7.5 14L2.5 9.5L9.5 8.5L12 2Z" 
                   fill="currentColor" 
                   stroke="currentColor" 
-                  strokeWidth="1.5" 
+                  strokeWidth="0.5" 
                   strokeLinecap="round" 
                   strokeLinejoin="round"
                 />

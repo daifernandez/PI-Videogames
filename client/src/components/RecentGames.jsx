@@ -1,9 +1,14 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { SiNintendogamecube } from 'react-icons/si';
+import { FaCalendarAlt } from 'react-icons/fa';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { platformIcons } from '../utils/platformIcons';
 import { getRecentGames } from '../Redux/actions';
 import './Styles/RecentGames.css';
+import './Styles/GameCardElements.css';
+import defaultGameImage from '../img/default-game.jpg';
 
 const RecentGames = () => {
     const dispatch = useDispatch();
@@ -11,14 +16,42 @@ const RecentGames = () => {
     const loadingRecentGames = useSelector((state) => state.loadingRecentGames);
     const recentGamesError = useSelector((state) => state.recentGamesError);
     const scrollContainerRef = useRef(null);
+    const [imageErrors, setImageErrors] = useState({});
     
     useEffect(() => {
         dispatch(getRecentGames());
     }, [dispatch]);
 
+    const handleImageError = (gameId) => {
+        console.log('Error loading image for game:', gameId);
+        setImageErrors(prev => ({
+            ...prev,
+            [gameId]: true
+        }));
+    };
+
+    const getImageSource = (game) => {
+        if (imageErrors[game.id] || !game.image) {
+            return defaultGameImage;
+        }
+        return game.image;
+    };
+
     const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'short' };
-        return new Date(dateString).toLocaleDateString('es-ES', options);
+        const date = new Date(dateString);
+        const today = new Date();
+        const diffTime = date - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 0) return 'Available today';
+        if (diffDays === -1) return 'Available yesterday';
+        if (diffDays >= -7 && diffDays < 0) return `${Math.abs(diffDays)} days ago`;
+        
+        const day = date.getDate();
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const year = date.getFullYear();
+        
+        return `${month} ${day}, ${year}`;
     };
 
     const handleScroll = (direction) => {
@@ -33,9 +66,25 @@ const RecentGames = () => {
 
     if (loadingRecentGames) {
         return (
-            <div className="recent-games-container">
+            <div className="recent-games-container loading">
                 <div className="recent-games-header">
-                    <h2><span className="game-icon"><SiNintendogamecube /></span> Gaming World Updates <span className="subtitle">Cargando...</span></h2>
+                    <h2>
+                        <span className="game-icon"><SiNintendogamecube /></span>
+                        Gaming World Updates
+                        <span className="subtitle">Loading...</span>
+                    </h2>
+                </div>
+                <div className="loading-skeleton">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="skeleton-card">
+                            <div className="skeleton-image"></div>
+                            <div className="skeleton-content">
+                                <div className="skeleton-title"></div>
+                                <div className="skeleton-text"></div>
+                                <div className="skeleton-text"></div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         );
@@ -43,16 +92,35 @@ const RecentGames = () => {
 
     if (recentGamesError) {
         return (
-            <div className="recent-games-container">
+            <div className="recent-games-container error">
                 <div className="recent-games-header">
-                    <h2><span className="game-icon"><SiNintendogamecube /></span> Gaming World Updates <span className="subtitle">Error al cargar</span></h2>
+                    <h2>
+                        <span className="game-icon"><SiNintendogamecube /></span>
+                        Gaming World Updates
+                        <span className="subtitle error">Error al cargar</span>
+                    </h2>
                 </div>
                 <p className="error-message">{recentGamesError}</p>
             </div>
         );
     }
 
-    if (!recentGames || recentGames.length === 0) return null;
+    if (!recentGames || recentGames.length === 0) {
+        return (
+            <div className="recent-games-container">
+                <div className="recent-games-header">
+                    <h2>
+                        <span className="game-icon"><SiNintendogamecube /></span>
+                        Gaming World Updates
+                        <span className="subtitle">Juegos Recientes</span>
+                    </h2>
+                </div>
+                <div className="empty-state">
+                    <p>No hay juegos recientes disponibles en este momento.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="recent-games-container"
@@ -73,7 +141,11 @@ const RecentGames = () => {
              }}
         >
             <div className="recent-games-header">
-                <h2><span className="game-icon"><SiNintendogamecube /></span> Gaming World Updates <span className="subtitle">Últimos Lanzamientos</span></h2>
+                <h2>
+                    <span className="game-icon"><SiNintendogamecube /></span>
+                    Gaming World Updates
+                    <span className="subtitle">Recent Games</span>
+                </h2>
             </div>
             <div 
                 className="recent-games-grid" 
@@ -90,27 +162,42 @@ const RecentGames = () => {
             >
                 {recentGames.map((game) => (
                     <Link to={`/videogame/${game.id}`} key={game.id} className="game-card">
-                        <img 
-                            src={game.image} 
-                            alt={game.name}
-                            className="game-card-image"
-                            loading="lazy"
-                        />
+                        <div className="game-card-image-container">
+                            <img 
+                                src={getImageSource(game)}
+                                alt={game.name}
+                                className="game-card-image"
+                                loading="lazy"
+                                onError={() => handleImageError(game.id)}
+                            />
+                            <div className="game-card-overlay">
+                                <span className="view-details">View details</span>
+                            </div>
+                        </div>
                         <div className="game-card-content">
                             <h3 className="game-card-title">{game.name}</h3>
                             <div className="game-card-info">
-                                <div className="game-card-rating">
-                                    ⭐ {game.rating?.toFixed(1) || '0.0'}
+                                <div className="release-date" title={`Release date: ${formatDate(game.released)}`}>
+                                    <FaCalendarAlt className="date-icon" />
+                                    {formatDate(game.released)}
                                 </div>
-                                <div>{formatDate(game.released)}</div>
                             </div>
-                            {game.genres && game.genres.length > 0 && (
-                                <div className="game-card-genres">
-                                    {game.genres.slice(0, 3).map((genre, index) => (
-                                        <span key={index} className="game-card-genre">
-                                            {typeof genre === 'string' ? genre : genre.name}
-                                        </span>
-                                    ))}
+                            {game.platforms && game.platforms.length > 0 && (
+                                <div className="game-card-platforms">
+                                    <div className="platforms-container">
+                                        {game.platforms.slice(0, 4).map((platform, index) => (
+                                            <span key={index} className="platform-icon" title={platform}>
+                                                <FontAwesomeIcon 
+                                                    icon={platformIcons[platform] || platformIcons['Default']} 
+                                                />
+                                            </span>
+                                        ))}
+                                        {game.platforms.length > 4 && (
+                                            <span className="platform-icon more" title={`${game.platforms.length - 4} more platforms`}>
+                                                +{game.platforms.length - 4}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                             )}
                         </div>
