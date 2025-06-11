@@ -16,10 +16,8 @@ export default function PlatformGames() {
   const dispatch = useDispatch();
   const allVideogames = useSelector((state) => state.videogames);
   const loading = useSelector((state) => state.loading);
-
-  // Estados para paginación
-  const [currentPage, setCurrentPage] = useState(1);
-  const [gamesPerPage, setGamesPerPage] = useState(12);
+  const [currentPage, setCurrentPage] = useState(0);
+  const gamesPerPage = 12;
 
   useEffect(() => {
     if (allVideogames.length === 0) {
@@ -31,26 +29,13 @@ export default function PlatformGames() {
     game.platforms.some(p => p.toLowerCase() === decodeURIComponent(platform).toLowerCase())
   );
 
-  // Ajustar gamesPerPage según la cantidad de juegos
-  useEffect(() => {
-    if (filteredGames.length <= 8) {
-      setGamesPerPage(8);
-    } else if (filteredGames.length <= 12) {
-      setGamesPerPage(12);
-    } else if (filteredGames.length <= 16) {
-      setGamesPerPage(16);
-    } else {
-      setGamesPerPage(12);
-    }
-    setCurrentPage(1); // Reset a la primera página cuando cambia la cantidad
-  }, [filteredGames.length]);
-
   // Lógica de paginación
-  const indexOfLastGame = currentPage * gamesPerPage;
-  const indexOfFirstGame = indexOfLastGame - gamesPerPage;
+  const indexOfLastGame = (currentPage + 1) * gamesPerPage;
+  const indexOfFirstGame = currentPage * gamesPerPage;
   const currentGames = filteredGames.slice(indexOfFirstGame, indexOfLastGame);
+  const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
 
-  const paginado = (pageNumber) => {
+  const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     window.scrollTo(0, 0);
   };
@@ -87,12 +72,41 @@ export default function PlatformGames() {
               <Cards videogames={currentGames} direction="vertical" />
               {filteredGames.length > gamesPerPage && (
                 <div className="pagination">
-                  <Paginado
-                    gamesPerPage={gamesPerPage}
-                    allGames={filteredGames.length}
-                    paginado={paginado}
-                    currentPage={currentPage}
-                  />
+                  <nav>
+                    <div className="pagination">
+                      <div>
+                        <button
+                          className="pagination-NextPrevious"
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 0}
+                        >
+                          <span className="material-symbols-rounded extra-left-padding">
+                            arrow_back_ios
+                          </span>
+                        </button>
+                        {[...Array(totalPages)].map((_, index) => (
+                          <button
+                            className={
+                              currentPage === index
+                                ? "pagination-button-current"
+                                : "pagination-button"
+                            }
+                            key={index}
+                            onClick={() => handlePageChange(index)}
+                          >
+                            {index + 1}
+                          </button>
+                        ))}
+                        <button
+                          className="pagination-NextPrevious"
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages - 1}
+                        >
+                          <span className="material-symbols-rounded">arrow_forward_ios</span>
+                        </button>
+                      </div>
+                    </div>
+                  </nav>
                 </div>
               )}
             </>
