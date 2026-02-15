@@ -337,7 +337,7 @@
     height: 40px;
     border-radius: 50%;
     background: var(--bg-elevated);
-    border: 1px solid rgba(231, 231, 237, 0.8);
+    border: 1px solid var(--border-primary);
     color: var(--text-primary);
     font-size: 1.2rem;
     display: flex;
@@ -346,7 +346,7 @@
     cursor: pointer;
     pointer-events: auto;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
 }
 
 .scroll-button:hover {
@@ -685,7 +685,7 @@
     display: flex;
     gap: 1.2rem;
     padding: 1.2rem;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--bg-elevated);
     border-radius: 16px;
     margin-bottom: 1rem;
     animation: loading 1.5s infinite;
@@ -694,7 +694,7 @@
 .skeleton-image {
     width: 110px;
     height: 150px;
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, var(--bg-skeleton) 25%, var(--bg-card-placeholder) 50%, var(--bg-skeleton) 75%);
     border-radius: 12px;
 }
 
@@ -707,14 +707,14 @@
 
 .skeleton-title {
     height: 24px;
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, var(--bg-skeleton) 25%, var(--bg-card-placeholder) 50%, var(--bg-skeleton) 75%);
     border-radius: 4px;
     width: 80%;
 }
 
 .skeleton-text {
     height: 16px;
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, var(--bg-skeleton) 25%, var(--bg-card-placeholder) 50%, var(--bg-skeleton) 75%);
     border-radius: 4px;
     width: 60%;
 }
@@ -722,7 +722,7 @@
 .empty-state {
     text-align: center;
     padding: 3rem;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--bg-surface);
     border-radius: 16px;
     margin: 2rem 0;
 }
@@ -798,22 +798,17 @@
     text-decoration: none;
     color: var(--text-primary);
     border: 1px solid var(--accent-border);
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--bg-elevated);
     gap: 1.5rem;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    box-shadow: 
-        0 4px 6px -1px rgba(140, 122, 230, 0.05),
-        0 2px 4px -1px rgba(140, 122, 230, 0.03);
+    box-shadow: var(--shadow-sm);
 }
 
 .game-list-item:hover {
     transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 
-        0 20px 25px -5px rgba(140, 122, 230, 0.15),
-        0 10px 10px -5px rgba(140, 122, 230, 0.1),
-        0 0 0 1px rgba(140, 122, 230, 0.2);
+    background: var(--bg-elevated);
+    box-shadow: var(--shadow-lg);
 }
 
 .game-thumbnail {
@@ -928,7 +923,7 @@
     margin-bottom: 2.5rem;
     border-radius: 20px;
     padding: 2rem;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--bg-surface);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--accent-border);
@@ -940,14 +935,12 @@
     justify-content: space-between;
     margin-bottom: 2rem;
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--bg-elevated);
     border-radius: 16px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--accent-border);
-    box-shadow: 
-        0 4px 6px -1px rgba(140, 122, 230, 0.1),
-        0 2px 4px -1px rgba(140, 122, 230, 0.05);
+    box-shadow: var(--shadow-sm);
 }
 
 .month-year-badge {
@@ -1042,7 +1035,7 @@
     justify-content: space-between;
     margin-bottom: 1.5rem;
     padding: 0.5rem;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--bg-elevated);
     border-radius: 16px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);

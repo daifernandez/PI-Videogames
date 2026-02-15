@@ -10,17 +10,17 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--pagination-bg);
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   backdrop-filter: blur(4px);
-  border: 1px solid rgba(140, 122, 230, 0.15);
+  border: 1px solid var(--accent-border);
   transition: all 0.3s ease;
 }
 
 .pagination > div:hover {
-  box-shadow: 0 6px 25px rgba(140, 122, 230, 0.15);
-  border-color: rgba(140, 122, 230, 0.3);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent);
   transform: translateY(-1px);
 }
 
@@ -29,8 +29,8 @@
   height: 38px;
   border: none;
   border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #554769;
+  background-color: transparent;
+  color: var(--pagination-text);
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
@@ -41,8 +41,8 @@
 }
 
 .pagination-button:hover {
-  background-color: rgba(108, 92, 231, 0.1);
-  color: #6c5ce7;
+  background-color: var(--accent-soft);
+  color: var(--accent);
   transform: translateY(-1px);
 }
 
@@ -76,16 +76,16 @@
   height: 38px;
   border: none;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #6c5ce7;
+  background: transparent;
+  color: var(--accent);
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1.1rem;
 }
 
 .pagination-NextPrevious:hover {
-  background-color: rgba(108, 92, 231, 0.1);
-  color: var(--accent);
+  background-color: var(--accent-soft);
+  color: var(--accent-hover);
   transform: translateY(-1px);
 }
 
