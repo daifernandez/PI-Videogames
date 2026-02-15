@@ -111,5 +111,8 @@ package-lock.json
 .DS_Store
 **/.DS_Store
 
+# Client build output
+client/build/
+
 # Plan de mejoras UI (personal)
 UI_IMPROVEMENT_PLAN.md

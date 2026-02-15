@@ -21,7 +21,7 @@
 }
 
 .success-modal {
-  background: white;
+  background: var(--bg-elevated);
   padding: 2rem;
   border-radius: 24px;
   max-width: 90%;
@@ -82,7 +82,7 @@
 }
 
 .success-title {
-  color: #1f2937;
+  color: var(--text-primary);
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
@@ -90,7 +90,7 @@
 }
 
 .success-message {
-  color: #6b7280;
+  color: var(--text-secondary);
   font-size: 1rem;
   line-height: 1.5;
   margin-bottom: 2rem;

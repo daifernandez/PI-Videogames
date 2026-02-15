@@ -21,7 +21,7 @@
 }
 
 .delete-modal {
-  background: white;
+  background: var(--bg-elevated);
   padding: 2rem;
   border-radius: 24px;
   max-width: 90%;
@@ -79,7 +79,7 @@
 }
 
 .delete-title {
-  color: #1f2937;
+  color: var(--text-primary);
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
@@ -87,7 +87,7 @@
 }
 
 .delete-message {
-  color: #6b7280;
+  color: var(--text-secondary);
   font-size: 1rem;
   line-height: 1.5;
   margin-bottom: 2rem;
@@ -121,8 +121,8 @@
 }
 
 .cancel-button {
-  background: #e5e7eb;
-  color: #4b5563;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;

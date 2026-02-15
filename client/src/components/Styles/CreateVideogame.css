@@ -1,7 +1,7 @@
 .contenedor-create {
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(135deg, #ffffff, #fafaff);
+  background: linear-gradient(135deg, var(--bg-elevated), var(--bg-surface));
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -27,7 +27,7 @@
   width: 100%;
   margin: 2rem auto;
   padding: 2.5rem;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--bg-input);
   border-radius: 40px;
   box-shadow: 
     0 20px 60px -20px rgba(140, 122, 230, 0.05),
@@ -35,7 +35,8 @@
   position: relative;
   z-index: 1;
   backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .header-content {
@@ -53,7 +54,7 @@
   text-align: left;
   letter-spacing: -0.025em;
   line-height: 1.2;
-  color: #443a7b;
+  color: var(--text-primary);
   position: relative;
   padding-bottom: 1rem;
 }
@@ -71,7 +72,7 @@
 
 .input-subtitle {
   font-size: 1.1rem;
-  color: #77648b;
+  color: var(--text-secondary);
   line-height: 1.6;
   font-weight: 400;
   opacity: 0.9;
@@ -97,7 +98,7 @@
 
 .input-subtitle-note {
   font-size: 0.95rem;
-  color: #77648b;
+  color: var(--text-secondary);
   line-height: 1.5;
   font-weight: 500;
   opacity: 0.95;
@@ -145,7 +146,7 @@
 
 .input-label {
   display: block;
-  color: #554769;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 0.4rem;
@@ -168,12 +169,12 @@
 .barra {
   width: 100%;
   padding: 0.875rem 1.125rem;
-  border: 2px solid #e6e0f0;
+  border: 2px solid var(--border-primary);
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--bg-input);
   transition: all 0.3s ease;
   font-size: 0.95rem;
-  color: #2d3436;
+  color: var(--text-primary);
   box-shadow: 
     0 2px 4px rgba(140, 122, 230, 0.03),
     0 0 0 1px rgba(140, 122, 230, 0.03);
@@ -189,7 +190,7 @@
 }
 
 .barra::placeholder {
-  color: #a0a0a0;
+  color: var(--text-secondary);
   opacity: 0.7;
 }
 
@@ -201,9 +202,9 @@
   resize: vertical;
   padding: 1rem;
   font-size: 0.9rem;
-  color: #2d3436;
-  background-color: #ffffff;
-  border: 2px solid #e6e0f0;
+  color: var(--text-primary);
+  background-color: var(--bg-input);
+  border: 2px solid var(--border-primary);
   border-radius: 12px;
   transition: all 0.3s ease;
   font-family: inherit;
@@ -222,7 +223,7 @@
 }
 
 .barra-description::placeholder {
-  color: #a0a0a0;
+  color: var(--text-secondary);
   opacity: 0.7;
 }
 
@@ -242,7 +243,7 @@
 
 .character-count {
   font-size: 0.85rem;
-  color: #77648b;
+  color: var(--text-secondary);
   transition: all 0.3s ease;
 }
 
@@ -278,9 +279,9 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
-  background: rgba(255, 255, 255, 0.95);
-  color: #554769;
-  border: 1px solid rgba(140, 122, 230, 0.15);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  border: 1px solid var(--accent-border);
   border-radius: 16px;
   font-size: 0.95rem;
   font-weight: 500;
@@ -315,7 +316,7 @@
 
 .button-genres:hover {
   transform: translateY(-2px);
-  background: white;
+  background: var(--bg-input);
   color: #6c5ce7;
   border-color: rgba(140, 122, 230, 0.3);
   box-shadow: 
@@ -497,7 +498,7 @@
   cursor: not-allowed;
   background: rgba(206, 212, 218, 0.8);
   border: none;
-  color: #6b7280;
+  color: var(--text-secondary);
   box-shadow: none;
   pointer-events: none;
 }
@@ -574,7 +575,7 @@
 }
 
 .required-text {
-  color: #77648b;
+  color: var(--text-secondary);
   font-size: 0.75rem;
   text-align: left;
   margin-top: 5rem;
@@ -587,7 +588,7 @@ fieldset {
 }
 
 legend {
-  color: #77648b;
+  color: var(--text-secondary);
   font-size: 0.875rem;
   font-weight: 500;
   margin-bottom: 0.375rem;
@@ -608,12 +609,12 @@ legend {
   border: 2px dashed rgba(140, 122, 230, 0.2);
   border-radius: 16px;
   transition: all 0.3s ease;
-  background: rgba(248, 249, 250, 0.5);
+  background: var(--bg-surface);
 }
 
 .image-upload-container:hover {
   border-color: rgba(140, 122, 230, 0.4);
-  background: rgba(248, 249, 250, 0.8);
+  background: var(--bg-surface);
 }
 
 .image-preview-container {
@@ -624,7 +625,7 @@ legend {
     0 4px 12px rgba(140, 122, 230, 0.1),
     0 0 0 1px rgba(140, 122, 230, 0.1);
   position: relative;
-  background: white;
+  background: var(--bg-input);
   transition: all 0.3s ease;
 }
 
@@ -685,7 +686,7 @@ legend {
     0 4px 12px rgba(140, 122, 230, 0.1),
     0 0 0 1px rgba(140, 122, 230, 0.1);
   position: relative;
-  background: white;
+  background: var(--bg-input);
   transition: all 0.3s ease;
   aspect-ratio: 16/9;
 }
@@ -760,9 +761,9 @@ legend {
   right: 0;
   top: -25px;
   font-size: 0.875rem;
-  color: #554769;
+  color: var(--text-secondary);
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg-input);
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
   box-shadow: 
@@ -777,7 +778,7 @@ legend {
   gap: 1.5rem;
   position: relative;
   padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--bg-input);
   border-radius: 30px;
   box-shadow: 
     0 4px 20px -8px rgba(140, 122, 230, 0.05),
@@ -789,7 +790,7 @@ legend {
   flex: 1;
   padding: 1rem 1.5rem;
   background: transparent;
-  color: #554769;
+  color: var(--text-secondary);
   border: none;
   border-radius: 16px;
   cursor: pointer;
@@ -999,7 +1000,7 @@ legend {
   gap: 1.5rem;
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(140, 122, 230, 0.15);
+  border-top: 1px solid var(--accent-border);
   width: 100%;
   position: relative;
 }
@@ -1351,7 +1352,7 @@ legend {
   height: 18px;
   border-radius: 50%;
   background: #e9ecef;
-  color: #6b7280;
+  color: var(--text-secondary);
   font-size: 12px;
   margin-left: 8px;
   cursor: help;
@@ -1386,7 +1387,7 @@ legend {
   bottom: 100%;
   left: 1rem;
   border: 6px solid transparent;
-  border-bottom-color: #1f2937;
+  border-bottom-color: var(--text-primary);
 }
 
 @keyframes fadeIn {

@@ -34,7 +34,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: #ffffff;
+  background: var(--bg-page);
   min-height: 100vh;
 }
 
@@ -43,8 +43,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #ffffff;
+  background: var(--bg-page);
   width: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .landing {
@@ -70,7 +71,7 @@ body {
 }
 
 .welcome-text {
-  color: #2c3e50;
+  color: var(--text-primary);
   font-size: 2.2rem;
   margin-bottom: 1rem;
   font-weight: 300;
@@ -86,7 +87,7 @@ body {
 }
 
 .landing-description {
-  color: #4a5568;
+  color: var(--text-secondary);
   font-size: 1.1rem;
   line-height: 1.8;
   margin: 1.5rem 0;
@@ -102,7 +103,7 @@ body {
   display: block;
   margin: 0 auto;
   transition: transform 0.3s ease;
-  filter: drop-shadow(0 4px 12px rgba(140, 122, 230, 0.15));
+  filter: drop-shadow(0 4px 12px var(--accent-border));
   will-change: transform;
   backface-visibility: hidden;
   transform: translateZ(0);
@@ -134,8 +135,8 @@ body {
   padding: 0.8rem 2rem;
   font-size: 1rem;
   background: transparent;
-  border: 2px solid #2c3e50;
-  color: #2c3e50;
+  border: 2px solid var(--text-primary);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
@@ -146,7 +147,7 @@ body {
 }
 
 .custom-button:hover {
-  background: #2c3e50;
+  background: var(--text-primary);
   color: white;
 }
 
@@ -241,12 +242,12 @@ body {
     padding: 1.5rem;
     margin: 1.5rem auto;
     max-width: 600px;
-    background: rgba(140, 122, 230, 0.03);
+    background: var(--accent-border);
     border-radius: 16px;
   }
 
   .stat-item {
-    background: white;
+    background: var(--bg-elevated);
     padding: 1rem;
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -289,7 +290,7 @@ body {
   }
 
   .feature-item {
-    background: white;
+    background: var(--bg-elevated);
     padding: 1.25rem;
     border-radius: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -430,12 +431,12 @@ body {
     padding: 0.75rem;
     margin: 0.75rem auto;
     max-width: 320px;
-    background: rgba(140, 122, 230, 0.03);
+    background: var(--accent-border);
     border-radius: 12px;
   }
 
   .stat-item {
-    background: white;
+    background: var(--bg-elevated);
     padding: 0.75rem 0.5rem;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -470,7 +471,7 @@ body {
   }
 
   .feature-item {
-    background: white;
+    background: var(--bg-elevated);
     padding: 0.75rem;
     border-radius: 12px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -682,7 +683,7 @@ body {
 .stat-number {
   font-size: 2.2rem;
   font-weight: 300;
-  color: #8c7ae6;
+  color: var(--accent);
   margin-bottom: 0.5rem;
   will-change: transform;
   backface-visibility: hidden;
@@ -690,7 +691,7 @@ body {
 
 .stat-label {
   font-size: 0.85rem;
-  color: #4a5568;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   font-weight: 400;
@@ -719,7 +720,7 @@ body {
   padding: 0.7rem 1.6rem;
   border: none;
   border-radius: 25px;
-  background: linear-gradient(45deg, #8c7ae6, #9b59b6);
+  background: linear-gradient(45deg, var(--accent), #9b59b6);
   color: white;
   font-size: 0.92rem;
   font-weight: 500;
@@ -803,12 +804,12 @@ body {
   transform: translateX(-50%);
   width: 100px;
   height: 2px;
-  background: linear-gradient(to right, transparent, rgba(140, 122, 230, 0.3), transparent);
+  background: linear-gradient(to right, transparent, var(--accent-border), transparent);
 }
 
 .features-title {
   font-size: 1.2rem;
-  color: #2c3e50;
+  color: var(--text-primary);
   margin-bottom: 4rem;
   font-weight: 500;
   letter-spacing: 3px;
@@ -851,7 +852,7 @@ body {
   width: 64px;
   height: 64px;
   margin-bottom: 2rem;
-  background: rgba(140, 122, 230, 0.05);
+  background: var(--accent-border);
   border-radius: 20px;
   position: relative;
   transition: transform 0.3s ease;
@@ -862,7 +863,7 @@ body {
 .feature-svg {
   width: 32px;
   height: 32px;
-  stroke: #8c7ae6;
+  stroke: var(--accent);
   stroke-width: 1.5;
   opacity: 0.9;
   will-change: transform;
@@ -870,7 +871,7 @@ body {
 }
 
 .feature-item:hover .feature-icon {
-  background: rgba(140, 122, 230, 0.08);
+  background: var(--accent-border);
 }
 
 .feature-item:hover .feature-svg {
@@ -879,14 +880,14 @@ body {
 
 .feature-title {
   font-size: 1.1rem;
-  color: #2c3e50;
+  color: var(--text-primary);
   margin-bottom: 1rem;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 
 .feature-description {
-  color: #4a5568;
+  color: var(--text-secondary);
   font-size: 0.95rem;
   line-height: 1.7;
   max-width: 300px;
@@ -1132,7 +1133,7 @@ body {
   .logo {
     max-width: 280px;
     margin: 0.75rem auto;
-    filter: drop-shadow(0 3px 8px rgba(140, 122, 230, 0.12));
+    filter: drop-shadow(0 3px 8px var(--accent-border));
   }
 }
 
@@ -1466,7 +1467,7 @@ body {
   .logo {
     max-width: 130px;
     margin: 0.3rem auto;
-    filter: drop-shadow(0 2px 4px rgba(140, 122, 230, 0.08));
+    filter: drop-shadow(0 2px 4px var(--accent-border));
   }
 }
 
@@ -1631,21 +1632,21 @@ html {
 
 /* Mejoras en estados interactivos */
 .cta-button:focus-visible {
-  outline: 3px solid #8c7ae6;
+  outline: 3px solid var(--accent);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(140, 122, 230, 0.2);
+  box-shadow: 0 0 0 4px var(--accent-border);
 }
 
 .feature-item:focus-within {
-  outline: 3px solid #8c7ae6;
+  outline: 3px solid var(--accent);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(140, 122, 230, 0.2);
+  box-shadow: 0 0 0 4px var(--accent-border);
 }
 
 .testimonial-card:focus-within {
-  outline: 3px solid #8c7ae6;
+  outline: 3px solid var(--accent);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(140, 122, 230, 0.2);
+  box-shadow: 0 0 0 4px var(--accent-border);
 }
 
 /* Mejora en la transición de hover */
@@ -1663,15 +1664,15 @@ html {
 
 /* Mejora en el contraste para mejor legibilidad */
 .landing-description {
-  color: #4a5568;
+  color: var(--text-secondary);
 }
 
 .feature-description {
-  color: #4a5568;
+  color: var(--text-secondary);
 }
 
 .stat-label {
-  color: #4a5568;
+  color: var(--text-secondary);
 }
 
 /* Mejora en el feedback táctil para móviles */

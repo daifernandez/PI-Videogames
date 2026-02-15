@@ -23,7 +23,7 @@
   aspect-ratio: 16/9;
   transform-origin: center;
   cursor: zoom-in;
-  background: #fff;
+  background: var(--bg-elevated);
 }
 
 .screenshot-item::before {
@@ -180,14 +180,14 @@
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-  background: #fff;
+  background: var(--bg-elevated);
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .trailer-container {
   width: 100%;
   margin: 0;
-  background: #fff;
+  background: var(--bg-elevated);
   border-radius: 16px;
   padding: 1.8rem;
 }
@@ -195,7 +195,7 @@
 .trailer-title {
   font-size: 1.15rem;
   margin-bottom: 1.2rem;
-  color: #2d3436;
+  color: var(--text-primary);
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -318,7 +318,7 @@ video.trailer-video:hover {
   align-items: center;
   justify-content: center;
   padding: 4rem 2rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--bg-elevated);
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(10px);
@@ -339,7 +339,7 @@ video.trailer-video:hover {
 
 .loading-text {
   margin-top: 1.2rem;
-  color: #2d3436;
+  color: var(--text-primary);
   font-size: 1.05rem;
   font-weight: 500;
   letter-spacing: 0.3px;
@@ -351,7 +351,7 @@ video.trailer-video:hover {
   text-align: center;
   padding: 4rem 2rem;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--bg-elevated);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(10px);
 }
@@ -362,7 +362,7 @@ video.trailer-video:hover {
 }
 
 .media-empty {
-  color: #718096;
+  color: var(--text-secondary);
 }
 
 .media-empty p,
@@ -376,7 +376,7 @@ video.trailer-video:hover {
 .media-error-suggestion,
 .media-empty-suggestion {
   font-size: 0.9rem;
-  color: #718096;
+  color: var(--text-secondary);
   font-style: italic;
   opacity: 0.9;
 }

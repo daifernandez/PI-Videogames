@@ -12,7 +12,7 @@
   justify-content: center;
   padding: 3rem 1rem;
   text-align: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg-elevated);
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(10px);
@@ -22,14 +22,14 @@
 
 .empty-message {
   font-size: 1.2rem;
-  color: #2d3436;
+  color: var(--text-primary);
   margin-bottom: 1rem;
   line-height: 1.5;
 }
 
 .empty-suggestion {
   font-size: 1rem;
-  color: #636e72;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
   line-height: 1.4;
 }

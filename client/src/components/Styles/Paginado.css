@@ -85,7 +85,7 @@
 
 .pagination-NextPrevious:hover {
   background-color: rgba(108, 92, 231, 0.1);
-  color: #6c5ce7;
+  color: var(--accent);
   transform: translateY(-1px);
 }
 

@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+  background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-surface) 100%);
 }
 
 .error-boundary-content {
@@ -18,12 +18,12 @@
 
 .error-boundary-content h1 {
   font-size: 1.75rem;
-  color: #2d3436;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
 .error-boundary-content p {
-  color: #636e72;
+  color: var(--text-secondary);
   margin-bottom: 0.75rem;
   line-height: 1.5;
 }
