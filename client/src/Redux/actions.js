@@ -93,14 +93,28 @@ export const getgenres = () => {
 export function getVideogameByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`${apiUrl}/videogames?name=${name}`);
+      const response = await axios.get(`${apiUrl}/videogames?name=${encodeURIComponent(name)}`);
+      if (!response.data || response.data.length === 0) {
+        dispatch({
+          type: "ERROR_VIDEOGAME_BY_NAME",
+          payload: "No se encontraron videojuegos con ese nombre",
+        });
+        return;
+      }
       dispatch({ type: GET_VIDEOGAME_BY_NAME, payload: response.data });
     } catch (error) {
       console.error("Error en get videogame by name:", {
         mensaje: error.message,
         código: error.code,
-        detalles: error.response?.data || 'Sin detalles adicionales'
+        detalles: error.response?.data || "Sin detalles adicionales",
       });
+      let errorMessage = "Error al buscar. Inténtalo de nuevo.";
+      if (error.response?.status === 404) {
+        errorMessage = "No se encontraron videojuegos con ese nombre";
+      } else if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      }
+      dispatch({ type: "ERROR_VIDEOGAME_BY_NAME", payload: errorMessage });
     }
   };
 }

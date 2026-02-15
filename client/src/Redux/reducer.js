@@ -97,6 +97,7 @@ const initialState = {
   numberOfPages: 0,
   loading: false,
   error: null,
+  searchError: null,
   upcomingGames: [],
   loadingUpcoming: false,
   errorUpcoming: null,
@@ -155,7 +156,8 @@ function rootReducer(state = initialState, action) {
         numberOfPages: pagesCount(filteredVideogamesInitial),
         currentPage: initialPage,
         loading: false,
-        error: null
+        error: null,
+        searchError: null,
       };
 
     case GET_GENRES:
@@ -168,7 +170,16 @@ function rootReducer(state = initialState, action) {
         ...state,
         videogamesOnScreen: action.payload,
         currentPage: 0,
-        numberOfPages: 1,
+        numberOfPages: Math.ceil((action.payload?.length || 0) / VIDEO_GAMES_PER_PAGE) || 1,
+        searchError: null,
+      };
+    case "ERROR_VIDEOGAME_BY_NAME":
+      return {
+        ...state,
+        videogamesOnScreen: [],
+        currentPage: 0,
+        numberOfPages: 0,
+        searchError: action.payload,
       };
     case DELETE_DB_VIDEOGAME:
       const updatedVideogames = [...state.videogames].filter(
@@ -188,13 +199,14 @@ function rootReducer(state = initialState, action) {
         videogamesOnScreen: videogamesForPageDeleteDB,
         numberOfPages: pagesCount(filteredVideogamesDeleteDB),
       };
-    case SELECT_GENRE:
-      state.filterAndSortingState.genre =
-        action.payload === "-" ? null : action.payload;
-
+    case SELECT_GENRE: {
+      const newFilterStateGenre = {
+        ...state.filterAndSortingState,
+        genre: action.payload === "-" ? null : action.payload,
+      };
       const filteredVideogamesGenre = videogamesForFilter(
         state.videogames,
-        state.filterAndSortingState
+        newFilterStateGenre
       );
       const paginationSelectGenre = videogamesForPage(
         filteredVideogamesGenre,
@@ -203,19 +215,20 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogamesOnScreen: paginationSelectGenre,
-        filterAndSortingState: state.filterAndSortingState,
+        filterAndSortingState: newFilterStateGenre,
         currentPage: 0,
         numberOfPages: pagesCount(filteredVideogamesGenre),
       };
-    case SELECT_PLATFORM:
-      state.filterAndSortingState.platform =
-        action.payload === "-" ? null : action.payload;
-
+    }
+    case SELECT_PLATFORM: {
+      const newFilterStatePlatform = {
+        ...state.filterAndSortingState,
+        platform: action.payload === "-" ? null : action.payload,
+      };
       const filterVideogamesPlatform = videogamesForFilter(
         state.videogames,
-        state.filterAndSortingState
+        newFilterStatePlatform
       );
-
       const videogamePlatformOnScreen = videogamesForPage(
         filterVideogamesPlatform,
         0
@@ -223,9 +236,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         videogamesOnScreen: videogamePlatformOnScreen,
+        filterAndSortingState: newFilterStatePlatform,
         currentPage: 0,
         numberOfPages: pagesCount(filterVideogamesPlatform),
       };
+    }
 
     case POST_VIDEOGAME:
       var updatedAllVideogames = [...state.videogames];
@@ -234,57 +249,59 @@ function rootReducer(state = initialState, action) {
         ...state,
         videogames: [...updatedAllVideogames],
       };
-    case GET_CREATED:
-      var filterAndSortingState = state.filterAndSortingState;
-      if (action.payload === "all") {
-        filterAndSortingState.origin = null;
-      } else {
-        filterAndSortingState.origin = action.payload;
-      }
-
+    case GET_CREATED: {
+      const newFilterStateCreated = {
+        ...state.filterAndSortingState,
+        origin: action.payload === "all" ? null : action.payload,
+      };
       const filteredVideogamesCreated = videogamesForFilter(
         state.videogames,
-        filterAndSortingState
+        newFilterStateCreated
       );
       const paginationCreated = videogamesForPage(filteredVideogamesCreated, 0);
-
       return {
         ...state,
         videogamesOnScreen: paginationCreated,
-        filterAndSortingState: filterAndSortingState,
+        filterAndSortingState: newFilterStateCreated,
         currentPage: 0,
         numberOfPages: pagesCount(filteredVideogamesCreated),
       };
+    }
 
-    case ALPH_ORDER:
-      state.filterAndSortingState.sorting =
-        action.payload === "-" ? null : action.payload;
-
+    case ALPH_ORDER: {
+      const newFilterStateAlph = {
+        ...state.filterAndSortingState,
+        sorting: action.payload === "-" ? null : action.payload,
+      };
       const filteredVideogamesAlph = videogamesForFilter(
         state.videogames,
-        state.filterAndSortingState
+        newFilterStateAlph
       );
       const paginationAlph = videogamesForPage(filteredVideogamesAlph, 0);
       return {
         ...state,
         videogamesOnScreen: paginationAlph,
-        filterAndSortingState: state.filterAndSortingState,
+        filterAndSortingState: newFilterStateAlph,
         currentPage: 0,
       };
-    case RATING_ORDER:
-      state.filterAndSortingState.sorting =
-        action.payload === "-" ? null : action.payload;
+    }
+    case RATING_ORDER: {
+      const newFilterStateRating = {
+        ...state.filterAndSortingState,
+        sorting: action.payload === "-" ? null : action.payload,
+      };
       const filteredVideogamesRating = videogamesForFilter(
         state.videogames,
-        state.filterAndSortingState
+        newFilterStateRating
       );
       const paginationRating = videogamesForPage(filteredVideogamesRating, 0);
       return {
         ...state,
         videogamesOnScreen: paginationRating,
         currentPage: 0,
-        filterAndSortingState: state.filterAndSortingState,
+        filterAndSortingState: newFilterStateRating,
       };
+    }
     case CLEAR:
       const newFilterState = {
         genre: null,
@@ -307,6 +324,7 @@ function rootReducer(state = initialState, action) {
         currentPage: currentPage,
         numberOfPages: pagesCount(filteredVideogamesClear),
         filterAndSortingState: newFilterState,
+        searchError: null,
       };
     case GO_TO_PAGE:
       const page = action.payload;

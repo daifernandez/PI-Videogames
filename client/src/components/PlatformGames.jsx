@@ -5,7 +5,6 @@ import { getvideogames } from '../Redux/actions';
 import NavBar from './NavBar';
 import Cards from './Cards';
 import Loading from './Loading';
-import Paginado from './Paginado';
 import ScrollToTop from './ScrollToTop';
 import './Styles/Cards.css';
 import './Styles/PlatformGames.css';
@@ -16,8 +15,13 @@ export default function PlatformGames() {
   const dispatch = useDispatch();
   const allVideogames = useSelector((state) => state.videogames);
   const loading = useSelector((state) => state.loading);
+  const error = useSelector((state) => state.error);
   const [currentPage, setCurrentPage] = useState(0);
   const gamesPerPage = 12;
+
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [platform]);
 
   useEffect(() => {
     if (allVideogames.length === 0) {
@@ -25,9 +29,19 @@ export default function PlatformGames() {
     }
   }, [dispatch, allVideogames.length]);
 
-  const filteredGames = allVideogames.filter(game => 
-    game.platforms.some(p => p.toLowerCase() === decodeURIComponent(platform).toLowerCase())
-  );
+  const platformDecoded = decodeURIComponent(platform || '').toLowerCase().trim();
+
+  const filteredGames = allVideogames.filter((game) => {
+    const plats = Array.isArray(game.platforms) ? game.platforms : [];
+    return plats.some((p) => {
+      const name = String(p).toLowerCase().trim();
+      return (
+        name === platformDecoded ||
+        name.startsWith(platformDecoded + ' ') ||
+        name.startsWith(platformDecoded + '(')
+      );
+    });
+  });
 
   // Lógica de paginación
   const indexOfLastGame = (currentPage + 1) * gamesPerPage;
@@ -46,6 +60,21 @@ export default function PlatformGames() {
         <NavBar />
         <div className="loading-container">
           <Loading />
+        </div>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <NavBar />
+        <div className="platform-games">
+          <div className="no-games-found">
+            <h2>Error al cargar</h2>
+            <p>{error}</p>
+            <p>Intenta recargar la página o vuelve al inicio.</p>
+          </div>
         </div>
       </>
     );
@@ -73,8 +102,7 @@ export default function PlatformGames() {
               {filteredGames.length > gamesPerPage && (
                 <div className="pagination">
                   <nav>
-                    <div className="pagination">
-                      <div>
+                    <div>
                         <button
                           className="pagination-NextPrevious"
                           onClick={() => handlePageChange(currentPage - 1)}
@@ -104,7 +132,6 @@ export default function PlatformGames() {
                         >
                           <span className="material-symbols-rounded">arrow_forward_ios</span>
                         </button>
-                      </div>
                     </div>
                   </nav>
                 </div>

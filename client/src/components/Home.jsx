@@ -20,6 +20,7 @@ export default function Home() {
   const allVideogames = useSelector((state) => state.videogames || []);
   const loading = useSelector((state) => state.loading);
   const error = useSelector((state) => state.error);
+  const searchError = useSelector((state) => state.searchError);
 
   useEffect(() => {
     if (allVideogames.length === 0 && !loading && !error) {
@@ -61,8 +62,8 @@ export default function Home() {
       return (
         <EmptyResults 
           isHome={true}
-          message="No games found matching your search"
-          suggestion="Try different filters or search terms"
+          message={searchError || "No games found matching your search"}
+          suggestion={searchError ? "Prueba con otro nombre o limpia los filtros" : "Try different filters or search terms"}
         />
       );
     }
