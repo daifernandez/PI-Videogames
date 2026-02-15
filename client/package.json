@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^14.5.2",
     "axios": "^1.7.9",
     "buffer": "^6.0.3",
+    "framer-motion": "^12.34.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",
@@ -51,7 +52,7 @@
     ]
   },
   "engines": {
-    "node": ">=16.x"
+    "node": ">=20.x"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",

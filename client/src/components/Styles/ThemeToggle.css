@@ -1,0 +1,53 @@
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border-primary);
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-secondary);
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent-border);
+}
+
+.toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.toggle-icon.is-dark {
+  transform: rotate(0deg);
+}
+
+.toggle-icon.is-light {
+  transform: rotate(0deg);
+}
+
+.theme-toggle:hover .toggle-icon {
+  transform: rotate(15deg);
+}
+
+@media (max-width: 500px) {
+  .theme-toggle {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+
+  .theme-toggle svg {
+    width: 14px;
+    height: 14px;
+  }
+}

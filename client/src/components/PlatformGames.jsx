@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getvideogames } from '../Redux/actions';
 import NavBar from './NavBar';
 import Cards from './Cards';
-import Loading from './Loading';
 import ScrollToTop from './ScrollToTop';
 import './Styles/Cards.css';
 import './Styles/PlatformGames.css';
@@ -58,8 +57,13 @@ export default function PlatformGames() {
     return (
       <>
         <NavBar />
-        <div className="loading-container">
-          <Loading />
+        <div className="platform-games">
+          <div className="platform-header">
+            <h1 className="platform-title">{decodeURIComponent(platform)}</h1>
+          </div>
+          <div className="platform-cards-container">
+            <Cards videogames={[]} direction="vertical" loading={true} />
+          </div>
         </div>
       </>
     );
@@ -107,6 +111,7 @@ export default function PlatformGames() {
                           className="pagination-NextPrevious"
                           onClick={() => handlePageChange(currentPage - 1)}
                           disabled={currentPage === 0}
+                          aria-label="Página anterior"
                         >
                           <span className="material-symbols-rounded extra-left-padding">
                             arrow_back_ios
@@ -121,6 +126,8 @@ export default function PlatformGames() {
                             }
                             key={index}
                             onClick={() => handlePageChange(index)}
+                            aria-label={`Página ${index + 1}`}
+                            aria-current={currentPage === index ? "page" : undefined}
                           >
                             {index + 1}
                           </button>
@@ -129,6 +136,7 @@ export default function PlatformGames() {
                           className="pagination-NextPrevious"
                           onClick={() => handlePageChange(currentPage + 1)}
                           disabled={currentPage === totalPages - 1}
+                          aria-label="Página siguiente"
                         >
                           <span className="material-symbols-rounded">arrow_forward_ios</span>
                         </button>

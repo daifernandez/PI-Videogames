@@ -1,23 +1,148 @@
+/* ========================================
+   Global Styles & Theme Variables
+   ======================================== */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ---- Light theme (default) ---- */
+:root {
+  --bg-page: #ffffff;
+  --bg-surface: #f8f9fa;
+  --bg-elevated: #ffffff;
+  --bg-input: #ffffff;
+  --bg-skeleton: #f0f0f2;
+  --bg-card-placeholder: #e8e8ea;
+
+  --text-primary: #1a1a1a;
+  --text-secondary: #636e72;
+  --text-tertiary: #999999;
+  --text-on-accent: #ffffff;
+
+  --accent: #8c7ae6;
+  --accent-hover: #7f6ee3;
+  --accent-soft: rgba(140, 122, 230, 0.08);
+  --accent-border: rgba(140, 122, 230, 0.15);
+
+  --border-primary: rgba(231, 231, 237, 0.8);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+
+  --navbar-bg: rgba(255, 255, 255, 0.92);
+  --navbar-border: rgba(231, 231, 237, 0.8);
+
+  --search-bg: rgba(255, 255, 255, 0.85);
+  --search-input-bg: rgba(255, 255, 255, 0.9);
+  --search-input-border: rgba(233, 236, 239, 0.8);
+  --search-text: #495057;
+  --search-placeholder: #adb5bd;
+
+  --filter-bg: rgba(255, 255, 255, 0.6);
+  --filter-label: #4a5568;
+  --filter-text: #2d3748;
+  --filter-border: rgba(226, 232, 240, 0.8);
+
+  --button-bg: rgba(255, 255, 255, 0.95);
+  --button-text: #554769;
+  --button-border: rgba(140, 122, 230, 0.15);
+
+  --nav-link-text: #4a4a4a;
+  --nav-link-hover-bg: rgba(246, 246, 252, 0.8);
+  --nav-link-hover-text: #7667e3;
+
+  --pagination-bg: rgba(255, 255, 255, 0.95);
+  --pagination-text: #554769;
+  --pagination-active-text: #ffffff;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.10);
+
+  --shimmer-color: rgba(255, 255, 255, 0.5);
+
+  /* Legacy vars (backward compat) */
+  --secondary-color: #536b8ba1;
+  --primary-color-search: #a78bfa;
+  --secondary-color-search: #dee3e79a;
+  --primary-button-color: #8b5cf6;
+  --primary-color: #312e81;
+  --nav-color: #f8fafc;
+}
+
+/* ---- Dark theme ---- */
+[data-theme="dark"] {
+  --bg-page: #0f0d1a;
+  --bg-surface: #1a1625;
+  --bg-elevated: #1e1a2b;
+  --bg-input: #2d2640;
+  --bg-skeleton: #1a1625;
+  --bg-card-placeholder: #231e30;
+
+  --text-primary: #f0eef5;
+  --text-secondary: #a89ec4;
+  --text-tertiary: #6b6188;
+  --text-on-accent: #ffffff;
+
+  --accent: #a78bfa;
+  --accent-hover: #8b5cf6;
+  --accent-soft: rgba(167, 139, 250, 0.1);
+  --accent-border: rgba(167, 139, 250, 0.2);
+
+  --border-primary: #3d3555;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+
+  --navbar-bg: rgba(15, 13, 26, 0.92);
+  --navbar-border: rgba(61, 53, 85, 0.6);
+
+  --search-bg: rgba(26, 22, 37, 0.85);
+  --search-input-bg: rgba(45, 38, 64, 0.9);
+  --search-input-border: rgba(61, 53, 85, 0.8);
+  --search-text: #e0dce8;
+  --search-placeholder: #6b6188;
+
+  --filter-bg: rgba(30, 26, 43, 0.6);
+  --filter-label: #a89ec4;
+  --filter-text: #e0dce8;
+  --filter-border: rgba(61, 53, 85, 0.8);
+
+  --button-bg: rgba(30, 26, 43, 0.95);
+  --button-text: #c4b5de;
+  --button-border: rgba(167, 139, 250, 0.2);
+
+  --nav-link-text: #c4b5de;
+  --nav-link-hover-bg: rgba(167, 139, 250, 0.08);
+  --nav-link-hover-text: #a78bfa;
+
+  --pagination-bg: rgba(30, 26, 43, 0.95);
+  --pagination-text: #a89ec4;
+  --pagination-active-text: #ffffff;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  --shimmer-color: rgba(255, 255, 255, 0.03);
+}
+
+/* ---- Base styles ---- */
+html {
+  background: var(--bg-page);
+}
+
 body {
   margin: 0;
   padding: 0;
-  background: #ffffff;
+  background: var(--bg-page);
+  color: var(--text-primary);
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-html {
-  background: #ffffff;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -28,13 +153,4 @@ html {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-:root {
-  --secondary-color: #536b8ba1;
-  --primary-color-search: #a78bfa;
-  --secondary-color-search: #dee3e79a;
-  --primary-button-color: #8b5cf6;
-  --primary-color: #312e81;
-  --nav-color: #f8fafc;
 }

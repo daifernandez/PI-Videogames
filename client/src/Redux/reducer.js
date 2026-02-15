@@ -2,16 +2,27 @@ import {
   ALPH_ORDER,
   GET_GENRES,
   GET_VIDEOGAMES,
+  LOADING_VIDEOGAMES,
+  FINISH_LOADING_VIDEOGAMES,
+  ERROR_VIDEOGAMES,
   SELECT_GENRE,
   SELECT_PLATFORM,
   RATING_ORDER,
   GET_CREATED,
   GET_VIDEOGAME_BY_NAME,
+  ERROR_VIDEOGAME_BY_NAME,
   CLEAR,
   POST_VIDEOGAME,
   GO_TO_PAGE,
   DELETE_DB_VIDEOGAME,
+  GET_UPCOMING_GAMES,
+  LOADING_UPCOMING_GAMES,
+  FINISH_LOADING_UPCOMING_GAMES,
+  ERROR_UPCOMING_GAMES,
   GET_RECENT_GAMES,
+  LOADING_RECENT_GAMES,
+  FINISH_LOADING_RECENT_GAMES,
+  ERROR_RECENT_GAMES,
 } from "./actions";
 
 const VIDEO_GAMES_PER_PAGE = 16;
@@ -108,20 +119,20 @@ const initialState = {
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case "LOADING_VIDEOGAMES":
+    case LOADING_VIDEOGAMES:
       return {
         ...state,
         loading: true,
         error: null
       };
 
-    case "FINISH_LOADING_VIDEOGAMES":
+    case FINISH_LOADING_VIDEOGAMES:
       return {
         ...state,
         loading: false
       };
 
-    case "ERROR_VIDEOGAMES":
+    case ERROR_VIDEOGAMES:
       return {
         ...state,
         loading: false,
@@ -173,7 +184,7 @@ function rootReducer(state = initialState, action) {
         numberOfPages: Math.ceil((action.payload?.length || 0) / VIDEO_GAMES_PER_PAGE) || 1,
         searchError: null,
       };
-    case "ERROR_VIDEOGAME_BY_NAME":
+    case ERROR_VIDEOGAME_BY_NAME:
       return {
         ...state,
         videogamesOnScreen: [],
@@ -341,14 +352,14 @@ function rootReducer(state = initialState, action) {
         videogamesOnScreen: paginationGoToPage,
         currentPage: page,
       };
-    case "LOADING_UPCOMING_GAMES":
+    case LOADING_UPCOMING_GAMES:
       return {
         ...state,
         loadingUpcoming: true,
         errorUpcoming: null
       };
 
-    case "GET_UPCOMING_GAMES":
+    case GET_UPCOMING_GAMES:
       return {
         ...state,
         upcomingGames: action.payload,
@@ -356,20 +367,20 @@ function rootReducer(state = initialState, action) {
         errorUpcoming: null
       };
 
-    case "ERROR_UPCOMING_GAMES":
+    case ERROR_UPCOMING_GAMES:
       return {
         ...state,
         errorUpcoming: action.payload,
         loadingUpcoming: false
       };
 
-    case "FINISH_LOADING_UPCOMING_GAMES":
+    case FINISH_LOADING_UPCOMING_GAMES:
       return {
         ...state,
         loadingUpcoming: false
       };
 
-    case "LOADING_RECENT_GAMES":
+    case LOADING_RECENT_GAMES:
       return {
         ...state,
         loadingRecentGames: true,
@@ -383,13 +394,13 @@ function rootReducer(state = initialState, action) {
         recentGamesError: null
       };
     
-    case "ERROR_RECENT_GAMES":
+    case ERROR_RECENT_GAMES:
       return {
         ...state,
         recentGamesError: action.payload
       };
     
-    case "FINISH_LOADING_RECENT_GAMES":
+    case FINISH_LOADING_RECENT_GAMES:
       return {
         ...state,
         loadingRecentGames: false

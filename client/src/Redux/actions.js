@@ -2,9 +2,14 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_HOST;
 
+// Action type constants
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
+export const LOADING_VIDEOGAMES = "LOADING_VIDEOGAMES";
+export const FINISH_LOADING_VIDEOGAMES = "FINISH_LOADING_VIDEOGAMES";
+export const ERROR_VIDEOGAMES = "ERROR_VIDEOGAMES";
 export const GET_GENRES = "GET_GENRES";
 export const GET_VIDEOGAME_BY_NAME = "GET_VIDEOGAME_BY_NAME";
+export const ERROR_VIDEOGAME_BY_NAME = "ERROR_VIDEOGAME_BY_NAME";
 export const POST_VIDEOGAME = "POST_VIDEOGAME";
 export const SELECT_GENRE = "SELECT_GENRE";
 export const SELECT_PLATFORM = "SELECT_PLATFORM";
@@ -15,12 +20,18 @@ export const CLEAR = "CLEAR";
 export const GO_TO_PAGE = "GO_TO_PAGE";
 export const DELETE_DB_VIDEOGAME = "DELETE_DB_VIDEOGAME";
 export const GET_UPCOMING_GAMES = "GET_UPCOMING_GAMES";
+export const LOADING_UPCOMING_GAMES = "LOADING_UPCOMING_GAMES";
+export const FINISH_LOADING_UPCOMING_GAMES = "FINISH_LOADING_UPCOMING_GAMES";
+export const ERROR_UPCOMING_GAMES = "ERROR_UPCOMING_GAMES";
 export const GET_RECENT_GAMES = "GET_RECENT_GAMES";
+export const LOADING_RECENT_GAMES = "LOADING_RECENT_GAMES";
+export const FINISH_LOADING_RECENT_GAMES = "FINISH_LOADING_RECENT_GAMES";
+export const ERROR_RECENT_GAMES = "ERROR_RECENT_GAMES";
 
 export function getvideogames() {
   return async function (dispatch) {
     try {
-      dispatch({ type: "LOADING_VIDEOGAMES" });
+      dispatch({ type: LOADING_VIDEOGAMES });
       const response = await axios.get(`${apiUrl}/videogames`);
       
       if (!response.data || response.data.length === 0) {
@@ -54,11 +65,11 @@ export function getvideogames() {
       }
 
       dispatch({ 
-        type: "ERROR_VIDEOGAMES", 
+        type: ERROR_VIDEOGAMES, 
         payload: errorMessage
       });
     } finally {
-      dispatch({ type: "FINISH_LOADING_VIDEOGAMES" });
+      dispatch({ type: FINISH_LOADING_VIDEOGAMES });
     }
   };
 }
@@ -96,7 +107,7 @@ export function getVideogameByName(name) {
       const response = await axios.get(`${apiUrl}/videogames?name=${encodeURIComponent(name)}`);
       if (!response.data || response.data.length === 0) {
         dispatch({
-          type: "ERROR_VIDEOGAME_BY_NAME",
+          type: ERROR_VIDEOGAME_BY_NAME,
           payload: "No se encontraron videojuegos con ese nombre",
         });
         return;
@@ -114,7 +125,7 @@ export function getVideogameByName(name) {
       } else if (error.response?.data?.error) {
         errorMessage = error.response.data.error;
       }
-      dispatch({ type: "ERROR_VIDEOGAME_BY_NAME", payload: errorMessage });
+      dispatch({ type: ERROR_VIDEOGAME_BY_NAME, payload: errorMessage });
     }
   };
 }
@@ -195,7 +206,7 @@ export function deleteVideogameDB(id) {
 export function getUpcomingGames() {
   return async function (dispatch) {
     try {
-      dispatch({ type: "LOADING_UPCOMING_GAMES" });
+      dispatch({ type: LOADING_UPCOMING_GAMES });
       const response = await axios.get(`${apiUrl}/videogames/upcoming`);
       
       if (!response.data || response.data.length === 0) {
@@ -211,11 +222,11 @@ export function getUpcomingGames() {
       });
 
       dispatch({ 
-        type: "ERROR_UPCOMING_GAMES", 
+        type: ERROR_UPCOMING_GAMES, 
         payload: error.response?.data?.error || "Error al cargar los próximos lanzamientos"
       });
     } finally {
-      dispatch({ type: "FINISH_LOADING_UPCOMING_GAMES" });
+      dispatch({ type: FINISH_LOADING_UPCOMING_GAMES });
     }
   };
 }
@@ -223,7 +234,7 @@ export function getUpcomingGames() {
 export function getRecentGames() {
   return async function (dispatch) {
     try {
-      dispatch({ type: "LOADING_RECENT_GAMES" });
+      dispatch({ type: LOADING_RECENT_GAMES });
       const response = await axios.get(`${apiUrl}/videogames/recent`);
       
       if (!response.data || response.data.length === 0) {
@@ -239,11 +250,11 @@ export function getRecentGames() {
       });
 
       dispatch({ 
-        type: "ERROR_RECENT_GAMES", 
+        type: ERROR_RECENT_GAMES, 
         payload: error.response?.data?.error || "Error al cargar los lanzamientos recientes"
       });
     } finally {
-      dispatch({ type: "FINISH_LOADING_RECENT_GAMES" });
+      dispatch({ type: FINISH_LOADING_RECENT_GAMES });
     }
   };
 }

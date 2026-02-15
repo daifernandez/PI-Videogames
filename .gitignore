@@ -110,3 +110,6 @@ package-lock.json
 # DSStore
 .DS_Store
 **/.DS_Store
+
+# Plan de mejoras UI (personal)
+UI_IMPROVEMENT_PLAN.md

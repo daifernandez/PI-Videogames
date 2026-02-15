@@ -1,41 +1,173 @@
-.celda {
-  border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 19px 19px 59px #e3e3e3, -19px -19px 59px #ffffff;
+/* ========================================
+   Card — delicate & minimal
+   ======================================== */
+
+/* ---- base ---- */
+.card {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  border-radius: 14px;
   overflow: hidden;
-  width: 300px;
+  background: var(--bg-card-placeholder);
 }
 
-.main-image {
-  width: 300px;
-  height: 200px;
-  border-color: darkgray;
-  border-width: 1px;
-  object-fit: cover;
-  overflow: hidden;
+.card-bg-image {
+  position: absolute;
+  inset: 0;
   background-size: cover;
   background-position: center;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
-.text-box {
-  padding: 16px;
+/* Full-card overlay: subtle vignette top + stronger bottom for text */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,  rgba(0,0,0,0.30) 0%, transparent 40%),
+    linear-gradient(to top,     rgba(0,0,0,0.60) 0%, transparent 55%);
+  z-index: 1;
+  transition: opacity 0.4s ease;
 }
 
-.text-info p,
-h4 {
-  margin: 0;
+/* ---- link wrapper ---- */
+.card-link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 14px;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.4s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.card-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+}
+
+.card-link:hover .card-bg-image {
+  transform: scale(1.04);
+}
+
+.card-link:hover .card-overlay {
+  background:
+    linear-gradient(to bottom,  rgba(0,0,0,0.35) 0%, transparent 40%),
+    linear-gradient(to top,     rgba(0,0,0,0.70) 0%, transparent 55%);
+}
+
+/* ---- inner layout ---- */
+.card-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0.75rem 0.875rem;
+}
+
+/* ---- top row ---- */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* ---- labels (shared base) ---- */
+.card-label {
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  line-height: 1.4;
+}
+
+.label-new {
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.label-soon {
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.90);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.label-top {
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 215, 0, 0.95);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+}
+
+.label-custom {
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(167, 139, 250, 1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* ---- rating pill ---- */
+.card-rating {
+  padding: 0.175rem 0.45rem;
+  border-radius: 5px;
+  font-size: 0.725rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+/* ---- bottom row ---- */
+.card-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
   text-align: left;
-  padding-bottom: 8px;
-  max-width: 80%;
 }
 
-.star-rating {
+.card-title {
+  font-size: 1rem;
+  font-weight: 550;
+  color: #fff;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   margin: 0;
-  padding: 0px;
-  text-align: left;
-  padding-top: 12px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.card-date,
+.card-genre {
+  font-size: 0.675rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ---- links reset ---- */
 a,
 a:hover,
 a:visited,
@@ -44,368 +176,32 @@ a:active {
   text-decoration: none;
 }
 
-.card {
-  position: relative;
-  width: 100%;
-  height: 260px;
-  border-radius: 12px;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
+/* ========================================
+   Responsive
+   ======================================== */
 
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.2) 0%,
-    rgba(0, 0, 0, 0.4) 50%,
-    rgba(0, 0, 0, 0.8) 100%
-  );
-  z-index: 1;
-  transition: all 0.3s ease;
-}
-
-.card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  width: 100%;
-  transition: transform 0.3s ease;
-}
-
-.card-link:hover {
-  transform: translateY(-4px);
-}
-
-.card-link:hover .card::before {
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.3) 0%,
-    rgba(0, 0, 0, 0.5) 50%,
-    rgba(0, 0, 0, 0.9) 100%
-  );
-}
-
-.card-gradient {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 30%,
-    rgba(0, 0, 0, 0.4) 60%,
-    rgba(0, 0, 0, 0.8) 100%
-  );
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1rem;
-  transition: all 0.3s ease;
-  z-index: 2;
-}
-
-.card-link:hover .card-gradient {
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 30%,
-    rgba(0, 0, 0, 0.5) 60%,
-    rgba(0, 0, 0, 0.9) 100%
-  );
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  position: relative;
-  z-index: 3;
-}
-
-.card-content {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  width: 100%;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem;
-  color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  line-height: 1.3;
-  text-align: center;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.card-metadata {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.metadata-tag,
-.genres-tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.375rem;
-  padding: 0.25rem 0.75rem;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(4px);
-  transition: all 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: center;
-  min-width: max-content;
-}
-
-.card-link:hover .metadata-tag,
-.card-link:hover .genres-tag {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-.calendar-icon,
-.genres-icon {
-  opacity: 0.8;
-}
-
-.more-genres {
-  font-size: 0.7rem;
-  opacity: 0.8;
-  margin-left: 0.25rem;
-}
-
-.card-rating {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  color: #FFFFFF;
-}
-
-.rating-star {
-  color: #FFD700;
-  width: 14px;
-  height: 14px;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
-  transition: transform 0.2s ease;
-}
-
-.card-link:hover .rating-star {
-  transform: scale(1.1);
-}
-
-.rating-number {
-  color: #FFFFFF !important;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  margin-left: 0.125rem;
-}
-
-/* Asegurarnos que ningún otro estilo sobrescriba el color */
-.card-rating .rating-number,
-.card-link .rating-number,
-.card .rating-number {
-  color: #FFFFFF !important;
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-}
-
-.game-status {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.8;
-}
-
-.coming-soon {
-  background: #ff6b6b;
-  color: white;
-}
-
-.new {
-  background: #51cf66;
-  color: white;
-}
-
-/* Mejoras para tablets */
 @media (max-width: 1024px) {
-  .card {
-    height: 240px;
-  }
-
-  .card-title {
-    font-size: 1.125rem;
-  }
+  .card { height: 240px; }
+  .card-title { font-size: 0.95rem; }
 }
 
-/* Mejoras para dispositivos medianos */
 @media (max-width: 768px) {
-  .card {
-    height: 220px;
-  }
-
-  .card-gradient {
-    padding: 0.875rem;
-  }
-
-  .card-title {
-    font-size: 1rem;
-    -webkit-line-clamp: 2;
-    margin-bottom: 0.375rem;
-  }
-
-  .metadata-tag,
-  .genres-tag {
-    padding: 0.2rem 0.4rem;
-    font-size: 0.7rem;
-  }
+  .card { height: 220px; }
+  .card-inner { padding: 0.625rem 0.75rem; }
+  .card-title { font-size: 0.9rem; }
+  .card-date, .card-genre { font-size: 0.625rem; }
 }
 
-/* Mejoras para móviles */
 @media (max-width: 480px) {
-  .card {
-    height: 200px;
-  }
-
-  .card-gradient {
-    padding: 0.75rem;
-  }
-
-  .card-header {
-    margin-bottom: auto;
-  }
-
-  .card-title {
-    font-size: 0.9375rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .metadata-tag,
-  .genres-tag {
-    padding: 0.2rem 0.5rem;
-    font-size: 0.6875rem;
-  }
-
-  .card-metadata {
-    gap: 0.375rem;
-  }
-
-  .card-rating,
-  .game-status {
-    padding: 0.2rem 0.375rem;
-  }
-
-  .rating-star {
-    width: 12px;
-    height: 12px;
-  }
-  
-  .rating-number {
-    font-size: 0.75rem;
-  }
+  .card { height: 200px; }
+  .card-inner { padding: 0.5rem 0.625rem; }
+  .card-title { font-size: 0.85rem; }
+  .card-label { font-size: 0.55rem; padding: 0.15rem 0.4rem; }
+  .card-rating { font-size: 0.65rem; padding: 0.15rem 0.375rem; }
 }
 
-/* Optimizaciones para dispositivos muy pequeños */
 @media (max-width: 360px) {
-  .card {
-    height: 180px;
-  }
-
-  .card-gradient {
-    padding: 0.625rem;
-  }
-
-  .card-title {
-    font-size: 0.875rem;
-  }
-
-  .metadata-tag,
-  .genres-tag {
-    padding: 0.15rem 0.4rem;
-    font-size: 0.625rem;
-  }
-
-  .card-metadata {
-    gap: 0.25rem;
-  }
-
-  .rating-star {
-    width: 11px;
-    height: 11px;
-  }
-}
-
-/* Tooltip más delicado */
-[title] {
-  position: relative;
-  cursor: help;
-}
-
-[title]:hover::after {
-  content: attr(title);
-  position: absolute;
-  bottom: 120%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0.375rem 0.625rem;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  white-space: nowrap;
-  z-index: 1000;
-  pointer-events: none;
-  animation: tooltipFadeIn 0.2s ease;
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  .card { height: 180px; }
+  .card-inner { padding: 0.4rem 0.5rem; }
+  .card-title { font-size: 0.8rem; }
 }

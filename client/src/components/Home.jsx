@@ -5,7 +5,6 @@ import FiltersOrders from "./FiltersOrders";
 import Cards from "./Cards";
 import Paginado from "./Paginado";
 import EmptyResults from "./EmptyResults";
-import Loading from "./Loading";
 import RecentGames from "./RecentGames";
 import UpcomingGames from "./UpcomingGames";
 import { getvideogames } from "../Redux/actions";
@@ -28,24 +27,17 @@ export default function Home() {
     }
   }, [dispatch, allVideogames.length, loading, error]);
 
-  const renderLoadingSkeleton = () => {
-    return (
-      <div className="loading-skeleton">
-        {[1, 2, 3, 4].map((n) => (
-          <div key={n} className="skeleton-card">
-            <div className="skeleton-image"></div>
-            <div className="skeleton-content">
-              <div className="skeleton-title"></div>
-              <div className="skeleton-text"></div>
-              <div className="skeleton-rating"></div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
   const renderGameContent = () => {
+    if (loading) {
+      return (
+        <Cards
+          videogames={[]}
+          direction="vertical"
+          loading={true}
+        />
+      );
+    }
+
     if (error) {
       return (
         <div className="error-state">
@@ -58,7 +50,7 @@ export default function Home() {
       );
     }
 
-    if (videogames.length === 0 && !loading) {
+    if (videogames.length === 0) {
       return (
         <EmptyResults 
           isHome={true}
@@ -88,15 +80,6 @@ export default function Home() {
         <FiltersOrders />
         <div className="games-section">
           {renderGameContent()}
-          {loading && (
-            <div className="loader-container">
-              <div className="loader-content">
-                <Loading />
-                <p>Loading the best games for you...</p>
-              </div>
-              {renderLoadingSkeleton()}
-            </div>
-          )}
         </div>
         <div className="featured-sections">
           <RecentGames />  
