@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import NavBar from "./NavBar";
 import Search from "./Search";
 import FiltersOrders from "./FiltersOrders";
+import FilterChips from "./FilterChips";
 import Cards from "./Cards";
 import Paginado from "./Paginado";
 import EmptyResults from "./EmptyResults";
@@ -78,6 +79,7 @@ export default function Home() {
       <main>
         <Search />
         <FiltersOrders />
+        <FilterChips />
         <div className="games-section">
           {renderGameContent()}
         </div>

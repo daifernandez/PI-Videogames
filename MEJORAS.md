@@ -96,6 +96,9 @@ Pendiente — aumentar cobertura en API y añadir tests de componentes clave.
 | 15 Feb 2026 | Card rediseñada: parallax sutil, labels frosted glass, dual gradient overlay |
 | 15 Feb 2026 | UI refinada hacia estética delicada y minimalista |
 | 15 Feb 2026 | Accesibilidad básica en paginación de PlatformGames (`aria-label`, `aria-current`) |
+| 15 Feb 2026 | Filtros rediseñados: barra horizontal con grupos Filter/Sort, chips animados, bottom sheet mobile |
+| 15 Feb 2026 | Componente `FilterChips.jsx`: chips interactivos con iconos, "x" individual, "Clear all" |
+| 15 Feb 2026 | Contador de resultados en tiempo real ("X of Y games") con cálculo preciso |
 
 ---
 

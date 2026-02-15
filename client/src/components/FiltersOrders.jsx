@@ -1,16 +1,15 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   getgenres,
   selectGenre,
   selectPlatform,
-  alphOrder,  
+  alphOrder,
   ratingOrder,
   clear,
   getCreated,
 } from "../Redux/actions";
-import "./Styles/Button.css";
 import "./Styles/FiltersOrders.css";
 
 export default function FiltersOrders() {
@@ -32,9 +31,8 @@ export default function FiltersOrders() {
       state.filterAndSortingState.sorting === "5-1"
     ) {
       return state.filterAndSortingState.sorting;
-    } else {
-      return "-";
     }
+    return "-";
   });
   const alph = useSelector((state) => {
     if (
@@ -42,129 +40,263 @@ export default function FiltersOrders() {
       state.filterAndSortingState.sorting === "Z-A"
     ) {
       return state.filterAndSortingState.sorting;
-    } else {
-      return "-";
     }
+    return "-";
   });
+
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const sheetRef = useRef(null);
+
+  const activeFilterCount = [
+    genre !== "-" ? 1 : 0,
+    platform !== "-" ? 1 : 0,
+    origin !== "all" ? 1 : 0,
+    alph !== "-" ? 1 : 0,
+    rating !== "-" ? 1 : 0,
+  ].reduce((a, b) => a + b, 0);
 
   useEffect(() => {
     dispatch(getgenres());
   }, [dispatch]);
 
-  function handleSelectGenre(e) {
+  // Close mobile sheet on outside click
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleClick = (e) => {
+      if (sheetRef.current && !sheetRef.current.contains(e.target)) {
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [mobileOpen]);
+
+  // Lock body scroll when sheet is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  const handleSelectGenre = useCallback((e) => {
     dispatch(selectGenre(e.target.value));
-  }
-  function handleSelectPlatform(e) {
+  }, [dispatch]);
+
+  const handleSelectPlatform = useCallback((e) => {
     dispatch(selectPlatform(e.target.value));
-  }
-  function handleSelectFrom(e) {
+  }, [dispatch]);
+
+  const handleSelectFrom = useCallback((e) => {
     dispatch(getCreated(e.target.value));
-  }
+  }, [dispatch]);
 
-  function handleSelectOrderAlph(e) {
+  const handleSelectOrderAlph = useCallback((e) => {
     dispatch(alphOrder(e.target.value));
-  }
+  }, [dispatch]);
 
-  function handleSelectRating(e) {
+  const handleSelectRating = useCallback((e) => {
     dispatch(ratingOrder(e.target.value));
-  }
+  }, [dispatch]);
 
-  function handleClearFiltersOrder(e) {
+  const handleClearFiltersOrder = useCallback(() => {
     dispatch(clear());
-  }
+  }, [dispatch]);
 
-  return (
-    <div className="contenedor-filters">
-      <div className="filters-row">
-        <div className="filter">
-          <label>Genre:</label>
-          <select
-            className="dropdown"
-            id="genre"
-            value={genre}
-            onChange={(e) => handleSelectGenre(e)}
-          >
-            <option value="-">-</option>
-            {genres.map((genre) => (
-              <option key={genre.name} value={genre.name}>
-                {genre.name}
-              </option>
-            ))}
-          </select>
-        </div>
+  const filterControls = (
+    <>
+      {/* ── Filter group ── */}
+      <div className="filter-group">
+        <span className="filter-group-label">Filter</span>
+        <div className="filter-group-controls">
+          <div className="filter-item">
+            <label htmlFor="filter-genre">Genre</label>
+            <select
+              className="filter-select"
+              id="filter-genre"
+              value={genre}
+              onChange={handleSelectGenre}
+            >
+              <option value="-">All</option>
+              {genres.map((g) => (
+                <option key={g.name} value={g.name}>
+                  {g.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className="filter">
-          <label>Platform:</label>
-          <select
-            className="dropdown"
-            id="platform"
-            value={platform}
-            onChange={(e) => handleSelectPlatform(e)}
-          >
-            <option value="-">-</option>
-            {platforms.map((platform) => (
-              <option key={platform} value={platform}>
-                {platform}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="filter-item">
+            <label htmlFor="filter-platform">Platform</label>
+            <select
+              className="filter-select"
+              id="filter-platform"
+              value={platform}
+              onChange={handleSelectPlatform}
+            >
+              <option value="-">All</option>
+              {platforms.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className="filter">
-          <span className="material-symbols-rounded filter-icon">folder_open</span>
-          <select
-            className="dropdown"
-            name="dropdown"
-            id="comesFrom"
-            value={origin}
-            onChange={(e) => handleSelectFrom(e)}
-          >
-            <option value="all">All Videogames</option>
-            <option value="DB">Videogames Created</option>
-            <option value="API">Existing Videogames</option>
-          </select>
-        </div>
-
-        <div className="filter">
-          <span className="material-symbols-outlined filter-icon">sort_by_alpha</span>
-          <select
-            className="dropdown"
-            id="alphabOrder"
-            value={alph}
-            onChange={(e) => handleSelectOrderAlph(e)}
-          >
-            <option value="-">-</option>
-            <option value="A-Z">A-Z</option>
-            <option value="Z-A">Z-A</option>
-          </select>
-        </div>
-
-        <div className="filter">
-          <span className="material-symbols-rounded filter-icon">hotel_class</span>
-          <select
-            className="dropdown"
-            id="healthScoreOrder"
-            value={rating}
-            onChange={(e) => handleSelectRating(e)}
-          >
-            <option value="-">-</option>
-            <option value="5-1">Higher</option>
-            <option value="1-5">Lower</option>
-          </select>
+          <div className="filter-item">
+            <label htmlFor="filter-origin">Source</label>
+            <select
+              className="filter-select"
+              id="filter-origin"
+              value={origin}
+              onChange={handleSelectFrom}
+            >
+              <option value="all">All</option>
+              <option value="DB">Created</option>
+              <option value="API">Existing</option>
+            </select>
+          </div>
         </div>
       </div>
 
+      {/* ── Sort group ── */}
+      <div className="filter-group">
+        <span className="filter-group-label">Sort</span>
+        <div className="filter-group-controls">
+          <div className="filter-item">
+            <label htmlFor="filter-alpha">Name</label>
+            <select
+              className="filter-select"
+              id="filter-alpha"
+              value={alph}
+              onChange={handleSelectOrderAlph}
+            >
+              <option value="-">Default</option>
+              <option value="A-Z">A — Z</option>
+              <option value="Z-A">Z — A</option>
+            </select>
+          </div>
+
+          <div className="filter-item">
+            <label htmlFor="filter-rating">Rating</label>
+            <select
+              className="filter-select"
+              id="filter-rating"
+              value={rating}
+              onChange={handleSelectRating}
+            >
+              <option value="-">Default</option>
+              <option value="5-1">Highest first</option>
+              <option value="1-5">Lowest first</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
+  return (
+    <>
+      {/* ══════════ Desktop filters ══════════ */}
+      <div className="filters-bar" role="search" aria-label="Game filters">
+        <div className="filters-bar-inner">
+          {filterControls}
+
+          {activeFilterCount > 0 && (
+            <motion.button
+              className="clear-filters-btn"
+              onClick={handleClearFiltersOrder}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              aria-label="Clear all filters"
+            >
+              <span className="material-symbols-rounded">filter_list_off</span>
+              Clear
+            </motion.button>
+          )}
+        </div>
+      </div>
+
+      {/* ══════════ Mobile floating button ══════════ */}
       <button
-        className="custom-button"
-        onClick={(e) => {
-          handleClearFiltersOrder(e);
-        }}
+        className="mobile-filter-fab"
+        onClick={() => setMobileOpen(true)}
+        aria-label={`Open filters${activeFilterCount > 0 ? `, ${activeFilterCount} active` : ""}`}
       >
-        <span>
-          <span className="material-symbols-rounded">filter_list_off</span>
-          Clear Filters
-        </span>
+        <span className="material-symbols-rounded">tune</span>
+        Filters
+        {activeFilterCount > 0 && (
+          <span className="filter-badge">{activeFilterCount}</span>
+        )}
       </button>
-    </div>
+
+      {/* ══════════ Mobile bottom sheet ══════════ */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            <motion.div
+              className="sheet-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.div
+              className="sheet"
+              ref={sheetRef}
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 300 }}
+              role="dialog"
+              aria-label="Filters"
+            >
+              <div className="sheet-handle" />
+              <div className="sheet-header">
+                <h3>Filters & Sort</h3>
+                <button
+                  className="sheet-close"
+                  onClick={() => setMobileOpen(false)}
+                  aria-label="Close filters"
+                >
+                  <span className="material-symbols-rounded">close</span>
+                </button>
+              </div>
+
+              <div className="sheet-body">
+                {filterControls}
+              </div>
+
+              <div className="sheet-footer">
+                {activeFilterCount > 0 && (
+                  <button
+                    className="sheet-clear-btn"
+                    onClick={() => {
+                      handleClearFiltersOrder();
+                    }}
+                  >
+                    Clear all
+                  </button>
+                )}
+                <button
+                  className="sheet-apply-btn"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Show results
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
