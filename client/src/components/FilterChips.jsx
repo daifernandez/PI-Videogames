@@ -22,9 +22,20 @@ export default function FilterChips() {
   const allVideogames = useSelector((state) => state.videogames || []);
   const loading = useSelector((state) => state.loading);
 
+  const searchQuery = useSelector((state) => state.searchQuery);
+
   // Build active chips
   const chips = useMemo(() => {
     const result = [];
+
+    if (searchQuery) {
+      result.push({
+        id: "search",
+        label: `"${searchQuery}"`,
+        icon: "search",
+        onRemove: () => dispatch(clear()),
+      });
+    }
 
     if (filterState.genre) {
       result.push({
@@ -63,10 +74,11 @@ export default function FilterChips() {
     }
 
     return result;
-  }, [filterState, dispatch]);
+  }, [filterState, searchQuery, dispatch]);
 
   // Compute accurate filtered count by re-filtering
   const hasFilters = chips.length > 0;
+  const hasSearch = !!searchQuery;
   const totalGames = allVideogames.length;
 
   const totalFiltered = useMemo(() => {
@@ -81,7 +93,7 @@ export default function FilterChips() {
     return filtered.length;
   }, [allVideogames, filterState, hasFilters, totalGames]);
 
-  if (!hasFilters && !loading) return null;
+  if (!hasFilters && !hasSearch && !loading) return null;
   if (loading) return null;
 
   return (

@@ -12,6 +12,7 @@ import {
   ERROR_VIDEOGAME_BY_NAME,
   CLEAR,
   GO_TO_PAGE,
+  SET_STATE_FROM_URL,
   GET_UPCOMING_GAMES,
   LOADING_UPCOMING_GAMES,
   FINISH_LOADING_UPCOMING_GAMES,
@@ -90,6 +91,7 @@ const initialState = {
   loading: false,
   error: null,
   searchError: null,
+  searchQuery: null,
   upcomingGames: [],
   loadingUpcoming: false,
   errorUpcoming: null,
@@ -157,22 +159,30 @@ function rootReducer(state = initialState, action) {
         ...state,
         genres: action.payload,
       };
-    case GET_VIDEOGAME_BY_NAME:
+    case GET_VIDEOGAME_BY_NAME: {
+      const data = action.payload?.data ?? action.payload;
+      const searchQuery = action.payload?.searchQuery ?? null;
       return {
         ...state,
-        videogamesOnScreen: action.payload,
+        videogamesOnScreen: Array.isArray(data) ? data : [],
         currentPage: 0,
-        numberOfPages: Math.ceil((action.payload?.length || 0) / VIDEO_GAMES_PER_PAGE) || 1,
+        numberOfPages: Math.ceil((data?.length || 0) / VIDEO_GAMES_PER_PAGE) || 1,
         searchError: null,
+        searchQuery,
       };
-    case ERROR_VIDEOGAME_BY_NAME:
+    }
+    case ERROR_VIDEOGAME_BY_NAME: {
+      const errorMsg = typeof action.payload === "string" ? action.payload : action.payload?.error;
+      const searchQuery = action.payload?.searchQuery ?? state.searchQuery;
       return {
         ...state,
         videogamesOnScreen: [],
         currentPage: 0,
         numberOfPages: 0,
-        searchError: action.payload,
+        searchError: errorMsg,
+        searchQuery,
       };
+    }
     case SELECT_GENRE: {
       const newFilterStateGenre = {
         ...state.filterAndSortingState,
@@ -272,7 +282,29 @@ function rootReducer(state = initialState, action) {
         numberOfPages: pagesCount(filteredVideogamesClear),
         filterAndSortingState: newFilterState,
         searchError: null,
+        searchQuery: null,
       };
+    case SET_STATE_FROM_URL: {
+      const { genre, platform, sort, page } = action.payload || {};
+      const newFilterStateUrl = {
+        genre: genre && genre !== "-" ? genre : null,
+        platform: platform && platform !== "-" ? platform : null,
+        sorting: sort && sort !== "-" ? sort : null,
+      };
+      const filteredFromUrl = videogamesForFilter(state.videogames, newFilterStateUrl);
+      const pageCount = pagesCount(filteredFromUrl);
+      const safePage = Math.min(Math.max(0, parseInt(page, 10) || 0), Math.max(0, pageCount - 1));
+      const paginationFromUrl = videogamesForPage(filteredFromUrl, safePage);
+      return {
+        ...state,
+        videogamesOnScreen: paginationFromUrl,
+        filterAndSortingState: newFilterStateUrl,
+        currentPage: safePage,
+        numberOfPages: pageCount,
+        searchError: null,
+        searchQuery: null,
+      };
+    }
     case GO_TO_PAGE:
       const page = action.payload;
       const filteredVideogamesGoToPage = videogamesForFilter(

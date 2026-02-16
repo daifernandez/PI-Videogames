@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import NavBar from "./NavBar";
 import Search from "./Search";
 import FiltersOrders from "./FiltersOrders";
@@ -10,12 +11,28 @@ import RecentGames from "./RecentGames";
 import UpcomingGames from "./UpcomingGames";
 import { getvideogames } from "../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { useUrlState } from "../hooks/useUrlState";
 import "./Styles/Home.css";
 import "./Styles/Paginado.css";
 import Footer from "./Footer";
 
 export default function Home() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  useUrlState();
+
+  // Restaurar scroll al volver del detalle (A.4)
+  useEffect(() => {
+    const stored = sessionStorage.getItem("homeScrollY");
+    if (stored) {
+      sessionStorage.removeItem("homeScrollY");
+      const scrollY = parseInt(stored, 10);
+      if (!Number.isNaN(scrollY) && scrollY > 0) {
+        requestAnimationFrame(() => window.scrollTo(0, scrollY));
+      }
+    }
+  }, [location.key]);
   const videogames = useSelector((state) => state.videogamesOnScreen || []);
   const allVideogames = useSelector((state) => state.videogames || []);
   const loading = useSelector((state) => state.loading);
@@ -23,10 +40,12 @@ export default function Home() {
   const searchError = useSelector((state) => state.searchError);
 
   useEffect(() => {
+    // No cargar lista completa si hay búsqueda en URL (evita sobrescribir resultados)
+    if (searchParams.get("search")) return;
     if (allVideogames.length === 0 && !loading && !error) {
       dispatch(getvideogames());
     }
-  }, [dispatch, allVideogames.length, loading, error]);
+  }, [dispatch, allVideogames.length, loading, error, searchParams]);
 
   const renderGameContent = () => {
     if (loading) {

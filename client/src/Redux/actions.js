@@ -24,6 +24,7 @@ export const GET_RECENT_GAMES = "GET_RECENT_GAMES";
 export const LOADING_RECENT_GAMES = "LOADING_RECENT_GAMES";
 export const FINISH_LOADING_RECENT_GAMES = "FINISH_LOADING_RECENT_GAMES";
 export const ERROR_RECENT_GAMES = "ERROR_RECENT_GAMES";
+export const SET_STATE_FROM_URL = "SET_STATE_FROM_URL";
 
 export function getvideogames() {
   return async function (dispatch) {
@@ -105,11 +106,14 @@ export function getVideogameByName(name) {
       if (!response.data || response.data.length === 0) {
         dispatch({
           type: ERROR_VIDEOGAME_BY_NAME,
-          payload: "No se encontraron videojuegos con ese nombre",
+          payload: {
+            error: "No se encontraron videojuegos con ese nombre",
+            searchQuery: name,
+          },
         });
         return;
       }
-      dispatch({ type: GET_VIDEOGAME_BY_NAME, payload: response.data });
+      dispatch({ type: GET_VIDEOGAME_BY_NAME, payload: { data: response.data, searchQuery: name } });
     } catch (error) {
       console.error("Error en get videogame by name:", {
         mensaje: error.message,
@@ -122,7 +126,7 @@ export function getVideogameByName(name) {
       } else if (error.response?.data?.error) {
         errorMessage = error.response.data.error;
       }
-      dispatch({ type: ERROR_VIDEOGAME_BY_NAME, payload: errorMessage });
+      dispatch({ type: ERROR_VIDEOGAME_BY_NAME, payload: { error: errorMessage, searchQuery: name } });
     }
   };
 }
@@ -160,6 +164,13 @@ export function clear() {
 export function goToPage(page) {
   return function (dispatch) {
     dispatch({ type: GO_TO_PAGE, payload: page });
+  };
+}
+
+/** Aplica filtros, orden y página desde la URL (para sincronización bidireccional) */
+export function setStateFromUrl(params) {
+  return function (dispatch) {
+    dispatch({ type: SET_STATE_FROM_URL, payload: params });
   };
 }
 

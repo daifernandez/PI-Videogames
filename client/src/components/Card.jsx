@@ -1,11 +1,23 @@
 import React, { useRef, useCallback } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Styles/Card.css";
 import banner from "../img/banner.jpg";
 
 export default function Card({ videogame }) {
+  const navigate = useNavigate();
   const cardRef = useRef(null);
   const imageRef = useRef(null);
+
+  const handleClick = useCallback(
+    (e) => {
+      e.preventDefault();
+      sessionStorage.setItem("homeScrollY", String(window.scrollY));
+      navigate(`/videogame/${videogame.id}`, {
+        state: { fromHome: true },
+      });
+    },
+    [navigate, videogame.id]
+  );
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short' };
@@ -42,10 +54,11 @@ export default function Card({ videogame }) {
   }, []);
 
   return (
-    <NavLink
-      to={`/videogame/${videogame.id}`}
+    <a
+      href={`/videogame/${videogame.id}`}
       className="card-link"
       aria-label={`${videogame.name} — Rating ${rating}`}
+      onClick={handleClick}
     >
       <article
         className="card"
@@ -86,6 +99,6 @@ export default function Card({ videogame }) {
           </div>
         </div>
       </article>
-    </NavLink>
+    </a>
   );
 }

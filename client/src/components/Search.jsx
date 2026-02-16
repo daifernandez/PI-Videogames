@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AnimatePresence } from "framer-motion";
-import { getVideogameByName } from "../Redux/actions";
+import { getVideogameByName, clear, getvideogames } from "../Redux/actions";
 import useSearchHistory from "../hooks/useSearchHistory";
 import SearchSuggestions from "./SearchSuggestions";
 import "./Styles/Search.css";
@@ -14,8 +14,9 @@ export default function Search() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allVideogames = useSelector((state) => state.videogames || []);
+  const searchQuery = useSelector((state) => state.searchQuery);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(searchQuery || "");
   const [isFocused, setIsFocused] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -26,6 +27,12 @@ export default function Search() {
   const debounceTimer = useRef(null);
 
   const { history, addSearch, removeSearch, clearHistory } = useSearchHistory();
+
+  // Sincronizar input con searchQuery de Redux (ej. al cargar desde URL)
+  useEffect(() => {
+    if (searchQuery) setSearch(searchQuery);
+    else setSearch("");
+  }, [searchQuery]);
 
   // Debounce the search query
   useEffect(() => {
@@ -229,13 +236,15 @@ export default function Search() {
               autoComplete="off"
               spellCheck="false"
             />
-            {search && (
+            {(search || searchQuery) && (
               <button
                 type="button"
                 className="search-clear-btn"
                 onClick={() => {
                   setSearch("");
                   setActiveIndex(-1);
+                  dispatch(clear());
+                  if (allVideogames.length === 0) dispatch(getvideogames());
                   inputRef.current?.focus();
                 }}
                 aria-label="Clear search"
