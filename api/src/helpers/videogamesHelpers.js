@@ -122,13 +122,13 @@ const get_videogame_api = async () => {
 };
 
 const api_videogameParse = (apiObject) => {
-  const platformNames = apiObject.platforms.map((element) => {
-    return element.platform.name;
-  });
+  const platformNames = apiObject.platforms
+    ? apiObject.platforms.map((element) => element.platform.name)
+    : [];
 
-  const genresApi = apiObject.genres.map((el) => {
-    return el.name;
-  });
+  const genresApi = apiObject.genres
+    ? apiObject.genres.map((el) => el.name)
+    : [];
 
   const publishers = apiObject.publishers?.map(pub => pub.name) || [];
   const developers = apiObject.developers?.map(dev => dev.name) || [];
@@ -519,7 +519,7 @@ const get_recent_games_api = async () => {
           key: process.env.API_KEY,
           dates: `${formattedThreeMonthsAgo},${formattedCurrentDate}`,
           ordering: '-released',
-          page_size: 12
+          page_size: 20
         }
       }
     );
@@ -528,7 +528,16 @@ const get_recent_games_api = async () => {
       throw new Error("Formato de respuesta inválido de la API de RAWG");
     }
 
-    const recentGames = response.data.results.map(game => api_videogameParse(game));
+    const recentGames = response.data.results
+      .map(game => {
+        try {
+          return api_videogameParse(game);
+        } catch (parseError) {
+          console.error("Error al parsear juego reciente:", parseError);
+          return null;
+        }
+      })
+      .filter(game => game !== null && game.platforms.length > 0 && game.image);
     return recentGames;
 
   } catch (error) {

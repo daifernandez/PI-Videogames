@@ -105,8 +105,8 @@ const RecentGames = () => {
 
     const handleScroll = (direction) => {
         if (scrollContainerRef.current) {
-            const cardWidth = 220;
-            const gap = 16;
+            const cardWidth = 230;
+            const gap = 14;
             const scrollAmount = direction === 'left' ? -(cardWidth + gap) * 2 : (cardWidth + gap) * 2;
             scrollContainerRef.current.scrollBy({
                 left: scrollAmount,
@@ -184,7 +184,7 @@ const RecentGames = () => {
                         </div>
                         <div className="loading-skeleton">
                             {[1, 2, 3, 4, 5].map((i) => (
-                                <div key={i} className={`skeleton-card-v2 ${i === 1 ? 'skeleton-featured' : ''}`}>
+                                <div key={i} className="skeleton-card-v2">
                                     <div className="skeleton-image-v2"></div>
                                     <div className="skeleton-content-v2">
                                         <div className="skeleton-badge"></div>
@@ -314,7 +314,7 @@ const RecentGames = () => {
                                 <Link 
                                     to={`/videogame/${game.id}`} 
                                     key={game.id} 
-                                    className={`game-card-v2 ${index === 0 ? 'game-card-v2--featured' : ''}`}
+                                    className="game-card-v2"
                                     style={{ animationDelay: `${index * 0.06}s` }}
                                     onClick={(e) => { if (isDragging) e.preventDefault(); }}
                                     draggable={false}
@@ -352,42 +352,42 @@ const RecentGames = () => {
                                         <div className="card-hover-overlay">
                                             <span className="view-details-btn">View details</span>
                                         </div>
-                                    </div>
-                                    
-                                    <div className="card-body">
-                                        <h3 className="card-title">{game.name}</h3>
-                                        
-                                        <div className={`date-badge ${getDateBadgeClass(game.released)}`}>
-                                            <FaCalendarAlt className="date-badge-icon" />
-                                            <span>{formatDate(game.released)}</span>
+
+                                        <div className="card-body">
+                                            <h3 className="card-title">{game.name}</h3>
+                                            
+                                            <div className={`date-badge ${getDateBadgeClass(game.released)}`}>
+                                                <FaCalendarAlt className="date-badge-icon" />
+                                                <span>{formatDate(game.released)}</span>
+                                            </div>
+                                            
+                                            {game.genres && game.genres.length > 0 && (
+                                                <div className="card-genres">
+                                                    {game.genres.slice(0, 2).map((genre, idx) => (
+                                                        <span key={idx} className="genre-chip">
+                                                            {genre}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            
+                                            {game.platforms && game.platforms.length > 0 && (
+                                                <div className="card-platforms">
+                                                    {game.platforms.slice(0, 4).map((platform, idx) => (
+                                                        <span key={idx} className="platform-chip" title={platform}>
+                                                            <FontAwesomeIcon 
+                                                                icon={platformIcons[platform] || platformIcons['Default']} 
+                                                            />
+                                                        </span>
+                                                    ))}
+                                                    {game.platforms.length > 4 && (
+                                                        <span className="platform-chip platform-chip--more" title={`${game.platforms.length - 4} more`}>
+                                                            +{game.platforms.length - 4}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
-                                        
-                                        {game.genres && game.genres.length > 0 && (
-                                            <div className="card-genres">
-                                                {game.genres.slice(0, 2).map((genre, idx) => (
-                                                    <span key={idx} className="genre-chip">
-                                                        {genre}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        )}
-                                        
-                                        {game.platforms && game.platforms.length > 0 && (
-                                            <div className="card-platforms">
-                                                {game.platforms.slice(0, 4).map((platform, idx) => (
-                                                    <span key={idx} className="platform-chip" title={platform}>
-                                                        <FontAwesomeIcon 
-                                                            icon={platformIcons[platform] || platformIcons['Default']} 
-                                                        />
-                                                    </span>
-                                                ))}
-                                                {game.platforms.length > 4 && (
-                                                    <span className="platform-chip platform-chip--more" title={`${game.platforms.length - 4} more`}>
-                                                        +{game.platforms.length - 4}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        )}
                                     </div>
                                 </Link>
                             ))}
