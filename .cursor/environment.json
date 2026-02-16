@@ -1,5 +1,9 @@
 {
   "agentCanUpdateSnapshot": true,
-  "start": "npm start",
-  "install": "npm install && npm install -g agent-browser && agent-browser install --with-deps"
+  "install": "cd client && npm install && cd ../api && npm install && cd .. && npm install -g agent-browser && agent-browser install --with-deps",
+  "start": "echo 'Environment ready - use terminals for client/api'",
+  "terminals": [
+    { "name": "api", "command": "cd api && npm start", "ports": [3001] },
+    { "name": "client", "command": "cd client && npm start", "ports": [3000] }
+  ]
 }
