@@ -48,9 +48,6 @@ export default function Footer() {
             <NavLink to="/home" onClick={handleHomeClick} className="footer-nav-link">
               Home
             </NavLink>
-            <NavLink to="/createVideogame" className="footer-nav-link">
-              Create Videogame
-            </NavLink>
           </nav>
         </div>
 

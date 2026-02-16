@@ -62,12 +62,6 @@ const features = [
     desc: "Explore screenshots, trailers, ratings and discover similar titles.",
     gradient: "ln-grad-purple",
   },
-  {
-    icon: "add_circle",
-    title: "Create Games",
-    desc: "Add your own games to the catalog with custom details and media.",
-    gradient: "ln-grad-pink",
-  },
 ];
 
 function FloatingOrb({ className }) {
@@ -145,7 +139,7 @@ export default function Landing() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
             >
-              Discover, explore, and create.
+              Discover and explore.
               <br />
               Your ultimate gaming catalog.
             </motion.p>
@@ -173,12 +167,6 @@ export default function Landing() {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </Link>
-              <Link to="/createVideogame" className="ln-btn ln-btn--ghost">
-                <span className="material-symbols-rounded" aria-hidden="true">
-                  add_circle
-                </span>
-                Create Game
               </Link>
             </motion.div>
 
@@ -267,10 +255,8 @@ export default function Landing() {
             Get Started
           </span>
           <h2 className="ln-cta-title">Ready to play?</h2>
-          <p className="ln-cta-desc">
-            Browse 500+ games, filter by genre and platform,
-            <br />
-            or create your own catalog entries.
+            <p className="ln-cta-desc">
+            Browse 500+ games and filter by genre and platform.
           </p>
           <div className="ln-cta-actions">
             <Link to="/home" className="ln-btn ln-btn--primary ln-btn--lg">

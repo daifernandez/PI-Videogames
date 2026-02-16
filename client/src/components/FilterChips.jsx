@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   selectGenre,
   selectPlatform,
-  getCreated,
   alphOrder,
   ratingOrder,
   clear,
@@ -45,15 +44,6 @@ export default function FilterChips() {
       });
     }
 
-    if (filterState.origin) {
-      result.push({
-        id: "origin",
-        label: filterState.origin === "DB" ? "Created" : "Existing",
-        icon: "folder_open",
-        onRemove: () => dispatch(getCreated("all")),
-      });
-    }
-
     if (filterState.sorting === "A-Z" || filterState.sorting === "Z-A") {
       result.push({
         id: "alpha",
@@ -87,11 +77,6 @@ export default function FilterChips() {
     }
     if (filterState.platform) {
       filtered = filtered.filter((v) => v.platforms.includes(filterState.platform));
-    }
-    if (filterState.origin === "API") {
-      filtered = filtered.filter((v) => !v.createdInDB);
-    } else if (filterState.origin === "DB") {
-      filtered = filtered.filter((v) => v.createdInDB);
     }
     return filtered.length;
   }, [allVideogames, filterState, hasFilters, totalGames]);

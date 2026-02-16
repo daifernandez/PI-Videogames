@@ -421,18 +421,6 @@ const get_videogame_detail = async (id) => {
   }
 };
 
-const delete_videogameDB = async (id) => {
-  const videogameToDelete = await Videogame.findByPk(id);
-  if (videogameToDelete) {
-    await videogameToDelete.destroy().catch(function (error) {
-      throw new Error(error.message);
-    });
-    return videogameToDelete;
-  } else {
-    throw new Error("Videogame not found");
-  }
-};
-
 const get_upcoming_games_api = async () => {
   if (!process.env.API_KEY) {
     throw new Error("API_KEY no configurada");
@@ -555,7 +543,6 @@ module.exports = {
   get_allVideogames,
   get_videogame_byName,
   get_videogame_detail,
-  delete_videogameDB,
   get_upcoming_games_api,
   get_recent_games_api
 };

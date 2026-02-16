@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { createSelector } from "reselect";
-import { deleteVideogameDB, getvideogames } from "../Redux/actions";
+import { getvideogames } from "../Redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { platformIcons } from "../utils/platformIcons";
 import NavBar from "./NavBar";
@@ -13,7 +13,6 @@ import RatingCircle from "./RatingCircle";
 import Breadcrumbs from "./Breadcrumbs";
 import MediaGallery from "./MediaGallery";
 import SimilarGames from "./SimilarGames";
-import DeleteModal from "./DeleteModal";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
 
@@ -74,7 +73,6 @@ export default function VideogameDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("about");
   const [mediaType, setMediaType] = useState("screenshots");
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [heroOffset, setHeroOffset] = useState(0);
 
   const heroRef = useRef(null);
@@ -110,11 +108,6 @@ export default function VideogameDetail() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
-
-  const handleDelete = () => {
-    dispatch(deleteVideogameDB(id));
-    navigate("/home");
-  };
 
   const handlePlatformClick = (platform) => {
     navigate(`/platform/${encodeURIComponent(platform)}`);
@@ -245,16 +238,6 @@ export default function VideogameDetail() {
                 <span className="material-symbols-rounded">open_in_new</span>
                 Website
               </a>
-            )}
-
-            {game.createdInDB && (
-              <button
-                className="vd-hero__delete"
-                onClick={() => setShowDeleteModal(true)}
-                aria-label="Delete game"
-              >
-                <span className="material-symbols-rounded">delete_outline</span>
-              </button>
             )}
           </div>
         </motion.div>
@@ -425,12 +408,6 @@ export default function VideogameDetail() {
         </motion.div>
       </div>
 
-      <DeleteModal
-        isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-        onDelete={handleDelete}
-        itemName={game.name}
-      />
     </div>
   );
 }

@@ -62,15 +62,6 @@ export default function NavBar() {
           <Tooltip text={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"} position="bottom">
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
           </Tooltip>
-          <NavLink
-            to="/createVideogame"
-            className="nav-link create-button"
-            aria-label="Create a new videogame"
-          >
-            <span className="material-symbols-rounded create-button-icon" aria-hidden="true">add_to_photos</span>
-            <span className="button-text-large">Add Videogame</span>
-            <span className="button-text-small" aria-hidden="true">Add</span>
-          </NavLink>
         </div>
       </div>
     </nav>

@@ -8,13 +8,10 @@ import {
   SELECT_GENRE,
   SELECT_PLATFORM,
   RATING_ORDER,
-  GET_CREATED,
   GET_VIDEOGAME_BY_NAME,
   ERROR_VIDEOGAME_BY_NAME,
   CLEAR,
-  POST_VIDEOGAME,
   GO_TO_PAGE,
-  DELETE_DB_VIDEOGAME,
   GET_UPCOMING_GAMES,
   LOADING_UPCOMING_GAMES,
   FINISH_LOADING_UPCOMING_GAMES,
@@ -42,21 +39,6 @@ function videogamesForFilter(videogames, filterAndSortingState) {
       }
     }
 
-    if (filterAndSortingState.origin) {
-      switch (filterAndSortingState.origin) {
-        case "API":
-          if (videogame.createdInDB) {
-            return false;
-          }
-          break;
-        case "DB":
-          if (!videogame.createdInDB) {
-            return false;
-          }
-          break;
-        default:
-      }
-    }
     return true;
   });
 
@@ -101,7 +83,6 @@ const initialState = {
   filterAndSortingState: {
     genre: null,
     platform: null,
-    origin: null,
     sorting: null,
   },
   currentPage: 0,
@@ -192,24 +173,6 @@ function rootReducer(state = initialState, action) {
         numberOfPages: 0,
         searchError: action.payload,
       };
-    case DELETE_DB_VIDEOGAME:
-      const updatedVideogames = [...state.videogames].filter(
-        (videogame) => videogame.id !== action.payload.id
-      );
-      const filteredVideogamesDeleteDB = videogamesForFilter(
-        updatedVideogames,
-        state.filterAndSortingState
-      );
-      const videogamesForPageDeleteDB = videogamesForPage(
-        filteredVideogamesDeleteDB,
-        state.currentPage
-      );
-      return {
-        ...state,
-        videogames: updatedVideogames,
-        videogamesOnScreen: videogamesForPageDeleteDB,
-        numberOfPages: pagesCount(filteredVideogamesDeleteDB),
-      };
     case SELECT_GENRE: {
       const newFilterStateGenre = {
         ...state.filterAndSortingState,
@@ -253,32 +216,6 @@ function rootReducer(state = initialState, action) {
       };
     }
 
-    case POST_VIDEOGAME:
-      var updatedAllVideogames = [...state.videogames];
-      updatedAllVideogames.push(action.payload);
-      return {
-        ...state,
-        videogames: [...updatedAllVideogames],
-      };
-    case GET_CREATED: {
-      const newFilterStateCreated = {
-        ...state.filterAndSortingState,
-        origin: action.payload === "all" ? null : action.payload,
-      };
-      const filteredVideogamesCreated = videogamesForFilter(
-        state.videogames,
-        newFilterStateCreated
-      );
-      const paginationCreated = videogamesForPage(filteredVideogamesCreated, 0);
-      return {
-        ...state,
-        videogamesOnScreen: paginationCreated,
-        filterAndSortingState: newFilterStateCreated,
-        currentPage: 0,
-        numberOfPages: pagesCount(filteredVideogamesCreated),
-      };
-    }
-
     case ALPH_ORDER: {
       const newFilterStateAlph = {
         ...state.filterAndSortingState,
@@ -317,7 +254,6 @@ function rootReducer(state = initialState, action) {
       const newFilterState = {
         genre: null,
         platform: null,
-        origin: null,
         sorting: null,
       };
       const currentPage = 0;
