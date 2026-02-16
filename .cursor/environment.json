@@ -1,0 +1,5 @@
+{
+  "agentCanUpdateSnapshot": true,
+  "start": "npm start",
+  "install": "npm install && npm install -g agent-browser && agent-browser install --with-deps"
+}

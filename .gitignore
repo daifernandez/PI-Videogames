@@ -114,5 +114,6 @@ package-lock.json
 # Client build output
 client/build/
 
-# Plan de mejoras UI (personal)
+# Planes de mejoras (personal)
 UI_IMPROVEMENT_PLAN.md
+UX_IMPROVEMENT_PLAN.md
