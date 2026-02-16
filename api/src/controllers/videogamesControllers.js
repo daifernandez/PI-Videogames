@@ -1,4 +1,3 @@
-const { Videogame, Genre } = require("../db");
 const {
   get_allVideogames,
   get_videogame_byName,
@@ -51,68 +50,6 @@ const get_videogames = async (req, res) => {
       error: "Error interno del servidor al obtener los videojuegos",
       details: error.message 
     });
-  }
-};
-
-const create_videogame = async (req, res) => {
-  const { 
-    name, 
-    image,
-    images,
-    video, 
-    description, 
-    released, 
-    rating, 
-    platforms, 
-    genres,
-    website,
-    trailers,
-    screenshots,
-    esrb_rating,
-    publishers,
-    developers
-  } = req.body;
-
-  try {
-    // Creo el video juego con las propiedades pero sin relacion a generos.
-    const videogame = await Videogame.create({
-      name,
-      image,
-      images,
-      video,
-      description,
-      released: released === "" ? null : released,
-      rating,
-      platforms,
-      website,
-      trailers,
-      screenshots,
-      esrb_rating,
-      publishers,
-      developers,
-      createdInDB: true,
-    });
-
-    // Busco los generos en la base de datos a partir de los nombres de los generos pasados por body.
-    const genresDb = await Genre.findAll({ where: { name: genres } });
-    // Creamos la relacion entre videogame y generos en la base de datos.
-    await videogame.addGenres(genresDb);
-
-    // Traemos el videojuego CON relaciones de la base de datos para devolverlo.
-    const videogameWithRelation = await Videogame.findByPk(videogame.id, {
-      include: {
-        model: Genre,
-        attributes: ["name"],
-        through: { attributes: [] },
-      },
-    });
-
-    res.status(200).send({
-      ...videogameWithRelation.dataValues,
-      genres: videogameWithRelation.genres.map((genres) => genres.name),
-    });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
   }
 };
 
@@ -345,7 +282,6 @@ const get_recent_games = async (req, res) => {
 
 module.exports = {
   get_videogames,
-  create_videogame,
   get_media,
   get_upcoming_games,
   get_recent_games,

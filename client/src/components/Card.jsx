@@ -18,7 +18,6 @@ export default function Card({ videogame }) {
     const monthAgo = new Date();
     monthAgo.setMonth(monthAgo.getMonth() - 1);
 
-    if (videogame.createdInDB) return { class: 'label-custom', text: 'Custom' };
     if (releaseDate > now) return { class: 'label-soon', text: 'Soon' };
     if (releaseDate > monthAgo) return { class: 'label-new', text: 'New' };
     if (parseFloat(videogame.rating) >= 4.5) return { class: 'label-top', text: 'Top rated' };

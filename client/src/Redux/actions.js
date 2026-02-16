@@ -10,15 +10,12 @@ export const ERROR_VIDEOGAMES = "ERROR_VIDEOGAMES";
 export const GET_GENRES = "GET_GENRES";
 export const GET_VIDEOGAME_BY_NAME = "GET_VIDEOGAME_BY_NAME";
 export const ERROR_VIDEOGAME_BY_NAME = "ERROR_VIDEOGAME_BY_NAME";
-export const POST_VIDEOGAME = "POST_VIDEOGAME";
 export const SELECT_GENRE = "SELECT_GENRE";
 export const SELECT_PLATFORM = "SELECT_PLATFORM";
-export const GET_CREATED = "GET_CREATED";
 export const ALPH_ORDER = "ALPH_ORDER";
 export const RATING_ORDER = "RATING_ORDER";
 export const CLEAR = "CLEAR";
 export const GO_TO_PAGE = "GO_TO_PAGE";
-export const DELETE_DB_VIDEOGAME = "DELETE_DB_VIDEOGAME";
 export const GET_UPCOMING_GAMES = "GET_UPCOMING_GAMES";
 export const LOADING_UPCOMING_GAMES = "LOADING_UPCOMING_GAMES";
 export const FINISH_LOADING_UPCOMING_GAMES = "FINISH_LOADING_UPCOMING_GAMES";
@@ -130,22 +127,6 @@ export function getVideogameByName(name) {
   };
 }
 
-export function postVideogame(videogame, callback) {
-  return async function (dispatch) {
-    try {
-      const response = await axios.post(`${apiUrl}/videogames`, videogame);
-      dispatch({ type: POST_VIDEOGAME, payload: response.data });
-      callback(response.data);
-    } catch (error) {
-      console.error("Error en post videogame:", {
-        mensaje: error.message,
-        código: error.code,
-        detalles: error.response?.data || 'Sin detalles adicionales'
-      });
-    }
-  };    
-}
-
 export function selectGenre(genre) {
   return function (dispatch) {
     dispatch({ type: SELECT_GENRE, payload: genre });
@@ -155,12 +136,6 @@ export function selectGenre(genre) {
 export function selectPlatform(platform) {
   return function (dispatch) {
     dispatch({ type: SELECT_PLATFORM, payload: platform });
-  };
-}
-
-export function getCreated(order) {
-  return function (dispatch) {
-    dispatch({ type: GET_CREATED, payload: order });
   };
 }
 
@@ -186,21 +161,6 @@ export function goToPage(page) {
   return function (dispatch) {
     dispatch({ type: GO_TO_PAGE, payload: page });
   };
-}
-
-export function deleteVideogameDB(id) {
-  return async function (dispatch) {
-    try {
-      const response = await axios.delete(`${apiUrl}/videogame/${id}`);
-      dispatch({ type: DELETE_DB_VIDEOGAME, payload: response.data });
-    } catch (error) {
-      console.error("Error en delete videogame db:", {
-        mensaje: error.message,
-        código: error.code,
-        detalles: error.response?.data || 'Sin detalles adicionales'
-      });
-    }
-  };   
 }
 
 export function getUpcomingGames() {

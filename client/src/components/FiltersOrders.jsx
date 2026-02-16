@@ -8,7 +8,6 @@ import {
   alphOrder,
   ratingOrder,
   clear,
-  getCreated,
 } from "../Redux/actions";
 import "./Styles/FiltersOrders.css";
 
@@ -21,9 +20,6 @@ export default function FiltersOrders() {
   );
   const platform = useSelector(
     (state) => state.filterAndSortingState.platform ?? "-"
-  );
-  const origin = useSelector(
-    (state) => state.filterAndSortingState.origin ?? "all"
   );
   const rating = useSelector((state) => {
     if (
@@ -50,7 +46,6 @@ export default function FiltersOrders() {
   const activeFilterCount = [
     genre !== "-" ? 1 : 0,
     platform !== "-" ? 1 : 0,
-    origin !== "all" ? 1 : 0,
     alph !== "-" ? 1 : 0,
     rating !== "-" ? 1 : 0,
   ].reduce((a, b) => a + b, 0);
@@ -89,10 +84,6 @@ export default function FiltersOrders() {
 
   const handleSelectPlatform = useCallback((e) => {
     dispatch(selectPlatform(e.target.value));
-  }, [dispatch]);
-
-  const handleSelectFrom = useCallback((e) => {
-    dispatch(getCreated(e.target.value));
   }, [dispatch]);
 
   const handleSelectOrderAlph = useCallback((e) => {
@@ -146,21 +137,6 @@ export default function FiltersOrders() {
                   {p}
                 </option>
               ))}
-            </select>
-          </div>
-
-          <div className="filter-item">
-            <label htmlFor="filter-origin">Source</label>
-            <select
-              className="filter-select"
-              id="filter-origin"
-              value={origin}
-              onChange={handleSelectFrom}
-              aria-label="Filter by source"
-            >
-              <option value="all">All</option>
-              <option value="DB">Created</option>
-              <option value="API">Existing</option>
             </select>
           </div>
         </div>
