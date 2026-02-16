@@ -1,0 +1,122 @@
+/* ========================================
+   Toast Notifications
+   ======================================== */
+
+.toast-container {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  pointer-events: none;
+  max-width: 380px;
+  width: calc(100% - 2.5rem);
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(12px);
+  pointer-events: auto;
+  min-width: 0;
+}
+
+.toast-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.toast-msg {
+  flex: 1;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.4;
+  min-width: 0;
+}
+
+.toast-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+  padding: 0;
+}
+
+.toast-close:hover {
+  background: var(--accent-soft);
+  color: var(--text-primary);
+}
+
+.toast-close .material-symbols-rounded {
+  font-size: 16px;
+}
+
+/* ─── Variants ─── */
+.toast--success {
+  border-left: 3px solid #4ade80;
+}
+
+.toast--success .toast-icon {
+  color: #4ade80;
+}
+
+.toast--error {
+  border-left: 3px solid #f87171;
+}
+
+.toast--error .toast-icon {
+  color: #f87171;
+}
+
+.toast--warning {
+  border-left: 3px solid #facc15;
+}
+
+.toast--warning .toast-icon {
+  color: #facc15;
+}
+
+.toast--info {
+  border-left: 3px solid var(--accent);
+}
+
+.toast--info .toast-icon {
+  color: var(--accent);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 480px) {
+  .toast-container {
+    top: auto;
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+    width: auto;
+  }
+
+  .toast {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .toast-msg {
+    font-size: 0.84rem;
+  }
+}

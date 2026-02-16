@@ -43,7 +43,11 @@ export default function Card({ videogame }) {
   }, []);
 
   return (
-    <NavLink to={`/videogame/${videogame.id}`} className="card-link">
+    <NavLink
+      to={`/videogame/${videogame.id}`}
+      className="card-link"
+      aria-label={`${videogame.name} — Rating ${rating}`}
+    >
       <article
         className="card"
         ref={cardRef}

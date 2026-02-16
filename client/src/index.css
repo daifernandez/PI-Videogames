@@ -154,3 +154,54 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* ========================================
+   Global Focus-Visible States (Phase 7)
+   ======================================== */
+
+/* Only show focus ring when navigating with keyboard */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Remove default outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Specific overrides for common interactive elements */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--accent-soft);
+  border-radius: 4px;
+}
+
+/* Cards and card links get a rounded outline */
+.card-link:focus-visible {
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+
+/* Nav links */
+.nav-link:focus-visible,
+.create-button:focus-visible {
+  border-radius: 12px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -63,7 +63,7 @@ export default function SearchSuggestions({
               Clear all
             </button>
           </div>
-          <ul className="suggestions-list" role="listbox">
+          <ul className="suggestions-list" role="listbox" id="search-suggestions-listbox">
             {recentSearches.map((term, i) => (
               <li
                 key={term}
@@ -104,7 +104,7 @@ export default function SearchSuggestions({
               <div className="suggestion-skeleton" />
             </div>
           ) : (
-            <ul className="suggestions-list" role="listbox">
+            <ul className="suggestions-list" role="listbox" id="search-suggestions-listbox">
               <AnimatePresence>
                 {suggestions.map((game, i) => (
                   <motion.li

@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { postVideogame, getgenres, getvideogames } from "../Redux/actions";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { platformIcons } from '../utils/platformIcons';
+import useToast from "../hooks/useToast";
 import "./Styles/CreateVideogame.css";
 import "./Styles/Button.css";
 import "./Styles/PlatformStyles.css";
 import Footer from "./Footer";
-import SuccessModal from './SuccessModal';
 
 export function validate(input) {
   let errors = {};
@@ -99,8 +99,7 @@ export default function CreateVideogame() {
 
   const [showTooltip, setShowTooltip] = useState("");
 
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [createdGameId, setCreatedGameId] = useState(null);
+  const { addToast } = useToast();
 
   useEffect(() => {
     const calculateProgress = () => {
@@ -137,27 +136,23 @@ export default function CreateVideogame() {
       newErrors.rating ||
       newErrors.platforms
     ) {
-      alert("Por favor completa todos los campos requeridos.");
+      addToast("Please complete all required fields.", { type: "warning" });
       setIsSubmitting(false);
       return;
     }
     try {
       dispatch(
         postVideogame(form, (createdVideogame) => {
-          setCreatedGameId(createdVideogame.id);
-          setShowSuccessModal(true);
+          addToast("Game created successfully!", { type: "success" });
+          const gameId = createdVideogame.id;
+          setTimeout(() => navigate(`/videogame/${gameId}`), 1500);
         })
       );
-    } catch (error) {
-      alert("Hubo un error al crear el juego. Por favor intenta de nuevo.");
+    } catch (err) {
+      addToast("Error creating game. Please try again.", { type: "error" });
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleCloseSuccessModal = () => {
-    setShowSuccessModal(false);
-    navigate(`/videogame/${createdGameId}`);
   };
 
   const handleBlur = (field) => {
@@ -665,14 +660,6 @@ export default function CreateVideogame() {
           </form>
         </div>
       </div>
-
-      <SuccessModal 
-        isOpen={showSuccessModal}
-        onClose={handleCloseSuccessModal}
-        title="¡Juego Creado con Éxito!"
-        message="Tu videojuego ha sido creado correctamente. ¿Deseas ver los detalles?"
-        buttonText="Ver Detalles del Juego"
-      />
 
       <Footer/>
     </div>

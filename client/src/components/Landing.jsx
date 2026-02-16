@@ -1,188 +1,301 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { MagnifyingGlassIcon, InformationCircleIcon, PlusCircleIcon, ArrowUpIcon } from "@heroicons/react/24/outline";
+import { motion } from "framer-motion";
+import useInView from "../hooks/useInView";
 import "./Styles/Landing.css";
-import "./Styles/Button.css";
-import Logo from "../img/landing.png";
-import title from "../img/title.png";
 import Footer from "./Footer";
+import heroImg from "../img/landing.png";
+import titleImg from "../img/title.png";
 
-const Feature = ({ icon: Icon, title, description }) => (
-  <div className="feature-item" role="listitem">
-    <div className="feature-icon">
-      <Icon className="feature-svg" aria-hidden="true" />
+function Counter({ end, suffix = "+", label, active }) {
+  const [val, setVal] = React.useState(0);
+  React.useEffect(() => {
+    if (!active) return;
+    let start = null;
+    let raf;
+    const dur = 1800;
+    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    const tick = (ts) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / dur, 1);
+      setVal(Math.floor(end * ease(p)));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [end, active]);
+  return (
+    <div className="ln-stat">
+      <span className="ln-stat-num">
+        {val}
+        {suffix}
+      </span>
+      <span className="ln-stat-lbl">{label}</span>
     </div>
-    <h3 className="feature-title">{title}</h3>
-    <p className="feature-description">{description}</p>
-  </div>
-);
+  );
+}
 
-const ScrollToTop = () => {
-  const [isVisible, setIsVisible] = useState(false);
+function FadeIn({ children, delay = 0, className = "" }) {
+  const [ref, visible] = useInView({ threshold: 0.15 });
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={{ opacity: 0, y: 30 }}
+      animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay, ease: [0.25, 0.1, 0.25, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
-  const toggleVisibility = () => {
-    if (window.pageYOffset > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
+const features = [
+  {
+    icon: "search",
+    title: "Search & Filter",
+    desc: "Find any game by name, genre, rating or source with smart autocomplete.",
+    gradient: "ln-grad-blue",
+  },
+  {
+    icon: "info",
+    title: "Detailed Info",
+    desc: "Explore screenshots, trailers, ratings and discover similar titles.",
+    gradient: "ln-grad-purple",
+  },
+  {
+    icon: "add_circle",
+    title: "Create Games",
+    desc: "Add your own games to the catalog with custom details and media.",
+    gradient: "ln-grad-pink",
+  },
+];
+
+function FloatingOrb({ className }) {
+  return <div className={`ln-orb ${className}`} aria-hidden="true" />;
+}
+
+function ScrollIndicator() {
+  const handleClick = useCallback(() => {
+    const statsSection = document.querySelector(".ln-section");
+    if (statsSection) {
+      statsSection.scrollIntoView({ behavior: "smooth" });
     }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
   return (
-    <button
-      className={`scroll-to-top ${isVisible ? 'visible' : ''}`}
-      onClick={scrollToTop}
-      aria-label="Volver arriba"
+    <motion.button
+      className="ln-scroll-indicator"
+      onClick={handleClick}
+      aria-label="Scroll down"
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.8 }}
     >
-      <ArrowUpIcon className="w-6 h-6" />
-    </button>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M12 5V19M12 19L6 13M12 19L18 13"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </motion.button>
   );
-};
-
-const StatsCounter = ({ end, duration = 2000, label }) => {
-  const [count, setCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    let startTime;
-    let animationFrame;
-
-    const animate = (timestamp) => {
-      if (!startTime) {
-        startTime = timestamp;
-        setIsLoading(false);
-      }
-      const progress = timestamp - startTime;
-      const percentage = Math.min(progress / duration, 1);
-      
-      setCount(Math.floor(end * percentage));
-
-      if (percentage < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [end, duration]);
-
-  return (
-    <div className="stat-item" role="status" aria-busy={isLoading}>
-      <div className="stat-number">
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <>{count}+</>
-        )}
-      </div>
-      <div className="stat-label">{label}</div>
-    </div>
-  );
-};
+}
 
 export default function Landing() {
   useEffect(() => {
-    document.title = "GameStream - Your Gaming Portal";
+    document.title = "GameStream — Your Gaming Portal";
   }, []);
 
-  const features = [
-    {
-      icon: MagnifyingGlassIcon,
-      title: "Search & Filter",
-      description: "Search for games and filter them by name, genre, rating, and source"
-    },
-    {
-      icon: InformationCircleIcon,
-      title: "Game Details",
-      description: "View detailed information about each game including description, rating, and platforms"
-    },
-    {
-      icon: PlusCircleIcon,
-      title: "Create Games",
-      description: "Add your own games to the database with custom details and information"
-    }
-  ];
-
-  const [parallaxOffset, setParallaxOffset] = useState(0);
-
-  const handleScroll = useCallback(() => {
-    const offset = window.pageYOffset;
-    setParallaxOffset(offset * 0.5);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+  const [statsRef, statsActive] = useInView({ threshold: 0.3 });
 
   return (
-    <main className="landing-container">
-      <div className="landing">
-        <div className="contenedor-titulo animate-fade-in">
-          <h1 className="welcome-text">Welcome to</h1>
-          <img className="title animate-slide-down" src={title} alt="GameStream Logo" />
-          <h2 className="landing-description animate-fade-in">
-            Your Ultimate Gaming Portal
-          </h2>
-          <p className="landing-description animate-fade-in">
-            Discover a massive library of games, explore new titles,
-            filter by your favorite genres and join our community.
-          </p>
-          
-          <div className="stats-container animate-fade-in">
-            <StatsCounter end={500} label="Available Games" />
-            <StatsCounter end={19} label="Genres" />
-            <StatsCounter end={25} label="New Releases" />
-          </div>
-
-          <div className="cta-container">
-            <Link to="/home" className="cta-link">
-              <button className="cta-button">
-                Start Exploring
-                <svg className="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-            </Link>
-            <p className="cta-description">Instant Access - No Registration Required</p>
-          </div>
+    <main className="ln">
+      {/* ─── Hero ─── */}
+      <section className="ln-hero">
+        <div className="ln-hero-bg" aria-hidden="true">
+          <FloatingOrb className="ln-orb--1" />
+          <FloatingOrb className="ln-orb--2" />
+          <FloatingOrb className="ln-orb--3" />
+          <div className="ln-hero-grid" />
         </div>
-        <img 
-          id="logo" 
-          src={Logo} 
-          className="logo animate-float" 
-          alt="Gaming illustration" 
-          style={{ transform: `translateY(${parallaxOffset}px)` }}
-        />
-      </div>
 
-      <section className="features-section" aria-labelledby="features-title">
-        <h2 id="features-title" className="features-title">Why Choose Us</h2>
-        <div className="features-grid" role="list">
-          {features.map((feature, index) => (
-            <Feature
-              key={index}
-              icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
+        <div className="ln-hero-row">
+          <div className="ln-hero-content">
+            <motion.img
+              src={titleImg}
+              alt="GameStream"
+              className="ln-logo"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
             />
+
+            <motion.p
+              className="ln-subtitle"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+            >
+              Discover, explore, and create.
+              <br />
+              Your ultimate gaming catalog.
+            </motion.p>
+
+            <motion.div
+              className="ln-hero-actions"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.45 }}
+            >
+              <Link to="/home" className="ln-btn ln-btn--primary">
+                Start Exploring
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M5 12H19M19 12L13 6M19 12L13 18"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Link>
+              <Link to="/createVideogame" className="ln-btn ln-btn--ghost">
+                <span className="material-symbols-rounded" aria-hidden="true">
+                  add_circle
+                </span>
+                Create Game
+              </Link>
+            </motion.div>
+
+            <motion.span
+              className="ln-hint"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              No registration required
+            </motion.span>
+          </div>
+
+          <motion.div
+            className="ln-hero-visual"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <div className="ln-hero-glow" aria-hidden="true" />
+            <div className="ln-hero-img-wrap">
+              <img src={heroImg} alt="" className="ln-hero-img" />
+            </div>
+          </motion.div>
+        </div>
+
+        <ScrollIndicator />
+      </section>
+
+      {/* ─── Stats ─── */}
+      <section
+        className="ln-section ln-section--stats"
+        ref={statsRef}
+        aria-label="Platform statistics"
+      >
+        <FadeIn>
+          <div className="ln-stats-card">
+            <div className="ln-stats-card-glow" aria-hidden="true" />
+            <Counter end={500} label="Games" active={statsActive} />
+            <span className="ln-stats-sep" aria-hidden="true" />
+            <Counter end={19} label="Genres" suffix="" active={statsActive} />
+            <span className="ln-stats-sep" aria-hidden="true" />
+            <Counter end={25} label="Platforms" active={statsActive} />
+          </div>
+        </FadeIn>
+      </section>
+
+      {/* ─── Features ─── */}
+      <section
+        className="ln-section ln-section--features"
+        aria-labelledby="feat-h"
+      >
+        <FadeIn>
+          <span className="ln-section-tag">Features</span>
+          <h2 className="ln-heading" id="feat-h">
+            Everything you need
+          </h2>
+          <p className="ln-heading-sub">
+            Powerful tools to explore the world of gaming.
+          </p>
+        </FadeIn>
+        <div className="ln-features">
+          {features.map((f, i) => (
+            <FadeIn key={f.title} delay={i * 0.12} className="ln-feat-col">
+              <div className="ln-feat">
+                <div className={`ln-feat-icon ${f.gradient}`}>
+                  <span className="material-symbols-rounded">{f.icon}</span>
+                </div>
+                <h3 className="ln-feat-title">{f.title}</h3>
+                <p className="ln-feat-desc">{f.desc}</p>
+                <div className="ln-feat-shine" aria-hidden="true" />
+              </div>
+            </FadeIn>
           ))}
         </div>
       </section>
 
-      <ScrollToTop />
+      {/* ─── CTA ─── */}
+      <section className="ln-cta">
+        <div className="ln-cta-bg" aria-hidden="true">
+          <div className="ln-cta-orb ln-cta-orb--1" />
+          <div className="ln-cta-orb ln-cta-orb--2" />
+        </div>
+        <FadeIn>
+          <span className="ln-section-tag ln-section-tag--light">
+            Get Started
+          </span>
+          <h2 className="ln-cta-title">Ready to play?</h2>
+          <p className="ln-cta-desc">
+            Browse 500+ games, filter by genre and platform,
+            <br />
+            or create your own catalog entries.
+          </p>
+          <div className="ln-cta-actions">
+            <Link to="/home" className="ln-btn ln-btn--primary ln-btn--lg">
+              Explore Games
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M5 12H19M19 12L13 6M19 12L13 18"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
+          </div>
+        </FadeIn>
+      </section>
+
       <Footer />
     </main>
   );

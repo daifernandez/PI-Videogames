@@ -45,7 +45,9 @@ export default function Home() {
           <EmptyResults 
             message={error} 
             isHome={true}
+            isError={true}
             suggestion="Try refreshing the page or come back later"
+            onRetry={() => dispatch(getvideogames())}
           />
         </div>
       );
@@ -76,17 +78,17 @@ export default function Home() {
   return (
     <div className="home-container">
       <NavBar />
-      <main>
+      <main role="main" aria-label="Game catalog">
         <Search />
         <FiltersOrders />
         <FilterChips />
-        <div className="games-section">
+        <section className="games-section" aria-label="Game results" aria-live="polite">
           {renderGameContent()}
-        </div>
-        <div className="featured-sections">
+        </section>
+        <section className="featured-sections" aria-label="Featured games">
           <RecentGames />  
           <UpcomingGames />
-        </div>
+        </section>
       </main>
       <Footer />
     </div>

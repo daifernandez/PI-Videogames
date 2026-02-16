@@ -1,55 +1,122 @@
-.empty-gif {
-  position: center;
-  width: 200px;
-  height: 200px;
-  margin-bottom: 1.5rem;
-}
+/* ========================================
+   Empty Results — Enhanced
+   ======================================== */
 
 .empty-results-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem 1rem;
+  padding: 3rem 1.5rem;
   text-align: center;
   background: var(--bg-elevated);
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
   margin: 2rem auto;
-  max-width: 600px;
+  max-width: 480px;
+}
+
+.empty-illustration {
+  margin-bottom: 1.5rem;
 }
 
 .empty-message {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
+  font-weight: 500;
   color: var(--text-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   line-height: 1.5;
 }
 
 .empty-suggestion {
-  font-size: 1rem;
+  font-size: 0.92rem;
   color: var(--text-secondary);
-  margin-bottom: 2rem;
-  line-height: 1.4;
+  margin-bottom: 1.75rem;
+  line-height: 1.5;
+  font-weight: 300;
+  max-width: 340px;
+}
+
+.empty-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.empty-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.empty-btn:hover {
+  transform: translateY(-1px);
+}
+
+.empty-btn:active {
+  transform: translateY(0);
+}
+
+.empty-btn .material-symbols-rounded {
+  font-size: 18px;
+}
+
+.empty-btn--primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 8px var(--accent-soft);
+}
+
+.empty-btn--primary:hover {
+  box-shadow: 0 4px 14px rgba(140, 122, 230, 0.3);
+}
+
+.empty-btn--secondary {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.empty-btn--secondary:hover {
+  background: var(--accent-border);
 }
 
 @media (max-width: 768px) {
   .empty-results-container {
     margin: 1rem;
-    padding: 2rem 1rem;
+    padding: 2.5rem 1.25rem;
   }
 
-  .empty-gif {
-    width: 150px;
-    height: 150px;
+  .empty-illustration {
+    width: 130px;
+    height: auto;
   }
 
   .empty-message {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 
   .empty-suggestion {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .empty-results-container {
+    padding: 2rem 1rem;
+    border-radius: 16px;
+  }
+
+  .empty-illustration {
+    width: 110px;
   }
 }

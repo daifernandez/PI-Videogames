@@ -120,6 +120,7 @@ export default function FiltersOrders() {
               id="filter-genre"
               value={genre}
               onChange={handleSelectGenre}
+              aria-label="Filter by genre"
             >
               <option value="-">All</option>
               {genres.map((g) => (
@@ -137,6 +138,7 @@ export default function FiltersOrders() {
               id="filter-platform"
               value={platform}
               onChange={handleSelectPlatform}
+              aria-label="Filter by platform"
             >
               <option value="-">All</option>
               {platforms.map((p) => (
@@ -154,6 +156,7 @@ export default function FiltersOrders() {
               id="filter-origin"
               value={origin}
               onChange={handleSelectFrom}
+              aria-label="Filter by source"
             >
               <option value="all">All</option>
               <option value="DB">Created</option>
@@ -174,6 +177,7 @@ export default function FiltersOrders() {
               id="filter-alpha"
               value={alph}
               onChange={handleSelectOrderAlph}
+              aria-label="Sort by name"
             >
               <option value="-">Default</option>
               <option value="A-Z">A — Z</option>
@@ -188,6 +192,7 @@ export default function FiltersOrders() {
               id="filter-rating"
               value={rating}
               onChange={handleSelectRating}
+              aria-label="Sort by rating"
             >
               <option value="-">Default</option>
               <option value="5-1">Highest first</option>

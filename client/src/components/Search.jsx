@@ -214,6 +214,7 @@ export default function Search() {
               ref={inputRef}
               className="search-bar"
               type="text"
+              role="combobox"
               placeholder="Search games..."
               value={search}
               onChange={handleInputChange}
@@ -221,6 +222,7 @@ export default function Search() {
               onBlur={handleBlur}
               onKeyDown={handleKeyDown}
               aria-label="Search games"
+              aria-controls="search-suggestions-listbox"
               aria-expanded={shouldShowDropdown}
               aria-haspopup="listbox"
               aria-autocomplete="list"
