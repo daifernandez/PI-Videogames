@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { SiNintendogamecube } from 'react-icons/si';
-import { FaCalendarAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaChevronLeft, FaChevronRight, FaFire, FaStar } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { platformIcons } from '../utils/platformIcons';
 import { getRecentGames } from '../Redux/actions';
@@ -17,13 +17,17 @@ const RecentGames = () => {
     const recentGamesError = useSelector((state) => state.recentGamesError);
     const scrollContainerRef = useRef(null);
     const [imageErrors, setImageErrors] = useState({});
+    const [scrollProgress, setScrollProgress] = useState(0);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+    const [isDragging, setIsDragging] = useState(false);
+    const dragState = useRef({ isDown: false, startX: 0, scrollLeft: 0 });
     
     useEffect(() => {
         dispatch(getRecentGames());
     }, [dispatch]);
 
     const handleImageError = (gameId) => {
-        console.log('Error loading image for game:', gameId);
         setImageErrors(prev => ({
             ...prev,
             [gameId]: true
@@ -37,16 +41,23 @@ const RecentGames = () => {
         return game.image;
     };
 
-    const formatDate = (dateString) => {
+    const getDiffDays = (dateString) => {
         const date = new Date(dateString);
         const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        date.setHours(0, 0, 0, 0);
         const diffTime = date - today;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return Math.round(diffTime / (1000 * 60 * 60 * 24));
+    };
+
+    const formatDate = (dateString) => {
+        const diffDays = getDiffDays(dateString);
         
-        if (diffDays === 0) return 'Available today';
-        if (diffDays === -1) return 'Available yesterday';
+        if (diffDays === 0) return 'Today';
+        if (diffDays === -1) return 'Yesterday';
         if (diffDays >= -7 && diffDays < 0) return `${Math.abs(diffDays)} days ago`;
         
+        const date = new Date(dateString);
         const day = date.getDate();
         const month = date.toLocaleString('en-US', { month: 'short' });
         const year = date.getFullYear();
@@ -54,9 +65,49 @@ const RecentGames = () => {
         return `${month} ${day}, ${year}`;
     };
 
+    const getDateBadgeClass = (dateString) => {
+        const diffDays = getDiffDays(dateString);
+        if (diffDays === 0) return 'date-badge--today';
+        if (diffDays >= -3 && diffDays < 0) return 'date-badge--recent';
+        if (diffDays >= -7 && diffDays < -3) return 'date-badge--week';
+        return 'date-badge--older';
+    };
+
+    const getRatingColor = (rating) => {
+        if (rating >= 4.0) return '#4ade80';
+        if (rating >= 3.0) return '#f6c90e';
+        if (rating >= 2.0) return '#fb923c';
+        return '#f87171';
+    };
+
+    const updateScrollState = useCallback(() => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+        
+        const { scrollLeft, scrollWidth, clientWidth } = container;
+        const maxScroll = scrollWidth - clientWidth;
+        
+        setCanScrollLeft(scrollLeft > 5);
+        setCanScrollRight(scrollLeft < maxScroll - 5);
+        setScrollProgress(maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0);
+    }, []);
+
+    useEffect(() => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+        
+        updateScrollState();
+        const resizeObserver = new ResizeObserver(updateScrollState);
+        resizeObserver.observe(container);
+        
+        return () => resizeObserver.disconnect();
+    }, [recentGames, updateScrollState]);
+
     const handleScroll = (direction) => {
         if (scrollContainerRef.current) {
-            const scrollAmount = direction === 'left' ? -340 : 340;
+            const cardWidth = 220;
+            const gap = 16;
+            const scrollAmount = direction === 'left' ? -(cardWidth + gap) * 2 : (cardWidth + gap) * 2;
             scrollContainerRef.current.scrollBy({
                 left: scrollAmount,
                 behavior: 'smooth'
@@ -64,163 +115,299 @@ const RecentGames = () => {
         }
     };
 
+    const handleKeyDown = useCallback((e) => {
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            handleScroll('left');
+        } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            handleScroll('right');
+        }
+    }, []);
+
+    const handleMouseDown = (e) => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+        dragState.current.isDown = true;
+        dragState.current.startX = e.pageX - container.offsetLeft;
+        dragState.current.scrollLeft = container.scrollLeft;
+        container.style.scrollBehavior = 'auto';
+    };
+
+    const handleMouseMove = (e) => {
+        if (!dragState.current.isDown) return;
+        e.preventDefault();
+        const container = scrollContainerRef.current;
+        if (!container) return;
+        
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - dragState.current.startX) * 1.5;
+        
+        if (Math.abs(walk) > 5) {
+            setIsDragging(true);
+        }
+        
+        container.scrollLeft = dragState.current.scrollLeft - walk;
+    };
+
+    const handleMouseUp = () => {
+        dragState.current.isDown = false;
+        const container = scrollContainerRef.current;
+        if (container) {
+            container.style.scrollBehavior = 'smooth';
+        }
+        setTimeout(() => setIsDragging(false), 50);
+    };
+
+    const handleMouseLeave = () => {
+        dragState.current.isDown = false;
+        const container = scrollContainerRef.current;
+        if (container) {
+            container.style.scrollBehavior = 'smooth';
+        }
+        setTimeout(() => setIsDragging(false), 50);
+    };
+
     if (loadingRecentGames) {
         return (
-            <div className="recent-games-container loading">
-                <div className="recent-games-header">
-                    <h2>
-                        <span className="game-icon"><SiNintendogamecube /></span>
-                        Gaming World Updates
-                        <span className="subtitle">Loading...</span>
-                    </h2>
-                </div>
-                <div className="loading-skeleton">
-                    {[1, 2, 3].map((i) => (
-                        <div key={i} className="skeleton-card">
-                            <div className="skeleton-image"></div>
-                            <div className="skeleton-content">
-                                <div className="skeleton-title"></div>
-                                <div className="skeleton-text"></div>
-                                <div className="skeleton-text"></div>
+            <section className="recent-games-section" aria-label="Recent games loading">
+                <div className="rg-glass-container">
+                    <div className="recent-games-container loading">
+                        <div className="recent-games-header">
+                            <div className="header-left">
+                                <span className="game-icon"><SiNintendogamecube /></span>
+                                <div className="header-titles">
+                                    <h2>Gaming World Updates</h2>
+                                    <span className="subtitle">Loading...</span>
+                                </div>
                             </div>
                         </div>
-                    ))}
+                        <div className="loading-skeleton">
+                            {[1, 2, 3, 4, 5].map((i) => (
+                                <div key={i} className={`skeleton-card-v2 ${i === 1 ? 'skeleton-featured' : ''}`}>
+                                    <div className="skeleton-image-v2"></div>
+                                    <div className="skeleton-content-v2">
+                                        <div className="skeleton-badge"></div>
+                                        <div className="skeleton-title-v2"></div>
+                                        <div className="skeleton-platforms"></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
         );
     }
 
     if (recentGamesError) {
         return (
-            <div className="recent-games-container error">
-                <div className="recent-games-header">
-                    <h2>
-                        <span className="game-icon"><SiNintendogamecube /></span>
-                        Gaming World Updates
-                        <span className="subtitle error">Error al cargar</span>
-                    </h2>
+            <section className="recent-games-section">
+                <div className="rg-glass-container">
+                    <div className="recent-games-container error">
+                        <div className="recent-games-header">
+                            <div className="header-left">
+                                <span className="game-icon"><SiNintendogamecube /></span>
+                                <div className="header-titles">
+                                    <h2>Gaming World Updates</h2>
+                                    <span className="subtitle error">Failed to load</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="error-state">
+                            <p>{recentGamesError}</p>
+                            <button 
+                                className="retry-button"
+                                onClick={() => dispatch(getRecentGames())}
+                            >
+                                Retry
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <p className="error-message">{recentGamesError}</p>
-            </div>
+            </section>
         );
     }
 
     if (!recentGames || recentGames.length === 0) {
         return (
-            <div className="recent-games-container">
-                <div className="recent-games-header">
-                    <h2>
-                        <span className="game-icon"><SiNintendogamecube /></span>
-                        Gaming World Updates
-                        <span className="subtitle">Juegos Recientes</span>
-                    </h2>
+            <section className="recent-games-section">
+                <div className="rg-glass-container">
+                    <div className="recent-games-container">
+                        <div className="recent-games-header">
+                            <div className="header-left">
+                                <span className="game-icon"><SiNintendogamecube /></span>
+                                <div className="header-titles">
+                                    <h2>Gaming World Updates</h2>
+                                    <span className="subtitle">Recent Games</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="empty-state">
+                            <p>No recent games available at this time.</p>
+                        </div>
+                    </div>
                 </div>
-                <div className="empty-state">
-                    <p>No hay juegos recientes disponibles en este momento.</p>
-                </div>
-            </div>
+            </section>
         );
     }
 
     return (
-        <div className="recent-games-container"
-             onMouseEnter={() => {
-                 const container = scrollContainerRef.current;
-                 if (container) {
-                     const canScrollLeft = container.scrollLeft > 0;
-                     const canScrollRight = container.scrollLeft < (container.scrollWidth - container.clientWidth);
-                     if (canScrollLeft) container.parentElement.classList.add('can-scroll-left');
-                     if (canScrollRight) container.parentElement.classList.add('can-scroll-right');
-                 }
-             }}
-             onMouseLeave={() => {
-                 const container = scrollContainerRef.current;
-                 if (container) {
-                     container.parentElement.classList.remove('can-scroll-left', 'can-scroll-right');
-                 }
-             }}
+        <section 
+            className="recent-games-section" 
+            aria-label="Recent games"
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
         >
-            <div className="recent-games-header">
-                <h2>
-                    <span className="game-icon"><SiNintendogamecube /></span>
-                    Gaming World Updates
-                    <span className="subtitle">Recent Games</span>
-                </h2>
-            </div>
-            <div 
-                className="recent-games-grid" 
-                ref={scrollContainerRef}
-                onScroll={() => {
-                    const container = scrollContainerRef.current;
-                    if (container) {
-                        const canScrollLeft = container.scrollLeft > 0;
-                        const canScrollRight = container.scrollLeft < (container.scrollWidth - container.clientWidth);
-                        container.parentElement.classList.toggle('can-scroll-left', canScrollLeft);
-                        container.parentElement.classList.toggle('can-scroll-right', canScrollRight);
-                    }
-                }}
-            >
-                {recentGames.map((game) => (
-                    <Link to={`/videogame/${game.id}`} key={game.id} className="game-card">
-                        <div className="game-card-image-container">
-                            <img 
-                                src={getImageSource(game)}
-                                alt={game.name}
-                                className="game-card-image"
-                                loading="lazy"
-                                onError={() => handleImageError(game.id)}
-                            />
-                            <div className="game-card-overlay">
-                                <span className="view-details">View details</span>
+            <div className="rg-glass-container">
+                <div className="recent-games-container">
+                    <div className="recent-games-header">
+                        <div className="header-left">
+                            <span className="game-icon"><SiNintendogamecube /></span>
+                            <div className="header-titles">
+                                <h2>Gaming World Updates</h2>
+                                <span className="subtitle">Recent Games</span>
                             </div>
                         </div>
-                        <div className="game-card-content">
-                            <h3 className="game-card-title">{game.name}</h3>
-                            <div className="game-card-info">
-                                <div className="release-date" title={`Release date: ${formatDate(game.released)}`}>
-                                    <FaCalendarAlt className="date-icon" />
-                                    {formatDate(game.released)}
-                                </div>
+                        <div className="header-right">
+                            <span className="games-count-badge">
+                                <FaFire className="count-icon" />
+                                {recentGames.length} {recentGames.length === 1 ? 'game' : 'games'}
+                            </span>
+                            <div className="scroll-nav-buttons">
+                                <button 
+                                    className={`nav-btn nav-btn--prev ${!canScrollLeft ? 'nav-btn--disabled' : ''}`}
+                                    onClick={() => handleScroll('left')}
+                                    disabled={!canScrollLeft}
+                                    aria-label="Previous"
+                                >
+                                    <FaChevronLeft />
+                                </button>
+                                <button 
+                                    className={`nav-btn nav-btn--next ${!canScrollRight ? 'nav-btn--disabled' : ''}`}
+                                    onClick={() => handleScroll('right')}
+                                    disabled={!canScrollRight}
+                                    aria-label="Next"
+                                >
+                                    <FaChevronRight />
+                                </button>
                             </div>
-                            {game.platforms && game.platforms.length > 0 && (
-                                <div className="game-card-platforms">
-                                    <div className="platforms-container">
-                                        {game.platforms.slice(0, 4).map((platform, index) => (
-                                            <span key={index} className="platform-icon" title={platform}>
-                                                <FontAwesomeIcon 
-                                                    icon={platformIcons[platform] || platformIcons['Default']} 
-                                                />
-                                            </span>
-                                        ))}
-                                        {game.platforms.length > 4 && (
-                                            <span className="platform-icon more" title={`${game.platforms.length - 4} more platforms`}>
-                                                +{game.platforms.length - 4}
+                        </div>
+                    </div>
+
+                    <div className="carousel-wrapper">
+                        <div 
+                            className={`scroll-fade scroll-fade--left ${canScrollLeft ? 'visible' : ''}`}
+                            aria-hidden="true"
+                        />
+                        
+                        <div 
+                            className={`recent-games-grid ${isDragging ? 'is-dragging' : ''}`}
+                            ref={scrollContainerRef}
+                            onScroll={updateScrollState}
+                            onMouseDown={handleMouseDown}
+                            onMouseMove={handleMouseMove}
+                            onMouseUp={handleMouseUp}
+                            onMouseLeave={handleMouseLeave}
+                        >
+                            {recentGames.map((game, index) => (
+                                <Link 
+                                    to={`/videogame/${game.id}`} 
+                                    key={game.id} 
+                                    className={`game-card-v2 ${index === 0 ? 'game-card-v2--featured' : ''}`}
+                                    style={{ animationDelay: `${index * 0.06}s` }}
+                                    onClick={(e) => { if (isDragging) e.preventDefault(); }}
+                                    draggable={false}
+                                >
+                                    <div className="card-image-wrapper">
+                                        <img 
+                                            src={getImageSource(game)}
+                                            alt={game.name}
+                                            className="card-image"
+                                            loading="lazy"
+                                            draggable={false}
+                                            onError={() => handleImageError(game.id)}
+                                        />
+                                        <div className="card-image-gradient" />
+                                        
+                                        {getDiffDays(game.released) === 0 && (
+                                            <span className="new-badge">
+                                                <FaFire /> NEW
                                             </span>
                                         )}
+                                        
+                                        {game.rating > 0 && (
+                                            <span 
+                                                className="rating-badge"
+                                                style={{ 
+                                                    '--rating-color': getRatingColor(game.rating),
+                                                    '--rating-bg': `${getRatingColor(game.rating)}18`
+                                                }}
+                                            >
+                                                <FaStar className="rating-star" />
+                                                <span className="rating-value">{game.rating.toFixed(1)}</span>
+                                            </span>
+                                        )}
+                                        
+                                        <div className="card-hover-overlay">
+                                            <span className="view-details-btn">View details</span>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                    
+                                    <div className="card-body">
+                                        <h3 className="card-title">{game.name}</h3>
+                                        
+                                        <div className={`date-badge ${getDateBadgeClass(game.released)}`}>
+                                            <FaCalendarAlt className="date-badge-icon" />
+                                            <span>{formatDate(game.released)}</span>
+                                        </div>
+                                        
+                                        {game.genres && game.genres.length > 0 && (
+                                            <div className="card-genres">
+                                                {game.genres.slice(0, 2).map((genre, idx) => (
+                                                    <span key={idx} className="genre-chip">
+                                                        {genre}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+                                        
+                                        {game.platforms && game.platforms.length > 0 && (
+                                            <div className="card-platforms">
+                                                {game.platforms.slice(0, 4).map((platform, idx) => (
+                                                    <span key={idx} className="platform-chip" title={platform}>
+                                                        <FontAwesomeIcon 
+                                                            icon={platformIcons[platform] || platformIcons['Default']} 
+                                                        />
+                                                    </span>
+                                                ))}
+                                                {game.platforms.length > 4 && (
+                                                    <span className="platform-chip platform-chip--more" title={`${game.platforms.length - 4} more`}>
+                                                        +{game.platforms.length - 4}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                </Link>
+                            ))}
                         </div>
-                    </Link>
-                ))}
+                        
+                        <div 
+                            className={`scroll-fade scroll-fade--right ${canScrollRight ? 'visible' : ''}`}
+                            aria-hidden="true"
+                        />
+                    </div>
+
+                    <div className="scroll-progress-track">
+                        <div 
+                            className="scroll-progress-fill" 
+                            style={{ width: `${Math.max(scrollProgress, 5)}%` }}
+                        />
+                    </div>
+                </div>
             </div>
-            <div className="scroll-indicators">
-                <button 
-                    className="scroll-button left" 
-                    onClick={() => handleScroll('left')}
-                    aria-label="Desplazar a la izquierda"
-                >
-                    ←
-                </button>
-                <button 
-                    className="scroll-button right" 
-                    onClick={() => handleScroll('right')}
-                    aria-label="Desplazar a la derecha"
-                >
-                    →
-                </button>
-            </div>
-        </div>
+        </section>
     );
 };
 

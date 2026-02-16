@@ -519,7 +519,7 @@ const get_recent_games_api = async () => {
           key: process.env.API_KEY,
           dates: `${formattedThreeMonthsAgo},${formattedCurrentDate}`,
           ordering: '-released',
-          page_size: 6
+          page_size: 12
         }
       }
     );
