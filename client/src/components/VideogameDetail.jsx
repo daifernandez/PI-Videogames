@@ -14,7 +14,6 @@ import Breadcrumbs from "./Breadcrumbs";
 import MediaGallery from "./MediaGallery";
 import SimilarGames from "./SimilarGames";
 import PriceComparison from "./PriceComparison";
-import DeleteModal from "./DeleteModal";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
 
