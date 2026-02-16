@@ -1,0 +1,66 @@
+.rating-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.rating-circle__svg {
+  display: block;
+}
+
+.rating-circle__track {
+  fill: none;
+  stroke: var(--border-subtle);
+  opacity: 0.5;
+}
+
+.rating-circle__progress {
+  fill: none;
+}
+
+.rating-circle__value {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rating-circle__number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.rating-circle__label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* Small variant for cards */
+.rating-circle.small .rating-circle__svg {
+  width: 48px;
+  height: 48px;
+}
+
+.rating-circle.small .rating-circle__value {
+  width: 48px;
+  height: 48px;
+}
+
+.rating-circle.small .rating-circle__number {
+  font-size: 0.9rem;
+}
+
+.rating-circle.small .rating-circle__label {
+  display: none;
+}

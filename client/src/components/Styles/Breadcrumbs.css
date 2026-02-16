@@ -1,0 +1,76 @@
+.breadcrumbs {
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+
+.breadcrumbs__list {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.breadcrumbs__item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.breadcrumbs__separator {
+  font-size: 0.7rem;
+  margin: 0 0.4rem;
+  opacity: 0.35;
+  user-select: none;
+}
+
+.breadcrumbs__link {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  transition: color 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
+  opacity: 0.5;
+}
+
+.breadcrumbs__link:hover {
+  opacity: 0.85;
+}
+
+.breadcrumbs__icon {
+  font-size: 0.85rem;
+}
+
+.breadcrumbs__current {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.7;
+}
+
+/* When inside hero, use light colors */
+.vd-hero__content .breadcrumbs__separator {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.vd-hero__content .breadcrumbs__link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.vd-hero__content .breadcrumbs__link:hover {
+  color: #fff;
+}
+
+.vd-hero__content .breadcrumbs__current {
+  color: rgba(255, 255, 255, 0.9);
+}

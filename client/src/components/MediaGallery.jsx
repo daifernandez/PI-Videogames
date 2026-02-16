@@ -1,241 +1,204 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './Styles/MediaGallery.css';
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import { motion } from "framer-motion";
+import Lightbox from "./Lightbox";
+import "./Styles/MediaGallery.css";
 
-const MediaGallery = ({ gameId, type, onLoadComplete }) => {
+const apiUrl = process.env.REACT_APP_API_HOST;
+
+export default function MediaGallery({ gameId, type }) {
   const [media, setMedia] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const apiUrl = process.env.REACT_APP_API_HOST;
-  const itemsPerPage = 4;
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   useEffect(() => {
-    setCurrentPage(1);
-    // Limpiar el caché cuando cambia el tipo
-    const cacheKey = `${gameId}-${type}`;
-    sessionStorage.removeItem(cacheKey);
-  }, [type, gameId]);
+    let cancelled = false;
 
-  useEffect(() => {
     const fetchMedia = async () => {
-      try {
-        setLoading(true);
-        const cacheKey = `${gameId}-${type}`;
-        const cachedData = sessionStorage.getItem(cacheKey);
+      setLoading(true);
+      setError(null);
 
-        if (cachedData) {
-          const parsedData = JSON.parse(cachedData);
-          setMedia(parsedData[type]);
-          setTotalPages(Math.ceil(parsedData[type].length / itemsPerPage));
-          setError(null);
+      const cacheKey = `media-${gameId}-${type}`;
+      const cached = sessionStorage.getItem(cacheKey);
+
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (!cancelled) {
+          setMedia(parsed);
           setLoading(false);
-          if (onLoadComplete) onLoadComplete();
-          return;
         }
+        return;
+      }
 
-        const response = await axios.get(
-          `${apiUrl}/videogame/${gameId}/${type}?page=${currentPage}`
-        );
-        
-        sessionStorage.setItem(cacheKey, JSON.stringify(response.data));
-        
-        setMedia(response.data[type]);
-        setTotalPages(Math.ceil(response.data[type].length / itemsPerPage));
-        setError(null);
+      try {
+        const response = await axios.get(`${apiUrl}/videogame/${gameId}/${type}`);
+        const items = response.data[type] || [];
+        sessionStorage.setItem(cacheKey, JSON.stringify(items));
+        if (!cancelled) {
+          setMedia(items);
+        }
       } catch (err) {
-        console.error('Error al cargar trailers:', err);
-        setError('Error al cargar el contenido multimedia');
+        console.error("Error loading media:", err);
+        if (!cancelled) {
+          setError("Could not load media content");
+        }
       } finally {
-        setLoading(false);
-        if (onLoadComplete) onLoadComplete();
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchMedia();
-  }, [gameId, type, apiUrl, onLoadComplete, currentPage]);
+    return () => { cancelled = true; };
+  }, [gameId, type]);
 
-  const getCurrentPageItems = () => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return media.slice(startIndex, endIndex);
-  };
+  const openLightbox = useCallback((index) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  }, []);
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(prev => prev - 1);
-    }
-  };
+  const closeLightbox = useCallback(() => {
+    setLightboxOpen(false);
+  }, []);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(prev => prev + 1);
-    }
-  };
-
-  const openModal = (image) => {
-    setSelectedImage(image);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeModal = () => {
-    setSelectedImage(null);
-    document.body.style.overflow = 'auto';
-  };
+  const navigateLightbox = useCallback((index) => {
+    setLightboxIndex(index);
+  }, []);
 
   if (loading) {
     return (
-      <div className="media-loading">
-        <div className="loading-spinner" />
-        <p className="loading-text">Cargando {type === 'screenshots' ? 'capturas' : 'videos'}...</p>
+      <div className="mg-loading">
+        <div className="mg-loading__grid">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="mg-loading__item" />
+          ))}
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="media-error">
-        <p>{error}</p>
-        {type === 'trailers' && (
-          <p className="media-error-suggestion">
-            Puedes buscar trailers de este juego en YouTube
-          </p>
-        )}
+      <div className="mg-empty">
+        <span className="material-symbols-rounded mg-empty__icon">error_outline</span>
+        <p className="mg-empty__text">{error}</p>
       </div>
     );
   }
 
   if (!media || media.length === 0) {
     return (
-      <div className="media-empty">
-        <p>
-          {type === 'screenshots'
-            ? 'No hay capturas de pantalla disponibles para este juego'
-            : 'No hay videos disponibles para este juego'
-          }
+      <div className="mg-empty">
+        <span className="material-symbols-rounded mg-empty__icon">
+          {type === "screenshots" ? "photo_library" : "videocam_off"}
+        </span>
+        <p className="mg-empty__text">
+          {type === "screenshots"
+            ? "No screenshots available"
+            : "No trailers available"}
         </p>
-        {type === 'trailers' && (
-          <p className="media-empty-suggestion">
-            Puedes buscar trailers de este juego en YouTube
-          </p>
-        )}
       </div>
     );
   }
 
+  if (type === "screenshots") {
+    return (
+      <>
+        <motion.div
+          className="mg-grid"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.06 } },
+          }}
+        >
+          {media.map((src, i) => (
+            <motion.div
+              key={i}
+              className="mg-screenshot"
+              variants={{
+                hidden: { opacity: 0, y: 10 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.3 }}
+              onClick={() => openLightbox(i)}
+              role="button"
+              tabIndex={0}
+              aria-label={`View screenshot ${i + 1}`}
+              onKeyDown={(e) => e.key === "Enter" && openLightbox(i)}
+            >
+              <img
+                src={src}
+                alt={`Screenshot ${i + 1}`}
+                loading="lazy"
+                draggable={false}
+              />
+              <div className="mg-screenshot__overlay">
+                <span className="material-symbols-rounded">zoom_in</span>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <Lightbox
+          images={media}
+          currentIndex={lightboxIndex}
+          isOpen={lightboxOpen}
+          onClose={closeLightbox}
+          onNavigate={navigateLightbox}
+        />
+      </>
+    );
+  }
+
   return (
-    <div className="media-gallery">
-      <div className="media-container">
-        {type === 'screenshots' ? (
-          // Renderizado de screenshots
-          <>
-            {getCurrentPageItems().map((screenshot, index) => (
-              <div 
-                key={index} 
-                className="screenshot-item"
-                onClick={() => openModal(screenshot)}
+    <motion.div
+      className="mg-trailers"
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: {},
+        visible: { transition: { staggerChildren: 0.08 } },
+      }}
+    >
+      {media.map((trailer, i) => (
+        <motion.div
+          key={i}
+          className="mg-trailer"
+          variants={{
+            hidden: { opacity: 0, y: 10 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="mg-trailer__video">
+            {trailer.isYoutube ? (
+              <iframe
+                src={trailer.url}
+                title={trailer.name}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video
+                controls
+                poster={trailer.thumbnail}
+                preload="metadata"
+                playsInline
               >
-                <img 
-                  src={screenshot} 
-                  alt={`Screenshot ${index + 1}`}
-                  loading="lazy"
-                />
-              </div>
-            ))}
-            {selectedImage && (
-              <div className="screenshot-modal active" onClick={closeModal}>
-                <div className="modal-content" onClick={e => e.stopPropagation()}>
-                  <img src={selectedImage} alt="Screenshot en pantalla completa" />
-                  <button className="modal-close" onClick={closeModal}>×</button>
-                </div>
-              </div>
+                <source src={trailer.url} type="video/mp4" />
+                <source src={trailer.url} type="video/webm" />
+              </video>
             )}
-          </>
-        ) : (
-          // Renderizado de trailers
-          getCurrentPageItems().map((trailer, index) => {
-            return (
-              <div key={index} className="trailer-item">
-                <div className="trailer-container">
-                  <h3 className="trailer-title">{trailer.name}</h3>
-                  <div className="video-wrapper">
-                    {trailer.isYoutube ? (
-                      <iframe
-                        src={trailer.url}
-                        title={trailer.name}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className="trailer-video"
-                      />
-                    ) : trailer.url?.endsWith('.mp4') || !trailer.isYoutube ? (
-                      <video
-                        controls
-                        poster={trailer.thumbnail}
-                        className="trailer-video"
-                        preload="metadata"
-                        playsInline
-                      >
-                        <source src={trailer.url} type="video/mp4" />
-                        <source src={trailer.url} type="video/webm" />
-                        <p>Tu navegador no soporta el elemento de video.</p>
-                      </video>
-                    ) : (
-                      <div className="trailer-preview-container">
-                        <img 
-                          src={trailer.preview} 
-                          alt={trailer.name}
-                          className="trailer-preview"
-                        />
-                        <div className="play-button" />
-                        <p className="trailer-error-text">Video no disponible</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })
-        )}
-      </div>
-
-      {totalPages > 1 && (
-        <div className="pagination">
-          <div>
-            <button 
-              onClick={handlePrevPage} 
-              disabled={currentPage === 1}
-              className="pagination-NextPrevious"
-            >
-              ←
-            </button>
-            {[...Array(totalPages)].map((_, index) => {
-              const pageNumber = index + 1;
-              return (
-                <button
-                  key={pageNumber}
-                  onClick={() => setCurrentPage(pageNumber)}
-                  className={pageNumber === currentPage ? "pagination-button-current" : "pagination-button"}
-                >
-                  {pageNumber}
-                </button>
-              );
-            })}
-            <button 
-              onClick={handleNextPage} 
-              disabled={currentPage === totalPages}
-              className="pagination-NextPrevious"
-            >
-              →
-            </button>
           </div>
-        </div>
-      )}
-    </div>
+          {trailer.name && (
+            <p className="mg-trailer__title">{trailer.name}</p>
+          )}
+        </motion.div>
+      ))}
+    </motion.div>
   );
-};
-
-export default MediaGallery; 
+}

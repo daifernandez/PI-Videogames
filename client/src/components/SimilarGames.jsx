@@ -1,77 +1,67 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { SiNintendogamecube } from 'react-icons/si';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { platformIcons } from '../utils/platformIcons';
-import { FaCalendarAlt } from 'react-icons/fa';
-import './Styles/RecentGames.css';
-import './Styles/GameCardElements.css';
-import { Link } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import "./Styles/SimilarGames.css";
 
 const SimilarGames = ({ games }) => {
-  if (games.length === 0) return null;
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString('es-ES', { month: 'short' });
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
-  };
+  if (!games || games.length === 0) {
+    return (
+      <div className="sg-empty">
+        <span className="material-symbols-rounded sg-empty__icon">
+          sports_esports
+        </span>
+        <p className="sg-empty__text">No similar games found</p>
+      </div>
+    );
+  }
 
   return (
-    <section className="recent-games-container">
-      <div className="recent-games-header">
-        <h2>
-          <span className="game-icon"><SiNintendogamecube /></span> 
-          Similar Games 
-          <span className="subtitle">Games you might like</span>
-        </h2>
-      </div>
-      <div className="recent-games-grid">
+    <section className="sg">
+      <h2 className="sg__title">Similar Games</h2>
+      <motion.div
+        className="sg__grid"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.06 } },
+        }}
+      >
         {games.map((game) => (
-          <Link to={`/videogame/${game.id}`} key={game.id} className="game-card">
-            <div className="game-card-image-container">
-              <img 
-                src={game.image} 
-                alt={game.name}
-                className="game-card-image"
-                loading="lazy"
-              />
-              <div className="game-card-overlay">
-                <span className="view-details">View details</span>
+          <motion.div
+            key={game.id}
+            variants={{
+              hidden: { opacity: 0, y: 10 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <Link to={`/videogame/${game.id}`} className="sg__card">
+              <div className="sg__image-wrapper">
+                <img
+                  src={game.image}
+                  alt={game.name}
+                  className="sg__image"
+                  loading="lazy"
+                />
+                <div className="sg__image-overlay" />
               </div>
-            </div>
-            <div className="game-card-content">
-              <h3 className="game-card-title">{game.name}</h3>
-              <div className="game-card-info">
-                <div className="release-date" title={`Release date: ${formatDate(game.released)}`}>
-                  <FaCalendarAlt className="date-icon" />
-                  {formatDate(game.released)}
-                </div>
+              <div className="sg__info">
+                <h3 className="sg__name">{game.name}</h3>
+                {game.genres?.length > 0 && (
+                  <span className="sg__genres">
+                    {(Array.isArray(game.genres) ? game.genres : [])
+                      .slice(0, 2)
+                      .map((g) => (typeof g === "string" ? g : g.name))
+                      .join(" · ")}
+                  </span>
+                )}
               </div>
-              {game.platforms && game.platforms.length > 0 && (
-                <div className="game-card-platforms">
-                  <div className="platforms-container">
-                    {game.platforms.slice(0, 4).map((platform, index) => (
-                      <span key={index} className="platform-icon" title={platform}>
-                        <FontAwesomeIcon 
-                          icon={platformIcons[platform] || platformIcons['Default']} 
-                        />
-                      </span>
-                    ))}
-                    {game.platforms.length > 4 && (
-                      <span className="platform-icon more" title={`${game.platforms.length - 4} more platforms`}>
-                        +{game.platforms.length - 4}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          </Link>
+            </Link>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 };
@@ -83,18 +73,11 @@ SimilarGames.propTypes = {
       image: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       rating: PropTypes.number,
-      released: PropTypes.string.isRequired,
+      released: PropTypes.string,
       platforms: PropTypes.arrayOf(PropTypes.string),
-      genres: PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.shape({
-            name: PropTypes.string.isRequired
-          })
-        ])
-      ).isRequired
+      genres: PropTypes.array,
     })
-  ).isRequired
+  ).isRequired,
 };
 
-export default SimilarGames; 
+export default SimilarGames;
