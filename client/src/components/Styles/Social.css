@@ -1,101 +1,110 @@
+/* ========================================
+   Social Links — Modern Pill Style
+   ======================================== */
+
 .social-container {
   display: flex;
-  gap: 1.5rem;
-  justify-content: center;
+  gap: 0.75rem;
   align-items: center;
-  padding: 0.5rem 0;
+  padding: 0;
   margin: 0;
-  position: relative;
-  width: auto;
-  min-width: 120px;
-}
-
-.social-container::before,
-.social-container::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 60px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  opacity: 0.3;
-}
-
-.social-container::before {
-  left: 0;
-}
-
-.social-container::after {
-  right: 0;
 }
 
 .social-link {
-  color: var(--text-secondary);
-  font-size: 1.5rem;
-  transition: all 0.3s ease;
-  position: relative;
-  width: 40px;
-  height: 40px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-primary);
+  background: var(--bg-elevated);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle glow on hover */
+.social-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent-soft);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .social-link:hover {
   color: var(--accent);
+  border-color: var(--accent-border);
   transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(140, 122, 230, 0.12);
 }
 
 .social-link:hover::before {
-  transform: scale(1);
-  opacity: 0.1;
+  opacity: 1;
 }
 
-.social-link::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--accent);
-  transform: scale(0.8);
-  opacity: 0;
-  transition: all 0.3s ease;
-  z-index: -1;
+.social-link:active {
+  transform: translateY(0);
 }
 
-.icon-tabler {
-  transition: all 0.3s ease;
-  stroke: var(--text-tertiary);
+.social-link svg {
   position: relative;
   z-index: 1;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
-/* Todos los iconos usan el mismo color violeta en hover */
-.github:hover svg,
-.linkedin:hover svg {
+.social-link:hover svg {
   stroke: var(--accent);
+  transform: scale(1.08);
 }
+
+.social-label {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+  letter-spacing: 0.2px;
+}
+
+.social-link:hover .social-label {
+  color: var(--accent);
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
 
 @media (max-width: 768px) {
   .social-container {
-    gap: 1.2rem;
-    min-width: 100px;
+    gap: 0.6rem;
   }
 
   .social-link {
-    font-size: 1.3rem;
-    width: 35px;
-    height: 35px;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.8rem;
   }
 
-  .social-container::before,
-  .social-container::after {
-    width: 40px;
+  .social-link svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 500px) {
+  .social-label {
+    display: none;
   }
 
-  .icon-tabler {
-    width: 25px;
-    height: 25px;
+  .social-link {
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    justify-content: center;
   }
 }

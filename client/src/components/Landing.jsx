@@ -5,7 +5,6 @@ import useInView from "../hooks/useInView";
 import "./Styles/Landing.css";
 import Footer from "./Footer";
 import heroImg from "../img/landing.png";
-import titleImg from "../img/title.png";
 
 function Counter({ end, suffix = "+", label, active }) {
   const [val, setVal] = React.useState(0);
@@ -131,14 +130,14 @@ export default function Landing() {
 
         <div className="ln-hero-row">
           <div className="ln-hero-content">
-            <motion.img
-              src={titleImg}
-              alt="GameStream"
-              className="ln-logo"
+            <motion.h1
+              className="brand-name ln-title"
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.15 }}
-            />
+            >
+              GameStream
+            </motion.h1>
 
             <motion.p
               className="ln-subtitle"

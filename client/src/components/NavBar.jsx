@@ -1,39 +1,73 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clear } from "../Redux/actions";
 import ThemeToggle from "./ThemeToggle";
 import Tooltip from "./Tooltip";
 import useTheme from "../hooks/useTheme";
-import Logo from "../img/navbar.png";
+import GamepadIcon from "./GamepadIcon";
 import "./Styles/Button.css";
 import "./Styles/NavBar.css";
 
 export default function NavBar() {
   const dispatch = useDispatch();
   const { theme, toggleTheme } = useTheme();
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    setScrolled(currentScrollY > 10);
+
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+    setLastScrollY(currentScrollY);
+  }, [lastScrollY]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   const handleHomeClick = () => {
     dispatch(clear());
   };
 
   return (
-    <nav className="navbar" role="navigation" aria-label="Main navigation">
+    <nav
+      className={`navbar ${scrolled ? "navbar--scrolled" : ""} ${hidden ? "navbar--hidden" : ""}`}
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <div className="navbar-content">
         <div className="navbar-left">
           <Tooltip text="Go to home" position="bottom">
-            <NavLink to="/home" onClick={handleHomeClick} className="logo-link" aria-label="GameStream — Go to home">
-              <img src={Logo} className="navbar-logo" alt="GameStream logo" />
+            <NavLink
+              to="/home"
+              onClick={handleHomeClick}
+              className="logo-link"
+              aria-label="GameStream — Go to home"
+            >
+              <GamepadIcon size={26} className="brand-icon" />
+              <span className="brand-name navbar-brand">GameStream</span>
             </NavLink>
           </Tooltip>
         </div>
 
         <div className="navbar-right">
-          <Tooltip text={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'} position="bottom">
+          <Tooltip text={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"} position="bottom">
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
           </Tooltip>
-          <NavLink to="/createVideogame" className="nav-link create-button" aria-label="Create a new videogame">
-            <span className="material-symbols-rounded" aria-hidden="true">add_to_photos</span>
+          <NavLink
+            to="/createVideogame"
+            className="nav-link create-button"
+            aria-label="Create a new videogame"
+          >
+            <span className="material-symbols-rounded create-button-icon" aria-hidden="true">add_to_photos</span>
             <span className="button-text-large">Add Videogame</span>
             <span className="button-text-small" aria-hidden="true">Add</span>
           </NavLink>

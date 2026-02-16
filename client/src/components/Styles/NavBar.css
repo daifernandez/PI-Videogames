@@ -1,3 +1,7 @@
+/* ========================================
+   NavBar — Clean Glassmorphism Header
+   ======================================== */
+
 .navbar {
   position: fixed;
   top: 0;
@@ -6,11 +10,47 @@
   width: 100%;
   height: 70px;
   background: var(--navbar-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
   z-index: 9999;
   border-bottom: 1px solid var(--navbar-border);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scroll shadow effect */
+.navbar--scrolled {
+  box-shadow: var(--shadow-md);
+  border-bottom-color: transparent;
+}
+
+/* Auto-hide on scroll down */
+.navbar--hidden {
+  transform: translateY(-100%);
+}
+
+/* Subtle accent line at the bottom edge */
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.navbar--scrolled::after {
+  opacity: 0.3;
 }
 
 .App {
@@ -20,6 +60,8 @@
   position: relative;
 }
 
+/* ---- Layout ---- */
+
 .navbar-content {
   width: 100%;
   max-width: 1600px;
@@ -28,49 +70,53 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 3rem;
+  padding: 0 2.5rem;
   box-sizing: border-box;
 }
 
 .navbar-left {
   display: flex;
   align-items: center;
-  flex: 0 1 auto;
-  min-width: 200px;
+  flex: 0 0 auto;
 }
 
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  flex: 0 1 auto;
-  justify-content: flex-end;
-  margin-left: auto;
+  gap: 1.25rem;
+  flex: 0 0 auto;
 }
+
+/* ---- Logo ---- */
 
 .logo-link {
   display: flex;
   align-items: center;
-  opacity: 0.9;
-  transition: opacity 0.3s ease;
-}
-
-.navbar-logo {
-  height: 35px;
-  width: auto;
+  gap: 0.5rem;
+  text-decoration: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 12px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: brightness(1.02);
-  margin-right: 1rem;
 }
 
 .logo-link:hover {
-  opacity: 1;
+  background: var(--accent-soft);
 }
 
-.navbar-logo:hover {
-  transform: scale(1.03);
-  filter: brightness(1.05);
+.logo-link:hover .brand-icon {
+  transform: scale(1.08);
 }
+
+
+
+/* ---- Brand text ---- */
+
+.navbar-brand {
+  font-size: 1.25rem;
+  transition: opacity 0.3s ease;
+}
+
+/* ---- Generic Nav Link ---- */
 
 .nav-link {
   display: flex;
@@ -93,73 +139,71 @@
   border: 1px solid var(--accent-border);
 }
 
+/* ---- Create Button (CTA) ---- */
+
 .create-button {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  background: linear-gradient(45deg, #8c7ae6, #9b59b6);
-  color: white;
-  border-radius: 50px;
+  gap: 6px;
+  padding: 0.45rem 1rem;
+  background: transparent;
+  color: var(--accent);
+  border-radius: 10px;
   font-weight: 600;
+  font-size: 0.85rem;
   text-decoration: none;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 4px 15px rgba(140, 122, 230, 0.2);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: none;
+  border: 1.5px solid var(--accent-border);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.2px;
 }
 
 .create-button:hover {
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border-color: var(--accent);
   transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(140, 122, 230, 0.2);
-  background: linear-gradient(45deg, #7f6ee3, #8e44ad);
-  color: white;
+  box-shadow: 0 4px 14px rgba(140, 122, 230, 0.25);
 }
 
 .create-button:active {
   transform: translateY(0);
-  box-shadow: 0 4px 15px rgba(140, 122, 230, 0.2);
+  box-shadow: 0 1px 4px rgba(140, 122, 230, 0.15);
 }
 
-.create-button .material-symbols-rounded {
-  font-size: 20px;
-  transition: transform 0.3s ease;
-  color: white;
+.create-button .material-symbols-rounded,
+.create-button-icon {
+  font-size: 18px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  color: inherit;
 }
 
-.create-button:hover .material-symbols-rounded {
+.create-button:hover .material-symbols-rounded,
+.create-button:hover .create-button-icon {
   transform: rotate(90deg);
 }
 
 .button-text-large,
 .button-text-small {
-  color: white;
+  color: inherit;
   display: inline;
-  margin-left: 4px;
+  margin-left: 1px;
 }
 
 .button-text-small {
   display: none;
 }
 
-@media (max-width: 768px) {
-  .button-text-large {
-    display: none;
-  }
-  
-  .button-text-small {
-    display: inline;
-    margin-left: 4px;
-  }
-  
-  .create-button {
-    padding: 8px 16px;
-  }
-}
+/* ---- Create Button States ---- */
 
 .create-button:disabled {
-  opacity: 0.7;
+  opacity: 0.5;
   cursor: not-allowed;
-  background: rgba(206, 212, 218, 0.8);
-  color: #6b7280;
+  background: transparent;
+  color: var(--text-tertiary);
+  border-color: var(--border-primary);
   box-shadow: none;
   pointer-events: none;
 }
@@ -168,14 +212,13 @@
   cursor: pointer;
 }
 
-.create-button:focus {
+.create-button:focus-visible {
   outline: none;
-  box-shadow: 
-    0 0 0 2px white,
-    0 0 0 4px rgba(108, 92, 231, 0.4);
+  box-shadow:
+    0 0 0 2px var(--bg-page),
+    0 0 0 4px rgba(140, 122, 230, 0.4);
 }
 
-/* Estado de carga */
 .create-button.loading {
   cursor: wait;
   pointer-events: none;
@@ -186,15 +229,17 @@
   opacity: 0.7;
 }
 
-/* Estado de éxito */
 .create-button.success {
-  background: linear-gradient(135deg, #10b981, #34d399);
+  background: #10b981;
+  border-color: #10b981;
+  color: white;
   pointer-events: none;
 }
 
-/* Estado de error */
 .create-button.error {
-  background: linear-gradient(135deg, #ef4444, #f87171);
+  background: #ef4444;
+  border-color: #ef4444;
+  color: white;
   pointer-events: none;
 }
 
@@ -202,6 +247,70 @@
   font-size: 19px;
   opacity: 0.9;
 }
+
+/* ---- Home Button (used in other pages) ---- */
+
+.home-button {
+  padding: 0.65rem;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(139, 127, 249, 0.15), rgba(157, 145, 255, 0.15));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.home-button .material-symbols-rounded {
+  font-size: 22px;
+  color: var(--accent);
+  opacity: 0.85;
+  font-variation-settings: 'FILL' 0, 'wght' 400;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.home-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(139, 127, 249, 0.15);
+}
+
+.home-button:hover::before {
+  opacity: 1;
+}
+
+.home-button:hover .material-symbols-rounded {
+  opacity: 1;
+  font-variation-settings: 'FILL' 1, 'wght' 400;
+  transform: scale(1.1);
+}
+
+.home-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(139, 127, 249, 0.1);
+}
+
+.home-button:active .material-symbols-rounded {
+  transform: scale(0.95);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
 
 @media screen and (max-width: 1200px) {
   .navbar {
@@ -213,11 +322,11 @@
   }
 
   .navbar-content {
-    padding: 0 2.5rem;
+    padding: 0 2rem;
   }
 
   .navbar-right {
-    gap: 1.8rem;
+    gap: 1rem;
   }
 }
 
@@ -231,34 +340,44 @@
   }
 
   .navbar-content {
-    padding: 0 1.8rem;
+    padding: 0 1.5rem;
+  }
+
+  .navbar-brand {
+    font-size: 1rem;
   }
 
   .navbar-right {
-    gap: 1.2rem;
+    gap: 0.75rem;
   }
 
-  .navbar-left {
-    min-width: 130px;
+  .button-text-large {
+    display: none;
   }
 
-  .nav-link {
-    padding: 0.45rem 0.9rem;
-    font-size: 0.85rem;
+  .button-text-small {
+    display: inline;
+    margin-left: 1px;
   }
 
   .create-button {
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .nav-link {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.85rem;
   }
 }
 
 @media screen and (max-width: 500px) {
   .navbar {
-    height: 55px;
+    height: 56px;
   }
 
   .App {
-    padding-top: 55px;
+    padding-top: 56px;
   }
 
   .navbar-content {
@@ -266,27 +385,30 @@
   }
 
   .navbar-right {
-    gap: 0.8rem;
+    gap: 0.5rem;
   }
 
-  .navbar-left {
-    min-width: 100px;
-  }
-
-  .navbar-logo {
-    height: 25px;
-    margin-right: 0.4rem;
+  .logo-link {
+    padding: 0.3rem;
   }
 
   .nav-link {
-    padding: 0.4rem 0.7rem;
+    padding: 0.35rem 0.6rem;
     font-size: 0.8rem;
   }
 
   .create-button {
-    padding: 0.45rem 0.9rem;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.78rem;
+    gap: 4px;
+  }
+
+  .create-button .material-symbols-rounded {
+    font-size: 16px;
   }
 }
+
+/* ---- Large Screens ---- */
 
 @media screen and (min-width: 1921px) {
   .navbar {
@@ -303,33 +425,17 @@
     padding: 0 4rem;
   }
 
-  .navbar-left {
-    min-width: 250px;
-    flex: 1;
-  }
-
-  .navbar-right {
-    flex: 1;
-    justify-content: flex-end;
-    gap: 2rem;
-  }
-
-  .navbar-logo {
-    height: 45px;
-  }
-
-  .nav-link {
-    font-size: 1.2rem;
-    padding: 0.8rem 1.6rem;
+  .navbar-brand {
+    font-size: 1.4rem;
   }
 
   .create-button {
-    padding: 0.85rem 1.7rem;
-    font-size: 1.2rem;
+    padding: 0.55rem 1.3rem;
+    font-size: 1rem;
   }
 
   .material-symbols-rounded {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .home-button {
@@ -355,33 +461,17 @@
     padding: 0 5rem;
   }
 
-  .navbar-left {
-    min-width: 300px;
-    flex: 1.5;
-  }
-
-  .navbar-right {
-    flex: 2;
-    gap: 3rem;
-  }
-
-  .navbar-logo {
-    height: 50px;
-    margin-right: 2rem;
-  }
-
-  .nav-link {
-    font-size: 1.3rem;
-    padding: 0.9rem 1.8rem;
+  .navbar-brand {
+    font-size: 1.55rem;
   }
 
   .create-button {
-    padding: 0.95rem 2rem;
-    font-size: 1.3rem;
+    padding: 0.6rem 1.5rem;
+    font-size: 1.05rem;
   }
 
   .material-symbols-rounded {
-    font-size: 26px;
+    font-size: 24px;
   }
 
   .home-button {
@@ -407,37 +497,17 @@
     padding: 0 6rem;
   }
 
-  .navbar-left {
-    min-width: 400px;
-    flex: 2;
-  }
-
-  .navbar-right {
-    flex: 3;
-    gap: 4rem;
-    padding-left: 2rem;
-  }
-
-  .navbar-logo {
-    height: 60px;
-    margin-right: 3rem;
-  }
-
-  .nav-link {
-    font-size: 1.5rem;
-    padding: 1rem 2rem;
-    border-radius: 16px;
+  .navbar-brand {
+    font-size: 1.75rem;
   }
 
   .create-button {
-    padding: 1.1rem 2.4rem;
-    font-size: 1.5rem;
-    border-radius: 12px;
-    margin-left: 2rem;
+    padding: 0.7rem 1.8rem;
+    font-size: 1.15rem;
   }
 
   .material-symbols-rounded {
-    font-size: 30px;
+    font-size: 28px;
   }
 
   .home-button {
@@ -448,63 +518,4 @@
   .home-button .material-symbols-rounded {
     font-size: 32px;
   }
-}
-
-.home-button {
-  padding: 0.65rem;
-  border-radius: 8px;
-  background: linear-gradient(135deg, rgba(139, 127, 249, 0.08), rgba(157, 145, 255, 0.08));
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.home-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(139, 127, 249, 0.15), rgba(157, 145, 255, 0.15));
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.home-button .material-symbols-rounded {
-  font-size: 22px;
-  color: #8b7ff9;
-  opacity: 0.85;
-  font-variation-settings: 'FILL' 0, 'wght' 400;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  z-index: 1;
-}
-
-.home-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(139, 127, 249, 0.15);
-}
-
-.home-button:hover::before {
-  opacity: 1;
-}
-
-.home-button:hover .material-symbols-rounded {
-  opacity: 1;
-  font-variation-settings: 'FILL' 1, 'wght' 400;
-  transform: scale(1.1);
-  color: #7667e3;
-}
-
-.home-button:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(139, 127, 249, 0.1);
-}
-
-.home-button:active .material-symbols-rounded {
-  transform: scale(0.95);
 }

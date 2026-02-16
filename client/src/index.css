@@ -156,6 +156,26 @@ code {
 }
 
 /* ========================================
+   Brand Name — Shared gradient text
+   ======================================== */
+
+.brand-icon {
+  color: var(--accent);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.brand-name {
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+/* ========================================
    Global Focus-Visible States (Phase 7)
    ======================================== */
 

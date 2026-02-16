@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { SiNintendogamecube } from 'react-icons/si';
 import { FaCalendarAlt, FaRocket, FaStar, FaClock, FaFire, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { platformIcons } from '../utils/platformIcons';
