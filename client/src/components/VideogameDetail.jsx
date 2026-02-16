@@ -13,6 +13,8 @@ import RatingCircle from "./RatingCircle";
 import Breadcrumbs from "./Breadcrumbs";
 import MediaGallery from "./MediaGallery";
 import SimilarGames from "./SimilarGames";
+import PriceComparison from "./PriceComparison";
+import DeleteModal from "./DeleteModal";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
 
@@ -360,6 +362,9 @@ export default function VideogameDetail() {
                     </div>
                   </section>
                 )}
+
+                {/* Dónde comprar / Comparativa de precios */}
+                <PriceComparison gameId={id} gameName={game.name} />
               </motion.div>
             )}
 

@@ -1,0 +1,198 @@
+/* PriceComparison — Dónde comprar y comparativa de precios */
+
+.pc-section {
+  margin-bottom: 2rem;
+}
+
+.pc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: opacity 0.2s ease;
+}
+
+.pc-header:hover {
+  opacity: 0.9;
+}
+
+.pc-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.pc-chevron {
+  font-size: 1.25rem;
+  color: var(--text-tertiary);
+}
+
+.pc-content {
+  overflow: hidden;
+  padding-top: 1rem;
+}
+
+.pc-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+
+.pc-skeleton__row {
+  height: 20px;
+  border-radius: 6px;
+  background: var(--bg-skeleton, rgba(255, 255, 255, 0.04));
+  animation: pc-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pc-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+}
+
+.pc-subtitle {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 0 0 0.5rem 0;
+}
+
+.pc-deals {
+  margin-bottom: 1rem;
+}
+
+.pc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pc-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.65rem 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+}
+
+.pc-item__store {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  min-width: 120px;
+}
+
+.pc-item__prices {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.pc-item__retail {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+}
+
+.pc-item__price {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.pc-item__price--best {
+  color: var(--accent, #facc15);
+}
+
+.pc-item__savings {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.15);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+.pc-item__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--accent, #facc15);
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.25);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.pc-item__link:hover {
+  background: rgba(250, 204, 21, 0.2);
+}
+
+.pc-item__link .material-symbols-rounded {
+  font-size: 0.8rem;
+}
+
+.pc-fallback {
+  margin-bottom: 1rem;
+}
+
+.pc-list--links {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pc-list--links li {
+  display: inline;
+}
+
+.pc-fallback__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.pc-fallback__link:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-border, rgba(250, 204, 21, 0.3));
+}
+
+.pc-fallback__link .material-symbols-rounded {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.pc-disclaimer {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  margin: 0.75rem 0 0 0;
+  opacity: 0.8;
+}
