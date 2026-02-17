@@ -367,7 +367,7 @@ export default function VideogameDetail() {
                   </section>
                 )}
 
-                {/* Dónde comprar / Comparativa de precios */}
+                {/* Where to buy / Price comparison */}
                 <PriceComparison gameId={id} gameName={game.name} />
               </motion.div>
             )}

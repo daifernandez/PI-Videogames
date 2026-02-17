@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
+import useToast from "../hooks/useToast";
 import "./Styles/PriceComparison.css";
 
 const apiUrl = process.env.REACT_APP_API_HOST;
+const IS_MOBILE = () => typeof window !== "undefined" && window.matchMedia("(max-width: 640px)").matches;
 
 function PriceComparison({ gameId, gameName }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
+  const hasAutoExpanded = useRef(false);
+  const addToast = useToast();
 
   useEffect(() => {
     if (!gameId) return;
@@ -20,7 +24,7 @@ function PriceComparison({ gameId, gameName }) {
         setData(res.data);
       })
       .catch((err) => {
-        console.error("Error al cargar precios:", err);
+        console.error("Error loading prices:", err);
         setData({
           deals: [],
           fallbackLinks: [
@@ -38,10 +42,23 @@ function PriceComparison({ gameId, gameName }) {
   const hasFallback = data?.fallbackLinks?.length > 0;
   const hasContent = hasDeals || hasFallback;
 
+  useEffect(() => {
+    if (hasContent && !hasAutoExpanded.current && IS_MOBILE()) {
+      setExpanded(true);
+      hasAutoExpanded.current = true;
+    }
+  }, [hasContent]);
+
+  const handleStoreClick = (storeName) => {
+    if (IS_MOBILE()) {
+      addToast(`Opening ${storeName}…`, { type: "info", duration: 2000 });
+    }
+  };
+
   if (loading) {
     return (
       <section className="pc-section">
-        <h2 className="pc-title">Dónde comprar</h2>
+        <h2 className="pc-title">Where to buy</h2>
         <div className="pc-skeleton">
           <div className="pc-skeleton__row" />
           <div className="pc-skeleton__row" />
@@ -67,7 +84,7 @@ function PriceComparison({ gameId, gameName }) {
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
       >
-        <h2 className="pc-title">Dónde comprar</h2>
+        <h2 className="pc-title">Where to buy</h2>
         <span className="material-symbols-rounded pc-chevron">
           {expanded ? "expand_less" : "expand_more"}
         </span>
@@ -84,11 +101,19 @@ function PriceComparison({ gameId, gameName }) {
           >
             {hasDeals && (
               <div className="pc-deals">
-                <p className="pc-subtitle">Comparativa de precios</p>
+                <p className="pc-subtitle">Price comparison</p>
                 <ul className="pc-list">
                   {data.deals.map((deal, i) => (
-                    <li key={`${deal.storeID}-${i}`} className="pc-item">
-                      <span className="pc-item__store">{deal.storeName}</span>
+                    <li
+                      key={`${deal.storeID}-${i}`}
+                      className={`pc-item ${i === 0 ? "pc-item--best" : ""}`}
+                    >
+                      <span className="pc-item__store">
+                        {deal.storeName}
+                        {i === 0 && (
+                          <span className="pc-item__badge">Best price</span>
+                        )}
+                      </span>
                       <span className="pc-item__prices">
                         {deal.savings > 0 && (
                           <span className="pc-item__retail">{formatPrice(deal.retailPrice)}</span>
@@ -109,8 +134,9 @@ function PriceComparison({ gameId, gameName }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="pc-item__link"
+                        onClick={() => handleStoreClick(deal.storeName)}
                       >
-                        Comprar
+                        Buy
                         <span className="material-symbols-rounded">open_in_new</span>
                       </a>
                     </li>
@@ -122,7 +148,7 @@ function PriceComparison({ gameId, gameName }) {
             {(!hasDeals || hasFallback) && (
               <div className="pc-fallback">
                 <p className="pc-subtitle">
-                  {hasDeals ? "Buscar en más tiendas" : "Buscar en tiendas"}
+                  {hasDeals ? "Search more stores" : "Search stores"}
                 </p>
                 <ul className="pc-list pc-list--links">
                   {data.fallbackLinks.map((link) => (
@@ -132,6 +158,7 @@ function PriceComparison({ gameId, gameName }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="pc-fallback__link"
+                        onClick={() => handleStoreClick(link.storeName)}
                       >
                         {link.storeName}
                         <span className="material-symbols-rounded">open_in_new</span>
@@ -143,7 +170,7 @@ function PriceComparison({ gameId, gameName }) {
             )}
 
             <p className="pc-disclaimer">
-              Los precios pueden variar. Links a través de CheapShark.
+              Prices may vary. Links via CheapShark.
             </p>
           </motion.div>
         )}
