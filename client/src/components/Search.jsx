@@ -15,6 +15,8 @@ export default function Search() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allVideogames = useSelector((state) => state.videogames || []);
+  const recentGames = useSelector((state) => state.recentGames || []);
+  const upcomingGames = useSelector((state) => state.upcomingGames || []);
   const searchQuery = useSelector((state) => state.searchQuery);
 
   const [search, setSearch] = useState(searchQuery || "");
@@ -46,21 +48,34 @@ export default function Search() {
     return () => clearTimeout(debounceTimer.current);
   }, [search]);
 
-  // Filter suggestions from local store
+  // Sugerencias desde catálogo, recientes y próximos (para que "Reanimal" etc. aparezcan)
   const suggestions = useMemo(() => {
     if (!debouncedQuery || debouncedQuery.length < 2) return [];
     const query = debouncedQuery.toLowerCase();
     const results = [];
+    const seenIds = new Set();
+
+    const addIfMatches = (game) => {
+      if (!seenIds.has(game.id) && game.name?.toLowerCase().includes(query)) {
+        seenIds.add(game.id);
+        results.push(game);
+        return results.length < MAX_SUGGESTIONS;
+      }
+      return true;
+    };
 
     for (const game of allVideogames) {
-      if (game.name.toLowerCase().includes(query)) {
-        results.push(game);
-        if (results.length >= MAX_SUGGESTIONS) break;
-      }
+      if (!addIfMatches(game)) break;
+    }
+    for (const game of recentGames) {
+      if (!addIfMatches(game)) break;
+    }
+    for (const game of upcomingGames) {
+      if (!addIfMatches(game)) break;
     }
 
     return results;
-  }, [debouncedQuery, allVideogames]);
+  }, [debouncedQuery, allVideogames, recentGames, upcomingGames]);
 
   // Total items for keyboard navigation
   const totalItems = useMemo(() => {

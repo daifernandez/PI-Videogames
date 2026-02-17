@@ -35,18 +35,17 @@ export default function Home() {
     }
   }, [location.key]);
   const videogames = useSelector((state) => state.videogamesOnScreen || []);
-  const allVideogames = useSelector((state) => state.videogames || []);
   const loading = useSelector((state) => state.loading);
   const error = useSelector((state) => state.error);
   const searchError = useSelector((state) => state.searchError);
+  const hasSearchInUrl = !!searchParams.get("search");
 
+  // Actualizar catálogo cada vez que el usuario visita el home (excepto si hay búsqueda en URL)
   useEffect(() => {
-    // No cargar lista completa si hay búsqueda en URL (evita sobrescribir resultados)
-    if (searchParams.get("search")) return;
-    if (allVideogames.length === 0 && !loading && !error) {
-      dispatch(getvideogames());
-    }
-  }, [dispatch, allVideogames.length, loading, error, searchParams]);
+    if (location.pathname !== "/home") return;
+    if (hasSearchInUrl) return; // La búsqueda la maneja useUrlState
+    dispatch(getvideogames());
+  }, [dispatch, location.pathname, hasSearchInUrl]);
 
   const renderGameContent = () => {
     if (loading) {

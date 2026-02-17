@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FaCalendarAlt, FaRocket, FaStar, FaClock, FaFire, FaChevronDown, FaChevronUp } from 'react-icons/fa';
@@ -12,9 +12,18 @@ import defaultGameImage from '../img/default-game.jpg';
 const UpcomingGames = () => {
     const dispatch = useDispatch();
     const upcomingGames = useSelector((state) => state.upcomingGames);
+    const searchQuery = useSelector((state) => state.searchQuery);
     const loading = useSelector((state) => state.loadingUpcoming);
     const error = useSelector((state) => state.errorUpcoming);
     const [imageErrors, setImageErrors] = useState({});
+
+    // Filtrar por búsqueda para que la búsqueda afecte toda la página
+    const displayedGames = useMemo(() => {
+        if (!upcomingGames?.length) return upcomingGames || [];
+        if (!searchQuery?.trim()) return upcomingGames;
+        const q = searchQuery.toLowerCase().trim();
+        return upcomingGames.filter((g) => g.name?.toLowerCase().includes(q));
+    }, [upcomingGames, searchQuery]);
     const [expandedMonths, setExpandedMonths] = useState({});
 
     useEffect(() => {
@@ -22,15 +31,15 @@ const UpcomingGames = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (upcomingGames && upcomingGames.length > 0) {
-            const grouped = groupByMonth(upcomingGames);
+        if (displayedGames && displayedGames.length > 0) {
+            const grouped = groupByMonth(displayedGames);
             const initial = {};
             Object.keys(grouped).forEach((key, idx) => {
                 initial[key] = idx < 3;
             });
             setExpandedMonths(initial);
         }
-    }, [upcomingGames]);
+    }, [displayedGames]);
 
     const handleImageError = (gameId) => {
         setImageErrors(prev => ({ ...prev, [gameId]: true }));
@@ -104,7 +113,7 @@ const UpcomingGames = () => {
         }, {});
     };
 
-    const totalGames = upcomingGames ? upcomingGames.length : 0;
+    const totalGames = displayedGames ? displayedGames.length : 0;
 
     if (loading) {
         return (
@@ -165,7 +174,7 @@ const UpcomingGames = () => {
         );
     }
 
-    if (!upcomingGames || upcomingGames.length === 0) {
+    if (!displayedGames || displayedGames.length === 0) {
         return (
             <section className="upcoming-section">
                 <div className="ug-glass-container">
@@ -180,7 +189,11 @@ const UpcomingGames = () => {
                             </div>
                         </div>
                         <div className="ug-empty-state">
-                            <p>No upcoming releases available.</p>
+                            <p>
+                                {searchQuery
+                                    ? `No upcoming games match "${searchQuery}".`
+                                    : "No upcoming releases available."}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -188,7 +201,7 @@ const UpcomingGames = () => {
         );
     }
 
-    const groupedGames = groupByMonth(upcomingGames);
+    const groupedGames = groupByMonth(displayedGames);
 
     return (
         <section className="upcoming-section" aria-label="Upcoming releases">

@@ -125,12 +125,30 @@ export const getgenres = () => {
 };
 
 export function getVideogameByName(name) {
-  return async function (dispatch) {
+  return async function (dispatch, getState) {
     try {
       const response = await fetchWithRetry(
         `${apiUrl}/videogames?name=${encodeURIComponent(name)}`
       );
-      if (!response.data || response.data.length === 0) {
+      let apiResults = response.data && response.data.length > 0 ? response.data : [];
+
+      if (apiResults.length === 0) {
+        // La API no devolvió nada: buscar en catálogo, recientes y próximos (ej. "Reanimal")
+        const state = getState?.() || {};
+        const q = (name || "").toLowerCase().trim();
+        const matchesName = (g) => g?.name?.toLowerCase().includes(q);
+        const seenIds = new Set();
+
+        const fromCatalog = (state.videogames || []).filter((g) => matchesName(g) && !seenIds.has(g.id));
+        fromCatalog.forEach((g) => seenIds.add(g.id));
+        const fromRecent = (state.recentGames || []).filter((g) => matchesName(g) && !seenIds.has(g.id));
+        fromRecent.forEach((g) => seenIds.add(g.id));
+        const fromUpcoming = (state.upcomingGames || []).filter((g) => matchesName(g) && !seenIds.has(g.id));
+
+        apiResults = [...fromCatalog, ...fromRecent, ...fromUpcoming];
+      }
+
+      if (apiResults.length === 0) {
         dispatch({
           type: ERROR_VIDEOGAME_BY_NAME,
           payload: {
@@ -140,7 +158,8 @@ export function getVideogameByName(name) {
         });
         return;
       }
-      dispatch({ type: GET_VIDEOGAME_BY_NAME, payload: { data: response.data, searchQuery: name } });
+
+      dispatch({ type: GET_VIDEOGAME_BY_NAME, payload: { data: apiResults, searchQuery: name } });
     } catch (error) {
       console.error("Error en get videogame by name:", {
         mensaje: error.message,

@@ -162,11 +162,34 @@ function rootReducer(state = initialState, action) {
     case GET_VIDEOGAME_BY_NAME: {
       const data = action.payload?.data ?? action.payload;
       const searchQuery = action.payload?.searchQuery ?? null;
+      const apiResults = Array.isArray(data) ? data : [];
+      const seenIds = new Set(apiResults.map((g) => g.id));
+
+      // Incluir juegos que coincidan en catálogo, recientes y próximos (p. ej. "Reanimal" en lanzamientos)
+      const q = (searchQuery || "").toLowerCase().trim();
+      const matchesName = (g) => g.name && g.name.toLowerCase().includes(q);
+
+      const fromCatalog = (state.videogames || []).filter(
+        (g) => matchesName(g) && !seenIds.has(g.id)
+      );
+      fromCatalog.forEach((g) => seenIds.add(g.id));
+
+      const fromRecent = (state.recentGames || []).filter(
+        (g) => matchesName(g) && !seenIds.has(g.id)
+      );
+      fromRecent.forEach((g) => seenIds.add(g.id));
+
+      const fromUpcoming = (state.upcomingGames || []).filter(
+        (g) => matchesName(g) && !seenIds.has(g.id)
+      );
+
+      const mergedResults = [...apiResults, ...fromCatalog, ...fromRecent, ...fromUpcoming];
+
       return {
         ...state,
-        videogamesOnScreen: Array.isArray(data) ? data : [],
+        videogamesOnScreen: mergedResults,
         currentPage: 0,
-        numberOfPages: Math.ceil((data?.length || 0) / VIDEO_GAMES_PER_PAGE) || 1,
+        numberOfPages: Math.ceil(mergedResults.length / VIDEO_GAMES_PER_PAGE) || 1,
         searchError: null,
         searchQuery,
       };

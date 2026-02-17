@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { SiNintendogamecube } from 'react-icons/si';
@@ -13,8 +13,17 @@ import defaultGameImage from '../img/default-game.jpg';
 const RecentGames = () => {
     const dispatch = useDispatch();
     const recentGames = useSelector((state) => state.recentGames);
+    const searchQuery = useSelector((state) => state.searchQuery);
     const loadingRecentGames = useSelector((state) => state.loadingRecentGames);
     const recentGamesError = useSelector((state) => state.recentGamesError);
+
+    // Filtrar por búsqueda para que la búsqueda afecte toda la página
+    const displayedGames = useMemo(() => {
+        if (!recentGames?.length) return recentGames || [];
+        if (!searchQuery?.trim()) return recentGames;
+        const q = searchQuery.toLowerCase().trim();
+        return recentGames.filter((g) => g.name?.toLowerCase().includes(q));
+    }, [recentGames, searchQuery]);
     const scrollContainerRef = useRef(null);
     const [imageErrors, setImageErrors] = useState({});
     const [scrollProgress, setScrollProgress] = useState(0);
@@ -101,7 +110,7 @@ const RecentGames = () => {
         resizeObserver.observe(container);
         
         return () => resizeObserver.disconnect();
-    }, [recentGames, updateScrollState]);
+    }, [displayedGames, updateScrollState]);
 
     const handleScroll = (direction) => {
         if (scrollContainerRef.current) {
@@ -229,7 +238,7 @@ const RecentGames = () => {
         );
     }
 
-    if (!recentGames || recentGames.length === 0) {
+    if (!displayedGames || displayedGames.length === 0) {
         return (
             <section className="recent-games-section">
                 <div className="rg-glass-container">
@@ -244,7 +253,11 @@ const RecentGames = () => {
                             </div>
                         </div>
                         <div className="empty-state">
-                            <p>No recent games available at this time.</p>
+                            <p>
+                                {searchQuery
+                                    ? `No recent games match "${searchQuery}".`
+                                    : "No recent games available at this time."}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -272,7 +285,7 @@ const RecentGames = () => {
                         <div className="header-right">
                             <span className="games-count-badge">
                                 <FaFire className="count-icon" />
-                                {recentGames.length} {recentGames.length === 1 ? 'game' : 'games'}
+                                {displayedGames.length} {displayedGames.length === 1 ? 'game' : 'games'}
                             </span>
                             <div className="scroll-nav-buttons">
                                 <button 
@@ -310,7 +323,7 @@ const RecentGames = () => {
                             onMouseUp={handleMouseUp}
                             onMouseLeave={handleMouseLeave}
                         >
-                            {recentGames.map((game, index) => (
+                            {displayedGames.map((game, index) => (
                                 <Link 
                                     to={`/videogame/${game.id}`} 
                                     key={game.id} 
