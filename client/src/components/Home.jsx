@@ -9,6 +9,7 @@ import Paginado from "./Paginado";
 import EmptyResults from "./EmptyResults";
 import RecentGames from "./RecentGames";
 import UpcomingGames from "./UpcomingGames";
+import SectionErrorBoundary from "./SectionErrorBoundary.jsx";
 import { getvideogames } from "../Redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useUrlState } from "../hooks/useUrlState";
@@ -101,12 +102,18 @@ export default function Home() {
         <Search />
         <FiltersOrders />
         <FilterChips />
-        <section className="games-section" aria-label="Game results" aria-live="polite">
-          {renderGameContent()}
-        </section>
+        <SectionErrorBoundary>
+          <section className="games-section" aria-label="Game results" aria-live="polite">
+            {renderGameContent()}
+          </section>
+        </SectionErrorBoundary>
         <section className="featured-sections" aria-label="Featured games">
-          <RecentGames />  
-          <UpcomingGames />
+          <SectionErrorBoundary>
+            <RecentGames />
+          </SectionErrorBoundary>
+          <SectionErrorBoundary>
+            <UpcomingGames />
+          </SectionErrorBoundary>
         </section>
       </main>
       <Footer />

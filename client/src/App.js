@@ -7,6 +7,8 @@ import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import SkipToContent from "./components/SkipToContent.jsx";
 import TopProgressBar from "./components/TopProgressBar.jsx";
 import PageTransition from "./components/PageTransition.jsx";
+import OfflineBanner from "./components/OfflineBanner.jsx";
+import { useOnlineStatus } from "./hooks/useOnlineStatus.js";
 import ToastContainer from "./components/Toast.jsx";
 import Landing from "./components/Landing.jsx";
 import Home from "./components/Home.jsx";
@@ -16,11 +18,13 @@ import PlatformGames from "./components/PlatformGames.jsx";
 export default function App() {
   useTheme();
   const location = useLocation();
+  const isOnline = useOnlineStatus();
 
   return (
     <ToastProvider>
       <div className="App">
         <TopProgressBar />
+        <OfflineBanner isOnline={isOnline} />
         <SkipToContent />
         <ErrorBoundary>
           <div className="main-content" id="main-content" tabIndex="-1">

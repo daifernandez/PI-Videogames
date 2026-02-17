@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AnimatePresence } from "framer-motion";
 import { getVideogameByName, clear, getvideogames } from "../Redux/actions";
 import useSearchHistory from "../hooks/useSearchHistory";
+import { useOnlineStatus } from "../hooks/useOnlineStatus";
 import SearchSuggestions from "./SearchSuggestions";
 import "./Styles/Search.css";
 
@@ -25,8 +26,10 @@ export default function Search() {
   const inputRef = useRef(null);
   const containerRef = useRef(null);
   const debounceTimer = useRef(null);
+  const lastSubmitTime = useRef(0);
 
   const { history, addSearch, removeSearch, clearHistory } = useSearchHistory();
+  const isOnline = useOnlineStatus();
 
   // Sincronizar input con searchQuery de Redux (ej. al cargar desde URL)
   useEffect(() => {
@@ -82,7 +85,9 @@ export default function Search() {
     (e) => {
       if (e) e.preventDefault();
       const term = search.trim();
-      if (!term) return;
+      if (!term || !isOnline) return;
+      if (Date.now() - lastSubmitTime.current < 800) return; // F.6 evitar doble submit
+      lastSubmitTime.current = Date.now();
       addSearch(term);
       dispatch(getVideogameByName(term));
       setSearch("");
@@ -90,7 +95,7 @@ export default function Search() {
       setActiveIndex(-1);
       inputRef.current?.blur();
     },
-    [search, dispatch, addSearch]
+    [search, dispatch, addSearch, isOnline]
   );
 
   const handleSelectSuggestion = useCallback(
@@ -106,13 +111,14 @@ export default function Search() {
 
   const handleSelectRecent = useCallback(
     (term) => {
+      if (!isOnline) return;
       addSearch(term);
       dispatch(getVideogameByName(term));
       setSearch("");
       setShowDropdown(false);
       setActiveIndex(-1);
     },
-    [dispatch, addSearch]
+    [dispatch, addSearch, isOnline]
   );
 
   const handleKeyDown = useCallback(
@@ -256,7 +262,7 @@ export default function Search() {
           <button
             className="search-button"
             type="submit"
-            disabled={!search.trim()}
+            disabled={!search.trim() || !isOnline}
             aria-label="Submit search"
           >
             <span className="material-symbols-rounded search-button-icon">arrow_forward</span>

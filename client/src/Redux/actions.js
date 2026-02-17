@@ -2,6 +2,31 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_HOST;
 
+const RETRY_DELAYS = [1000, 3000];
+const isRetryableError = (err) => {
+  if (!err.response) return true; // network error
+  const s = err.response.status;
+  return s >= 500 || s === 408 || s === 429;
+};
+
+async function fetchWithRetry(url, options = {}, retries = RETRY_DELAYS) {
+  let lastError;
+  for (let i = 0; i <= retries.length; i++) {
+    try {
+      const res = await axios.get(url, options);
+      return res;
+    } catch (err) {
+      lastError = err;
+      if (i < retries.length && isRetryableError(err)) {
+        await new Promise((r) => setTimeout(r, retries[i]));
+      } else {
+        throw err;
+      }
+    }
+  }
+  throw lastError;
+}
+
 // Action type constants
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
 export const LOADING_VIDEOGAMES = "LOADING_VIDEOGAMES";
@@ -30,7 +55,7 @@ export function getvideogames() {
   return async function (dispatch) {
     try {
       dispatch({ type: LOADING_VIDEOGAMES });
-      const response = await axios.get(`${apiUrl}/videogames`);
+      const response = await fetchWithRetry(`${apiUrl}/videogames`);
       
       if (!response.data || response.data.length === 0) {
         throw new Error("No se encontraron videojuegos disponibles");
@@ -84,7 +109,7 @@ export const getgenres = () => {
         });
       }
 
-      const response = await axios.get(`${apiUrl}/genres`);
+      const response = await fetchWithRetry(`${apiUrl}/genres`);
       
       // Guardar en caché
       sessionStorage.setItem('genres', JSON.stringify(response.data));
@@ -102,7 +127,9 @@ export const getgenres = () => {
 export function getVideogameByName(name) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`${apiUrl}/videogames?name=${encodeURIComponent(name)}`);
+      const response = await fetchWithRetry(
+        `${apiUrl}/videogames?name=${encodeURIComponent(name)}`
+      );
       if (!response.data || response.data.length === 0) {
         dispatch({
           type: ERROR_VIDEOGAME_BY_NAME,
@@ -178,7 +205,7 @@ export function getUpcomingGames() {
   return async function (dispatch) {
     try {
       dispatch({ type: LOADING_UPCOMING_GAMES });
-      const response = await axios.get(`${apiUrl}/videogames/upcoming`);
+      const response = await fetchWithRetry(`${apiUrl}/videogames/upcoming`);
       
       if (!response.data || response.data.length === 0) {
         throw new Error("No se encontraron próximos lanzamientos");
@@ -206,7 +233,7 @@ export function getRecentGames() {
   return async function (dispatch) {
     try {
       dispatch({ type: LOADING_RECENT_GAMES });
-      const response = await axios.get(`${apiUrl}/videogames/recent`);
+      const response = await fetchWithRetry(`${apiUrl}/videogames/recent`);
       
       if (!response.data || response.data.length === 0) {
         throw new Error("No se encontraron lanzamientos recientes");

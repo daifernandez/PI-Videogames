@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import ImagePlaceholder from "./ImagePlaceholder.jsx";
 import banner from "../img/banner.jpg";
 import "./Styles/SearchSuggestions.css";
 
@@ -129,11 +130,11 @@ export default function SearchSuggestions({
                       }}
                     >
                       <div className="suggestion-thumb-wrapper">
-                        <img
-                          className="suggestion-thumb"
+                        <ImagePlaceholder
                           src={game.image || banner}
                           alt=""
-                          loading="lazy"
+                          name={game.name}
+                          className="suggestion-thumb"
                         />
                       </div>
                       <div className="suggestion-info">
