@@ -85,6 +85,7 @@ export default function VideogameDetail() {
   const hasVideogames = useSelector((state) => state.videogames.length > 0);
 
   useEffect(() => {
+    window.scrollTo(0, 0); // Ir al inicio al entrar o cambiar de juego
     setGame(null);
     setIsLoading(true);
     setActiveTab("about");
@@ -94,6 +95,13 @@ export default function VideogameDetail() {
       .catch((err) => console.error("Error fetching detail:", err))
       .finally(() => setIsLoading(false));
   }, [id]);
+
+  // Scroll al top cuando el detalle está listo (asegura vista desde arriba tras el loading)
+  useEffect(() => {
+    if (!isLoading) {
+      window.scrollTo(0, 0);
+    }
+  }, [id, isLoading]);
 
   useEffect(() => {
     if (!hasVideogames) dispatch(getvideogames());

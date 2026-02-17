@@ -61,38 +61,48 @@ const get_videogame_api = async () => {
     throw new Error("API_KEY no configurada. Por favor, configure la variable de entorno API_KEY.");
   }
 
+  // Mezclar popularidad (p.1) con lanzamientos recientes (ordering -released)
+  // para que el catálogo incluya tanto clásicos como novedades
   const pagesToFetch = [
+    { pageSize: 40, page: 1 },           // Página 1: populares (orden por defecto RAWG)
+    { pageSize: 40, page: 2 },           // Página 2: más populares
     {
       pageSize: 40,
       page: 1,
-    },
-    {
-      pageSize: 40,
-      page: 2,
-    },
-    {
-      pageSize: 20,
-      page: 5,
+      ordering: "-released",              // Juegos recién lanzados (últimos meses)
+      dates: (() => {
+        const today = new Date();
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+        return `${sixMonthsAgo.toISOString().split("T")[0]},${today.toISOString().split("T")[0]}`;
+      })(),
     },
   ];
 
   try {
     var allVideogames = [];
+    const seenIds = new Set();
     for (const pageData of pagesToFetch) {
       try {
+        const params = {
+          key: process.env.API_KEY,
+          page_size: pageData.pageSize,
+          page: pageData.page,
+        };
+        if (pageData.ordering) params.ordering = pageData.ordering;
+        if (pageData.dates) params.dates = pageData.dates;
+
         const response = await axios.get(
           `https://api.rawg.io/api/games`,
-          {
-            params: {
-              key: process.env.API_KEY,
-              page_size: pageData.pageSize,
-              page: pageData.page
-            }
-          }
+          { params }
         );
 
         if (response.data && response.data.results) {
-          allVideogames = allVideogames.concat(response.data.results);
+          const newResults = response.data.results.filter(
+            (g) => g && g.id && !seenIds.has(g.id)
+          );
+          newResults.forEach((g) => seenIds.add(g.id));
+          allVideogames = allVideogames.concat(newResults);
         } else {
           console.error("Respuesta inesperada de la API:", response.data);
           throw new Error("Formato de respuesta inválido de la API de RAWG");
@@ -106,14 +116,22 @@ const get_videogame_api = async () => {
       }
     }
 
-    const videogamesApi = allVideogames.map((apiObject) => {
-      try {
-        return api_videogameParse(apiObject);
-      } catch (parseError) {
-        console.error("Error al parsear videojuego:", parseError);
-        return null;
-      }
-    }).filter(game => game !== null);
+    const videogamesApi = allVideogames
+      .map((apiObject) => {
+        try {
+          return api_videogameParse(apiObject);
+        } catch (parseError) {
+          console.error("Error al parsear videojuego:", parseError);
+          return null;
+        }
+      })
+      .filter(
+        (game) =>
+          game !== null &&
+          game.image &&
+          game.platforms &&
+          game.platforms.length > 0
+      );
 
     return videogamesApi;
   } catch (error) {
@@ -123,7 +141,9 @@ const get_videogame_api = async () => {
 
 const api_videogameParse = (apiObject) => {
   const platformNames = apiObject.platforms
-    ? apiObject.platforms.map((element) => element.platform.name)
+    ? apiObject.platforms
+        .map((element) => element?.platform?.name)
+        .filter(Boolean)
     : [];
 
   const genresApi = apiObject.genres
