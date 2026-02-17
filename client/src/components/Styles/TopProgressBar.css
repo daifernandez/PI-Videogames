@@ -1,0 +1,47 @@
+.top-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 9999;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.top-progress-bar__indeterminate {
+  height: 100%;
+  width: 30%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent, #8c7ae6),
+    transparent
+  );
+  animation: top-progress-shimmer 1.2s ease-in-out infinite;
+}
+
+.top-progress-bar--finishing .top-progress-bar__indeterminate {
+  width: 100%;
+  animation: top-progress-finish 0.15s ease-out forwards;
+}
+
+@keyframes top-progress-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+@keyframes top-progress-finish {
+  0% {
+    opacity: 1;
+    transform: translateX(-30%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}

@@ -118,11 +118,17 @@
 .vd-hero__bg {
   position: absolute;
   inset: -40px;
-  background-size: cover;
-  background-position: center 25%;
-  background-repeat: no-repeat;
   will-change: transform;
   transition: none;
+}
+
+.vd-hero__bg-img {
+  position: absolute;
+  inset: 0;
+}
+
+.vd-hero__bg-img .img-placeholder__img {
+  object-position: center 25%;
 }
 
 .vd-hero__overlay {

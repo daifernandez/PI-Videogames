@@ -14,6 +14,7 @@ import Breadcrumbs from "./Breadcrumbs";
 import MediaGallery from "./MediaGallery";
 import SimilarGames from "./SimilarGames";
 import PriceComparison from "./PriceComparison";
+import ImagePlaceholder from "./ImagePlaceholder.jsx";
 import "./Styles/VideogameDetail.css";
 import banner from "../img/banner.jpg";
 
@@ -184,11 +185,15 @@ export default function VideogameDetail() {
       <section className="vd-hero" ref={heroRef}>
         <div
           className="vd-hero__bg"
-          style={{
-            backgroundImage: `url(${game.image || banner})`,
-            transform: `translateY(${heroOffset}px)`,
-          }}
-        />
+          style={{ transform: `translateY(${heroOffset}px)` }}
+        >
+          <ImagePlaceholder
+            src={game.image || banner}
+            alt={game.name}
+            name={game.name}
+            className="vd-hero__bg-img"
+          />
+        </div>
         <div className="vd-hero__overlay" />
 
         <motion.div

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import Lightbox from "./Lightbox";
+import ImagePlaceholder from "./ImagePlaceholder.jsx";
 import "./Styles/MediaGallery.css";
 
 const apiUrl = process.env.REACT_APP_API_HOST;
@@ -129,11 +130,10 @@ export default function MediaGallery({ gameId, type }) {
               aria-label={`View screenshot ${i + 1}`}
               onKeyDown={(e) => e.key === "Enter" && openLightbox(i)}
             >
-              <img
+              <ImagePlaceholder
                 src={src}
                 alt={`Screenshot ${i + 1}`}
-                loading="lazy"
-                draggable={false}
+                name={`Screenshot ${i + 1}`}
               />
               <div className="mg-screenshot__overlay">
                 <span className="material-symbols-rounded">zoom_in</span>

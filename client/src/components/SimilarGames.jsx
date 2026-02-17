@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import ImagePlaceholder from "./ImagePlaceholder.jsx";
 import "./Styles/SimilarGames.css";
 
 const SimilarGames = ({ games }) => {
@@ -39,11 +40,11 @@ const SimilarGames = ({ games }) => {
           >
             <Link to={`/videogame/${game.id}`} className="sg__card">
               <div className="sg__image-wrapper">
-                <img
-                  src={game.image}
+                <ImagePlaceholder
+                  src={game.image || null}
                   alt={game.name}
+                  name={game.name}
                   className="sg__image"
-                  loading="lazy"
                 />
                 <div className="sg__image-overlay" />
               </div>

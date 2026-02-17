@@ -1,5 +1,6 @@
 import React, { useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import ImagePlaceholder from "./ImagePlaceholder.jsx";
 import "./Styles/Card.css";
 import banner from "../img/banner.jpg";
 
@@ -66,13 +67,14 @@ export default function Card({ videogame }) {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        <div
-          className="card-bg-image"
-          ref={imageRef}
-          style={{
-            backgroundImage: `url(${videogame.image || banner})`
-          }}
-        />
+        <div className="card-bg-image" ref={imageRef}>
+          <ImagePlaceholder
+            src={videogame.image || banner}
+            alt={videogame.name}
+            name={videogame.name}
+            className="card-bg-image__img"
+          />
+        </div>
 
         <div className="card-overlay" />
 
