@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { FaCalendarAlt, FaRocket, FaStar, FaClock, FaFire, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaCalendarAlt, FaRocket, FaClock, FaFire, FaChevronDown, FaChevronUp, FaSearch, FaChevronCircleDown, FaChevronCircleUp } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { platformIcons } from '../utils/platformIcons';
 import { getUpcomingGames } from '../Redux/actions';
@@ -16,14 +16,15 @@ const UpcomingGames = () => {
     const loading = useSelector((state) => state.loadingUpcoming);
     const error = useSelector((state) => state.errorUpcoming);
     const [imageErrors, setImageErrors] = useState({});
+    const [localSearch, setLocalSearch] = useState('');
 
-    // Filtrar por búsqueda para que la búsqueda afecte toda la página
+    // Buscador local tiene prioridad; si está vacío, usa el buscador global
+    const searchFilter = (localSearch?.trim() || searchQuery?.trim() || '').toLowerCase();
     const displayedGames = useMemo(() => {
         if (!upcomingGames?.length) return upcomingGames || [];
-        if (!searchQuery?.trim()) return upcomingGames;
-        const q = searchQuery.toLowerCase().trim();
-        return upcomingGames.filter((g) => g.name?.toLowerCase().includes(q));
-    }, [upcomingGames, searchQuery]);
+        if (!searchFilter) return upcomingGames;
+        return upcomingGames.filter((g) => g.name?.toLowerCase().includes(searchFilter));
+    }, [upcomingGames, searchFilter]);
     const [expandedMonths, setExpandedMonths] = useState({});
 
     useEffect(() => {
@@ -32,10 +33,11 @@ const UpcomingGames = () => {
 
     useEffect(() => {
         if (displayedGames && displayedGames.length > 0) {
-            const grouped = groupByMonth(displayedGames);
+            const after = displayedGames.filter((g) => getDiffDays(g.released) > 7);
+            const grouped = groupByMonth(after);
             const initial = {};
             Object.keys(grouped).forEach((key, idx) => {
-                initial[key] = idx < 3;
+                initial[key] = idx < 5;
             });
             setExpandedMonths(initial);
         }
@@ -77,6 +79,49 @@ const UpcomingGames = () => {
         return year === currentYear ? `${month} ${day}` : `${month} ${day}, ${year}`;
     };
 
+    const formatFullDate = (dateString) => {
+        if (!dateString) return '';
+        return new Date(dateString).toLocaleDateString('en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+    };
+
+    const groupByMonth = (games) => {
+        return games.reduce((groups, game) => {
+            const date = new Date(game.released);
+            const key = `${date.getFullYear()}-${String(date.getMonth()).padStart(2, '0')}`;
+            const label = date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+            if (!groups[key]) {
+                groups[key] = { label, month: date.toLocaleString('en-US', { month: 'long' }), year: date.getFullYear(), games: [] };
+            }
+            groups[key].games.push(game);
+            return groups;
+        }, {});
+    };
+
+    const thisWeekGames = useMemo(() => {
+        if (!displayedGames?.length) return [];
+        return displayedGames.filter((g) => getDiffDays(g.released) >= 0 && getDiffDays(g.released) <= 7);
+    }, [displayedGames]);
+
+    const gamesAfterThisWeek = useMemo(() => {
+        if (!displayedGames?.length) return displayedGames;
+        return displayedGames.filter((g) => getDiffDays(g.released) > 7);
+    }, [displayedGames]);
+
+    const groupedGames = groupByMonth(gamesAfterThisWeek || []);
+    const allExpanded = useMemo(() => {
+        return Object.keys(groupedGames).every((key) => expandedMonths[key] !== false);
+    }, [expandedMonths, groupedGames]);
+
+    const expandOrCollapseAll = () => {
+        const grouped = groupByMonth(gamesAfterThisWeek || []);
+        const next = !allExpanded;
+        const nextState = {};
+        Object.keys(grouped).forEach((k) => { nextState[k] = next; });
+        setExpandedMonths(nextState);
+    };
+
     const getCountdownClass = (dateString) => {
         const diffDays = getDiffDays(dateString);
         if (diffDays <= 0) return 'countdown--now';
@@ -93,27 +138,20 @@ const UpcomingGames = () => {
         return <FaCalendarAlt />;
     };
 
-    const getRatingColor = (rating) => {
-        if (rating >= 4.0) return '#4ade80';
-        if (rating >= 3.0) return '#f6c90e';
-        if (rating >= 2.0) return '#fb923c';
-        return '#f87171';
-    };
-
-    const groupByMonth = (games) => {
-        return games.reduce((groups, game) => {
-            const date = new Date(game.released);
-            const key = `${date.getFullYear()}-${String(date.getMonth()).padStart(2, '0')}`;
-            const label = date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
-            if (!groups[key]) {
-                groups[key] = { label, month: date.toLocaleString('en-US', { month: 'long' }), year: date.getFullYear(), games: [] };
-            }
-            groups[key].games.push(game);
-            return groups;
-        }, {});
-    };
-
     const totalGames = displayedGames ? displayedGames.length : 0;
+
+    const dateRangeSubtitle = useMemo(() => {
+        const keys = Object.keys(groupedGames);
+        if (keys.length === 0) return 'Coming Soon';
+        const first = keys[0], last = keys[keys.length - 1];
+        const firstMonth = first ? first.slice(5, 7) : '', firstYear = first ? first.slice(0, 4) : '';
+        const lastMonth = last ? last.slice(5, 7) : '', lastYear = last ? last.slice(0, 4) : '';
+        const fm = firstMonth ? new Date(2000, parseInt(firstMonth, 10) - 1).toLocaleString('en-US', { month: 'short' }) : '';
+        const lm = lastMonth ? new Date(2000, parseInt(lastMonth, 10) - 1).toLocaleString('en-US', { month: 'short' }) : '';
+        if (firstYear === lastYear && fm && lm) return `${fm} – ${lm} ${firstYear}`;
+        if (fm && lm) return `${fm} ${firstYear} – ${lm} ${lastYear}`;
+        return 'Coming Soon';
+    }, [groupedGames]);
 
     if (loading) {
         return (
@@ -187,11 +225,28 @@ const UpcomingGames = () => {
                                     <span className="ug-subtitle">Coming Soon</span>
                                 </div>
                             </div>
+                            <div className="header-right ug-header-actions">
+                                <div className="ug-search-wrap">
+                                    <FaSearch className="ug-search-icon" aria-hidden />
+                                    <input
+                                        type="search"
+                                        className="ug-search-input"
+                                        placeholder="Search upcoming..."
+                                        value={localSearch}
+                                        onChange={(e) => setLocalSearch(e.target.value)}
+                                        aria-label="Search upcoming releases"
+                                    />
+                                </div>
+                                <span className="ug-total-badge">
+                                    <FaCalendarAlt className="ug-total-icon" />
+                                    0 games
+                                </span>
+                            </div>
                         </div>
                         <div className="ug-empty-state">
                             <p>
-                                {searchQuery
-                                    ? `No upcoming games match "${searchQuery}".`
+                                {searchFilter
+                                    ? `No upcoming games match "${searchFilter}".`
                                     : "No upcoming releases available."}
                             </p>
                         </div>
@@ -200,8 +255,6 @@ const UpcomingGames = () => {
             </section>
         );
     }
-
-    const groupedGames = groupByMonth(displayedGames);
 
     return (
         <section className="upcoming-section" aria-label="Upcoming releases">
@@ -212,10 +265,33 @@ const UpcomingGames = () => {
                             <span className="ug-icon"><FaRocket /></span>
                             <div className="header-titles">
                                 <h2>Upcoming Releases</h2>
-                                <span className="ug-subtitle">Coming Soon</span>
+                                <span className="ug-subtitle">{dateRangeSubtitle}</span>
                             </div>
                         </div>
-                        <div className="header-right">
+                        <div className="header-right ug-header-actions">
+                            <div className="ug-search-wrap">
+                                <FaSearch className="ug-search-icon" aria-hidden />
+                                <input
+                                    type="search"
+                                    className="ug-search-input"
+                                    placeholder="Search upcoming..."
+                                    value={localSearch}
+                                    onChange={(e) => setLocalSearch(e.target.value)}
+                                    aria-label="Search upcoming releases"
+                                />
+                            </div>
+                            {Object.keys(groupedGames).length > 1 && (
+                                <button
+                                    type="button"
+                                    className="ug-expand-toggle"
+                                    onClick={expandOrCollapseAll}
+                                    aria-label={allExpanded ? 'Collapse all months' : 'Expand all months'}
+                                    title={allExpanded ? 'Collapse all' : 'Expand all'}
+                                >
+                                    {allExpanded ? <FaChevronCircleUp /> : <FaChevronCircleDown />}
+                                    <span>{allExpanded ? 'Collapse' : 'Expand'} all</span>
+                                </button>
+                            )}
                             <span className="ug-total-badge">
                                 <FaCalendarAlt className="ug-total-icon" />
                                 {totalGames} {totalGames === 1 ? 'game' : 'games'}
@@ -223,6 +299,63 @@ const UpcomingGames = () => {
                         </div>
                     </div>
 
+                    {thisWeekGames.length > 0 && (
+                        <div className="ug-this-week">
+                            <h3 className="ug-this-week__title">
+                                <FaClock className="ug-this-week__icon" />
+                                This week
+                            </h3>
+                            <div className="ug-this-week__grid">
+                                {thisWeekGames.map((game, idx) => (
+                                    <Link
+                                        to={`/videogame/${game.id}`}
+                                        key={game.id}
+                                        className="ug-card ug-card--spotlight"
+                                        style={{ animationDelay: `${idx * 0.05}s` }}
+                                    >
+                                        <div className="ug-card-image">
+                                            <img
+                                                src={getImageSource(game)}
+                                                alt={game.name}
+                                                loading="lazy"
+                                                draggable={false}
+                                                onError={() => handleImageError(game.id)}
+                                            />
+                                            <div className="ug-card-gradient" />
+                                            <span className={`ug-countdown ${getCountdownClass(game.released)}`} title={formatFullDate(game.released)}>
+                                                {getCountdownIcon(game.released)}
+                                                <span>{formatDate(game.released)}</span>
+                                            </span>
+                                            <div className="ug-card-hover">
+                                                <span className="ug-view-btn">View details</span>
+                                            </div>
+                                        </div>
+                                        <div className="ug-card-body">
+                                            <h3 className="ug-card-title">{game.name}</h3>
+                                            {game.genres?.length > 0 && (
+                                                <div className="ug-card-genres">
+                                                    {game.genres.slice(0, 2).map((genre, i) => (
+                                                        <span key={i} className="ug-genre">{genre}</span>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            {game.platforms?.length > 0 && (
+                                                <div className="ug-card-platforms">
+                                                    {game.platforms.slice(0, 5).map((platform, i) => (
+                                                        <span key={i} className="ug-platform" title={platform}>
+                                                            <FontAwesomeIcon icon={platformIcons[platform] || platformIcons['Default']} />
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {Object.keys(groupedGames).length > 0 && (
                     <div className="ug-timeline">
                         {Object.entries(groupedGames).map(([key, group], groupIdx) => {
                             const isExpanded = expandedMonths[key] !== false;
@@ -266,24 +399,12 @@ const UpcomingGames = () => {
                                                         />
                                                         <div className="ug-card-gradient" />
 
-                                                        <span className={`ug-countdown ${getCountdownClass(game.released)}`}>
+                                                        <span className={`ug-countdown ${getCountdownClass(game.released)}`} title={formatFullDate(game.released)}>
                                                             {getCountdownIcon(game.released)}
                                                             <span>{formatDate(game.released)}</span>
                                                         </span>
 
-                                                        {game.rating > 0 && (
-                                                            <span
-                                                                className="ug-rating"
-                                                                style={{
-                                                                    '--r-color': getRatingColor(game.rating),
-                                                                    '--r-bg': `${getRatingColor(game.rating)}18`
-                                                                }}
-                                                            >
-                                                                <FaStar className="ug-rating-star" />
-                                                                {game.rating.toFixed(1)}
-                                                            </span>
-                                                        )}
-
+                                                        {/* Hide rating: upcoming games haven't been released yet */}
                                                         <div className="ug-card-hover">
                                                             <span className="ug-view-btn">View details</span>
                                                         </div>
@@ -325,6 +446,7 @@ const UpcomingGames = () => {
                             );
                         })}
                     </div>
+                    )}
                 </div>
             </div>
         </section>

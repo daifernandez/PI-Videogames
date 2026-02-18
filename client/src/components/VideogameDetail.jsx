@@ -144,6 +144,21 @@ export default function VideogameDetail() {
     });
   };
 
+  const releaseDate = game?.released ? new Date(game.released) : null;
+  const isUpcoming = releaseDate && !isNaN(releaseDate.getTime()) && releaseDate > new Date();
+
+  const getCountdownText = () => {
+    if (!releaseDate || !isUpcoming) return null;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    releaseDate.setHours(0, 0, 0, 0);
+    const diffDays = Math.round((releaseDate - today) / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) return "Out today";
+    if (diffDays === 1) return "Tomorrow";
+    if (diffDays <= 7) return `In ${diffDays} days`;
+    return `Coming ${formatDate(game.released)}`;
+  };
+
   /* ──────── Loading state ──────── */
   if (isLoading) {
     return (
@@ -218,11 +233,17 @@ export default function VideogameDetail() {
 
           {/* Line 2: All metadata inline */}
           <div className="vd-hero__meta">
-            {game.rating > 0 && (
+            {!isUpcoming && game.rating > 0 && (
               <span className="vd-hero__rating" data-quality={
                 game.rating >= 4 ? "high" : game.rating >= 3 ? "mid" : "low"
               }>
                 {parseFloat(game.rating).toFixed(1)}
+              </span>
+            )}
+
+            {isUpcoming && game.released && (
+              <span className="vd-hero__coming">
+                {getCountdownText()}
               </span>
             )}
 
@@ -232,7 +253,7 @@ export default function VideogameDetail() {
               </span>
             )}
 
-            {game.released && (
+            {game.released && !isUpcoming && (
               <>
                 <span className="vd-hero__dot">·</span>
                 <span className="vd-hero__date">{formatDate(game.released)}</span>
@@ -297,9 +318,17 @@ export default function VideogameDetail() {
                 transition={{ duration: 0.25 }}
                 className="vd-tab-content"
               >
-                {/* Rating summary bar */}
+                {/* Rating summary or Coming soon */}
                 <div className="vd-rating-bar">
-                  <RatingCircle rating={game.rating} />
+                  {isUpcoming ? (
+                    <div className="vd-coming-soon">
+                      <span className="vd-coming-soon__label">Coming soon</span>
+                      <span className="vd-coming-soon__date">{formatDate(game.released)}</span>
+                      <span className="vd-coming-soon__hint">Release date — no rating yet</span>
+                    </div>
+                  ) : (
+                    <RatingCircle rating={game.rating} />
+                  )}
                   <div className="vd-rating-bar__info">
                     {game.platforms?.length > 0 && (
                       <span className="vd-rating-bar__detail">

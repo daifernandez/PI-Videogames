@@ -232,6 +232,17 @@
   letter-spacing: 0.2px;
 }
 
+.vd-hero__coming {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #facc15;
+  background: rgba(250, 204, 21, 0.15);
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+}
+
 /* Actions row */
 .vd-hero__actions {
   display: flex;
@@ -316,6 +327,38 @@
 .vd-rating-bar__detail:first-child {
   font-weight: 500;
   color: var(--text-primary);
+}
+
+/* Coming soon block (replaces RatingCircle for unreleased games) */
+.vd-coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(250, 204, 21, 0.08);
+  border: 1px solid rgba(250, 204, 21, 0.2);
+  border-radius: 12px;
+  min-width: 120px;
+}
+
+.vd-coming-soon__label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #facc15;
+  letter-spacing: 0.03em;
+}
+
+.vd-coming-soon__date {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.vd-coming-soon__hint {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  opacity: 0.85;
 }
 
 /* ── Content container ── */

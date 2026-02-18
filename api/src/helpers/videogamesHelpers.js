@@ -452,29 +452,42 @@ const get_upcoming_games_api = async () => {
     nextYear.setFullYear(nextYear.getFullYear() + 1);
     const nextYearDate = nextYear.toISOString().split('T')[0];
 
-    const response = await axios.get(
-      `https://api.rawg.io/api/games`,
-      {
-        params: {
-          key: process.env.API_KEY,
-          dates: `${currentDate},${nextYearDate}`,
-          ordering: 'released',
-          page_size: 20,
-          platforms: "187,186,18,16,15,27,19,17,1,14,80,83"
-        }
-      }
+    // Fase 1: obtener más próximos lanzamientos (hasta ~40 por página, 3 páginas)
+    const baseParams = {
+      key: process.env.API_KEY,
+      dates: `${currentDate},${nextYearDate}`,
+      ordering: 'released',
+      page_size: 40,
+      platforms: "187,186,18,16,15,27,19,17,1,14,80,83"
+    };
+
+    const requests = [
+      axios.get('https://api.rawg.io/api/games', { params: { ...baseParams, page: 1 } }),
+      axios.get('https://api.rawg.io/api/games', { params: { ...baseParams, page: 2 } })
+    ];
+
+    const settled = await Promise.allSettled(requests);
+    const allResults = settled.flatMap((s) =>
+      s.status === 'fulfilled' ? (s.value?.data?.results || []) : []
     );
 
-    if (!response.data || !response.data.results) {
-      console.error("Respuesta inesperada de la API:", response.data);
+    const allFailed = settled.every((s) => s.status === 'rejected');
+    if (allFailed) {
+      const firstReason = settled.find((s) => s.status === 'rejected')?.reason;
+      throw firstReason || new Error("Error al conectar con RAWG");
+    }
+
+    if (allResults.length === 0) {
       throw new Error("Formato de respuesta inválido de la API de RAWG");
     }
 
-    const upcomingGames = response.data.results
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const upcomingGames = allResults
       .filter(game => {
         const releaseDate = new Date(game.released);
-        const currentDate = new Date();
-        return releaseDate > currentDate && !isNaN(releaseDate.getTime()) && game.platforms;
+        return releaseDate > today && !isNaN(releaseDate.getTime()) && game.platforms;
       })
       .map(apiObject => {
         try {
@@ -493,7 +506,7 @@ const get_upcoming_games_api = async () => {
         }
       })
       .filter(game => game !== null && game.image && game.platforms.length > 0)
-      .slice(0, 6);
+      .slice(0, 40); // Límite razonable para UX; ordenados por fecha
 
     return upcomingGames;
   } catch (error) {
