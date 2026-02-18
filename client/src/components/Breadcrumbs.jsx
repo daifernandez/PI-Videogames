@@ -7,7 +7,7 @@ export default function Breadcrumbs({ items = [] }) {
     <nav className="breadcrumbs" aria-label="Breadcrumb">
       <ol className="breadcrumbs__list">
         <li className="breadcrumbs__item">
-          <Link to="/home" className="breadcrumbs__link">
+          <Link to="/" className="breadcrumbs__link">
             <span className="material-symbols-rounded breadcrumbs__icon">home</span>
             <span>Home</span>
           </Link>

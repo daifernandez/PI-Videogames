@@ -33,7 +33,7 @@ export default function Footer() {
 
       <div className="footer-content">
         <div className="footer-section footer-brand-section">
-          <NavLink to="/home" onClick={handleHomeClick} className="footer-brand-link">
+          <NavLink to="/" onClick={handleHomeClick} className="footer-brand-link">
             <GamepadIcon size={24} className="brand-icon" />
             <span className="brand-name footer-brand-name">GameStream</span>
           </NavLink>
@@ -45,7 +45,7 @@ export default function Footer() {
         <div className="footer-section footer-nav-section">
           <h3 className="footer-section-title">Navigation</h3>
           <nav className="footer-nav" aria-label="Footer navigation">
-            <NavLink to="/home" onClick={handleHomeClick} className="footer-nav-link">
+            <NavLink to="/" onClick={handleHomeClick} className="footer-nav-link">
               Home
             </NavLink>
           </nav>

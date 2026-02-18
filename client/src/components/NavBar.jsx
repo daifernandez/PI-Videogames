@@ -47,7 +47,7 @@ export default function NavBar() {
         <div className="navbar-left">
           <Tooltip text="Go to home" position="bottom">
             <NavLink
-              to="/home"
+              to="/"
               onClick={handleHomeClick}
               className="logo-link"
               aria-label="GameStream — Go to home"

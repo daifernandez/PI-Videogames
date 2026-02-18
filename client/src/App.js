@@ -10,7 +10,6 @@ import PageTransition from "./components/PageTransition.jsx";
 import OfflineBanner from "./components/OfflineBanner.jsx";
 import { useOnlineStatus } from "./hooks/useOnlineStatus.js";
 import ToastContainer from "./components/Toast.jsx";
-import Landing from "./components/Landing.jsx";
 import Home from "./components/Home.jsx";
 import VideogameDetail from "./components/VideogameDetail.jsx";
 import PlatformGames from "./components/PlatformGames.jsx";
@@ -31,8 +30,7 @@ export default function App() {
             <AnimatePresence mode="wait">
               <PageTransition key={location.pathname}>
                 <Routes location={location}>
-                  <Route path="/" element={<Landing />} />
-                  <Route path="/home" element={<Home />} />
+                  <Route path="/" element={<Home />} />
                   <Route path="/videogame/:id" element={<VideogameDetail />} />
                   <Route path="/platform/:platform" element={<PlatformGames />} />
                 </Routes>

@@ -38,10 +38,6 @@ Una aplicación web completa que permite explorar una extensa biblioteca de vide
 
 ## 📱 Vistas de la Aplicación
 
-### Landing Page
-- Página de bienvenida con animaciones
-- Acceso directo al catálogo principal
-
 ### Página Principal
 - Catálogo de videojuegos con paginación
 - Filtros y ordenamientos

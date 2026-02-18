@@ -42,7 +42,7 @@ export default function Home() {
 
   // Actualizar catálogo cada vez que el usuario visita el home (excepto si hay búsqueda en URL)
   useEffect(() => {
-    if (location.pathname !== "/home") return;
+    if (location.pathname !== "/") return;
     if (hasSearchInUrl) return; // La búsqueda la maneja useUrlState
     dispatch(getvideogames());
   }, [dispatch, location.pathname, hasSearchInUrl]);

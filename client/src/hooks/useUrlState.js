@@ -58,7 +58,7 @@ export function useUrlState() {
   const searchQuery = useSelector((state) => state.searchQuery);
   const videogames = useSelector((state) => state.videogames || []);
 
-  const isOnHome = location.pathname === "/home";
+  const isOnHome = location.pathname === "/";
   const hasLoadedOnce = useRef(false);
 
   // Aplicar estado desde la URL
