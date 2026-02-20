@@ -61,21 +61,38 @@ const get_videogame_api = async () => {
     throw new Error("API_KEY no configurada. Por favor, configure la variable de entorno API_KEY.");
   }
 
-  // Mezclar popularidad (p.1) con lanzamientos recientes (ordering -released)
-  // para que el catálogo incluya tanto clásicos como novedades
+  // Mezclar popularidad con lanzamientos recientes para un catálogo variado
+  // (~280–350 juegos únicos: populares + novedades)
+  const today = new Date();
+  const sixMonthsAgo = new Date();
+  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+  const recentDates = `${sixMonthsAgo.toISOString().split("T")[0]},${today.toISOString().split("T")[0]}`;
+
   const pagesToFetch = [
-    { pageSize: 40, page: 1 },           // Página 1: populares (orden por defecto RAWG)
-    { pageSize: 40, page: 2 },           // Página 2: más populares
+    // Populares (páginas 1–5: ~200 juegos)
+    { pageSize: 40, page: 1 },
+    { pageSize: 40, page: 2 },
+    { pageSize: 40, page: 3 },
+    { pageSize: 40, page: 4 },
+    { pageSize: 40, page: 5 },
+    // Recientes últimos 6 meses (páginas 1–3: ~80–120 juegos adicionales)
     {
       pageSize: 40,
       page: 1,
-      ordering: "-released",              // Juegos recién lanzados (últimos meses)
-      dates: (() => {
-        const today = new Date();
-        const sixMonthsAgo = new Date();
-        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-        return `${sixMonthsAgo.toISOString().split("T")[0]},${today.toISOString().split("T")[0]}`;
-      })(),
+      ordering: "-released",
+      dates: recentDates,
+    },
+    {
+      pageSize: 40,
+      page: 2,
+      ordering: "-released",
+      dates: recentDates,
+    },
+    {
+      pageSize: 40,
+      page: 3,
+      ordering: "-released",
+      dates: recentDates,
     },
   ];
 
@@ -178,15 +195,15 @@ const get_videogame_byName = async (name) => {
       throw new Error("API_KEY no configurada");
     }
 
-    // Búsqueda en la API
+    // Búsqueda solo en la API RAWG (sin DB, catálogo 100% externo)
     const videogameApiSearch = await axios.get(
       `https://api.rawg.io/api/games`,
       {
         params: {
           key: process.env.API_KEY,
           search: name,
-          search_exact: true,
-          page_size: 15 // Limitamos a 15 resultados
+          search_exact: false, // Coincidencias parciales (ej. "gta" → "GTA V")
+          page_size: 25
         }
       }
     );
@@ -196,10 +213,6 @@ const get_videogame_byName = async (name) => {
       throw new Error("Formato de respuesta inválido de la API de RAWG");
     }
 
-    // Búsqueda en la DB
-    const videogameDBSearch = await get_videogame_db_byName(name);
-
-    // Procesamos los resultados de la API
     const videogamesApi = videogameApiSearch.data.results.map((apiObject) => {
       try {
         return api_videogameParse(apiObject);
@@ -209,9 +222,7 @@ const get_videogame_byName = async (name) => {
       }
     }).filter(game => game !== null);
 
-    // Combinamos y limitamos resultados
-    const allResults = [...videogamesApi, ...videogameDBSearch];
-    return allResults.slice(0, 15); // Limitamos el total a 15 resultados
+    return videogamesApi;
 
   } catch (error) {
     console.error("Error en get_videogame_byName:", error);
