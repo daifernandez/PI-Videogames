@@ -1,14 +1,10 @@
-# 🎮 GameStream — Videogames App
-
 <p align="center">
-  <img height="200" src="./videogame.png" alt="GameStream logo" />
+  <img src="./assets/gamepad-logo.svg" alt="GameStream" width="200" height="44" />
 </p>
-
-## Descripción del proyecto
 
 Aplicación web fullstack para explorar y descubrir una amplia biblioteca de videojuegos utilizando la [API de RAWG](https://rawg.io/). Ofrece búsqueda avanzada, filtros por géneros y plataformas, detalle enriquecido con galería de medios, comparativa de precios y experiencia responsive con modo oscuro.
 
-## ⚡ Características principales
+## Características principales
 
 - **Búsqueda con autocompletado** — Sugerencias instantáneas (client-side) y historial de búsquedas recientes
 - **Filtros y ordenamiento** — Por género, plataforma, origen (API / Base de datos) y orden por nombre o rating
@@ -21,7 +17,7 @@ Aplicación web fullstack para explorar y descubrir una amplia biblioteca de vid
 - **Feedback y resiliencia** — Barra de progreso en navegación, transiciones entre páginas, banner offline, toasts, error boundaries
 - **Accesibilidad** — Skip to content, foco visible, ARIA labels, navegación por teclado
 
-## 🛠️ Tecnologías utilizadas
+## Tecnologías utilizadas
 
 ### Frontend
 - React 18
@@ -40,7 +36,7 @@ Aplicación web fullstack para explorar y descubrir una amplia biblioteca de vid
 - Jest + React Testing Library
 - Mocha + Chai + Supertest
 
-## 📱 Vistas de la aplicación
+## Vistas de la aplicación
 
 ### Página principal (`/`)
 - **Búsqueda** — Input con autocompletado y sugerencias
@@ -61,10 +57,11 @@ Aplicación web fullstack para explorar y descubrir una amplia biblioteca de vid
 
 
 
-## 📂 Estructura del proyecto
+## Estructura del proyecto
 
 ```
 PI-Videogames-main/
+├── assets/                 # Logo y recursos del README
 ├── client/                 # Aplicación React
 │   ├── src/
 │   │   ├── components/      # Componentes UI (JSX)
@@ -87,7 +84,19 @@ PI-Videogames-main/
 └── UI_IMPROVEMENT_PLAN.md
 ```
 
+## Cómo ejecutar
 
-## 👤 Autor
+1. **Instalar dependencias:** `cd client && npm install && cd ../api && npm install`
+2. **Variables de entorno:** `REACT_APP_API_HOST` en `client/.env`; `API_KEY`, `DB` en `api/.env`
+3. **API:** `cd api && npm start` (puerto 3001)
+4. **Cliente:** `cd client && npm start` (puerto 3000)
+5. **Tests:** `npm test` en `client/` o `api/`
+
+## Documentación
+
+- [AGENTS.md](./AGENTS.md) — Guía para agentes de IA
+- [DEPLOY.md](./DEPLOY.md) — Checklist de deploy
+
+## Autor
 
 Desarrollado por **DaiFernandez**
