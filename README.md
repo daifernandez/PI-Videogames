@@ -1,29 +1,34 @@
-# 🎮 Videogames App
+# 🎮 GameStream — Videogames App
 
 <p align="center">
-  <img height="200" src="./videogame.png" />
+  <img height="200" src="./videogame.png" alt="GameStream logo" />
 </p>
 
-## 🎮 Descripción del Proyecto
+## Descripción del proyecto
 
-Una aplicación web completa que permite explorar una extensa biblioteca de videojuegos, utilizando la API de [RAWG](https://rawg.io/). Los usuarios pueden buscar juegos, filtrarlos por diferentes criterios, ver detalles específicos y crear nuevos registros de videojuegos.
+Aplicación web fullstack para explorar y descubrir una amplia biblioteca de videojuegos utilizando la [API de RAWG](https://rawg.io/). Ofrece búsqueda avanzada, filtros por géneros y plataformas, detalle enriquecido con galería de medios, comparativa de precios y experiencia responsive con modo oscuro.
 
-## ⚡ Características Principales
+## ⚡ Características principales
 
-- Búsqueda de videojuegos por nombre
-- Filtrado por géneros y origen (API/Base de datos)
-- Ordenamiento por nombre y rating
-- Vista detallada de cada videojuego
-- Creación de nuevos videojuegos
-- Diseño responsive y amigable al usuario
+- **Búsqueda con autocompletado** — Sugerencias instantáneas (client-side) y historial de búsquedas recientes
+- **Filtros y ordenamiento** — Por género, plataforma, origen (API / Base de datos) y orden por nombre o rating
+- **Estado en URL** — Query params para compartir búsquedas, filtros y página actual; compatibilidad con Back/Forward del navegador
+- **Detalle de videojuego** — Hero, galería de medios con lightbox, breadcrumbs, rating visual, juegos similares
+- **Comparativa de precios** — Dónde comprar y precios en tiendas (Steam, GOG, etc.) en la página de detalle
+- **Exploración por plataforma** — Vista dedicada por plataforma (PC, PlayStation, Xbox, Nintendo, etc.)
+- **Secciones de descubrimiento** — Juegos recientes y próximos lanzamientos en la página principal
+- **Modo oscuro** — Con detección de preferencia del sistema y persistencia en `localStorage`
+- **Feedback y resiliencia** — Barra de progreso en navegación, transiciones entre páginas, banner offline, toasts, error boundaries
+- **Accesibilidad** — Skip to content, foco visible, ARIA labels, navegación por teclado
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Tecnologías utilizadas
 
 ### Frontend
-- React 17.0.1
-- Redux 4.0.5
-- React Router DOM 5.2.0
-- CSS puro para estilos
+- React 18
+- Redux 5 + Redux Thunk
+- React Router DOM 6
+- Framer Motion (animaciones, transiciones)
+- CSS con variables de tema (light/dark)
 
 ### Backend
 - Node.js
@@ -32,30 +37,57 @@ Una aplicación web completa que permite explorar una extensa biblioteca de vide
 - PostgreSQL
 
 ### Testing
-- Jest
-- React Testing Library
-- Supertest
+- Jest + React Testing Library
+- Mocha + Chai + Supertest
 
-## 📱 Vistas de la Aplicación
+## 📱 Vistas de la aplicación
 
-### Página Principal
-- Catálogo de videojuegos con paginación
-- Filtros y ordenamientos
-- Barra de búsqueda
-- Sistema de cards con información relevante
+### Página principal (`/`)
+- **Búsqueda** — Input con autocompletado y sugerencias
+- **Filtros** — Chips activos, dropdowns (género, plataforma), ordenamiento
+- **Catálogo** — Grid de cards con skeleton loading y paginación
+- **Descubrimiento** — Secciones horizontales: juegos recientes y próximos lanzamientos
+- **Footer** — Enlaces e información
 
-### Detalles del Videojuego
-- Información detallada
-- Imágenes
-- Descripción
-- Características técnicas
+### Detalle del videojuego (`/videogame/:id`)
+- **Hero** — Imagen fullscreen, rating circular, géneros, fecha
+- **Tabs** — About | Media | Similar
+- **Media** — Screenshots y trailers con lightbox
+- **Plataformas** — Pills clicables que llevan a `/platform/:platform`
+- **Precios** — Sección "Dónde comprar" con comparativa de tiendas
 
-### Formulario de Creación
-- Formulario validado
-- Selección múltiple de géneros y plataformas
-- Preview de la información
+### Juegos por plataforma (`/platform/:platform`)
+- Catálogo filtrado por plataforma (PC, PlayStation, Xbox, Nintendo, etc.)
 
 
-## 📝 Autor
 
-Desarrollado por DaiFernandez
+## 📂 Estructura del proyecto
+
+```
+PI-Videogames-main/
+├── client/                 # Aplicación React
+│   ├── src/
+│   │   ├── components/      # Componentes UI (JSX)
+│   │   │   └── Styles/      # CSS por componente
+│   │   ├── Redux/          # store, actions, reducer
+│   │   ├── hooks/          # useToast, useTheme, useInView, useSearchHistory, useUrlState, useOnlineStatus
+│   │   └── utils/          # platformIcons y utilidades
+│   └── package.json
+├── api/                    # API Express
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── models/         # Videogame, Genre (Sequelize)
+│   │   ├── helpers/
+│   │   └── middlewares/
+│   └── package.json
+├── AGENTS.md               # Guía para agentes de IA
+├── DEPLOY.md               # Checklist de deploy
+├── UX_IMPROVEMENT_PLAN.md
+└── UI_IMPROVEMENT_PLAN.md
+```
+
+
+## 👤 Autor
+
+Desarrollado por **DaiFernandez**
