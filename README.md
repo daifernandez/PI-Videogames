@@ -1,5 +1,5 @@
-<p align="center">
-  <img src="./assets/gamepad-logo.svg" alt="GameStream" width="200" height="44" />
+<p align="left">
+  <img src="./assets/gamepad-logo.svg" alt="GameStream" width="280" height="67" />
 </p>
 
 Aplicación web fullstack para explorar y descubrir una amplia biblioteca de videojuegos utilizando la [API de RAWG](https://rawg.io/). Ofrece búsqueda avanzada, filtros por géneros y plataformas, detalle enriquecido con galería de medios, comparativa de precios y experiencia responsive con modo oscuro.
