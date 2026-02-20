@@ -42,15 +42,6 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="footer-section footer-nav-section">
-          <h3 className="footer-section-title">Navigation</h3>
-          <nav className="footer-nav" aria-label="Footer navigation">
-            <NavLink to="/" onClick={handleHomeClick} className="footer-nav-link">
-              Home
-            </NavLink>
-          </nav>
-        </div>
-
         <div className="footer-section footer-social-section">
           <h3 className="footer-section-title">Connect</h3>
           <Social />

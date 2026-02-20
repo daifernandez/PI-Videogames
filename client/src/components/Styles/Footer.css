@@ -51,9 +51,9 @@
   width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  gap: 3rem;
-  padding: 3rem 2.5rem 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem 4rem;
+  padding: 2.5rem 2.5rem 2rem;
   text-align: left;
   position: relative;
 }
@@ -148,7 +148,8 @@
 /* ---- Social Section ---- */
 
 .footer-social-section {
-  align-items: flex-start;
+  align-items: flex-end;
+  text-align: right;
 }
 
 /* ---- Divider ---- */
@@ -157,6 +158,7 @@
   max-width: 1200px;
   margin: 0 auto;
   height: 1px;
+  margin-top: 0.5rem;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -384,21 +386,13 @@
     text-align: center;
   }
 
-  .footer-nav {
-    align-items: center;
-  }
-
-  .footer-nav-link:hover {
-    transform: none;
-  }
-
   .footer-social-section {
     align-items: center;
   }
 
   .footer-bottom {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
     padding: 1.25rem 1.5rem;
     text-align: center;
   }
